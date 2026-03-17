@@ -69,6 +69,13 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    pages: Page;
+    classes: Class;
+    instructors: Instructor;
+    testimonials: Testimonial;
+    events: Event;
+    faq: Faq;
+    offers: Offer;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,18 +85,40 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    classes: ClassesSelect<false> | ClassesSelect<true>;
+    instructors: InstructorsSelect<false> | InstructorsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
+    faq: FaqSelect<false> | FaqSelect<true>;
+    offers: OffersSelect<false> | OffersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    navigation: Navigation;
+    footer: Footer;
+    schedule: Schedule;
+    'homepage-services': HomepageService;
+    'homepage-pricing': HomepagePricing;
+  };
+  globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+    schedule: ScheduleSelect<false> | ScheduleSelect<true>;
+    'homepage-services': HomepageServicesSelect<false> | HomepageServicesSelect<true>;
+    'homepage-pricing': HomepagePricingSelect<false> | HomepagePricingSelect<true>;
+  };
   locale: null;
+  widgets: {
+    collections: CollectionsWidget;
+  };
   user: User;
   jobs: {
     tasks: unknown;
@@ -119,7 +148,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -144,7 +173,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -160,10 +189,503 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * np. "strona-glowna", "o-nas", "dla-firm", "kontakt", "grafik"
+   */
+  slug: string;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (number | null) | Media;
+  };
+  layout?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            description?: string | null;
+            backgroundImage?: (number | null) | Media;
+            primaryCta?: {
+              text?: string | null;
+              link?: string | null;
+            };
+            secondaryCta?: {
+              text?: string | null;
+              link?: string | null;
+            };
+            socialProof?: {
+              googleReviewsText?: string | null;
+              partnerLogos?:
+                | {
+                    logo: number | Media;
+                    name?: string | null;
+                    id?: string | null;
+                  }[]
+                | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            classes?: (number | Class)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'classesOverview';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            items?:
+              | {
+                  icon?: string | null;
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'benefits';
+          }
+        | {
+            heading?: string | null;
+            testimonials?: (number | Testimonial)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'testimonialsSection';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            instructors?: (number | Instructor)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'instructorsSection';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            plans?:
+              | {
+                  name: string;
+                  price: string;
+                  period?: string | null;
+                  features?:
+                    | {
+                        text: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  isFeatured?: boolean | null;
+                  ctaText?: string | null;
+                  ctaLink?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pricing';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            items?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  icon?: string | null;
+                  link?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'services';
+          }
+        | {
+            heading: string;
+            description?: string | null;
+            primaryButton: {
+              text: string;
+              link: string;
+            };
+            secondaryButton?: {
+              text?: string | null;
+              link?: string | null;
+            };
+            variant?: ('default' | 'dark' | 'accent') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  value: string;
+                  label: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'stats';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            logos?:
+              | {
+                  logo: number | Media;
+                  name?: string | null;
+                  url?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'logoList';
+          }
+        | {
+            heading?: string | null;
+            address?: string | null;
+            phone?: string | null;
+            email?: string | null;
+            openingHours?:
+              | {
+                  day: string;
+                  hours: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactInfo';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            successMessage?: string | null;
+            recipientEmail?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactForm';
+          }
+        | {
+            embedUrl: string;
+            address?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'map';
+          }
+        | {
+            heading?: string | null;
+            faqs?: (number | Faq)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faqSection';
+          }
+        | {
+            heading?: string | null;
+            embedCode?: string | null;
+            entries?:
+              | {
+                  dayOfWeek: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+                  time: string;
+                  className?: (number | null) | Class;
+                  instructor?: (number | null) | Instructor;
+                  location?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'schedule';
+          }
+        | {
+            heading?: string | null;
+            variant?: ('upcoming' | 'past' | 'all') | null;
+            limit?: number | null;
+            manualSelection?: (number | Event)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'eventsList';
+          }
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+      )[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "classes".
+ */
+export interface Class {
+  id: number;
+  title: string;
+  /**
+   * np. "krav-maga", "karate-dzieci"
+   */
+  slug: string;
+  type: 'krav-maga' | 'karate' | 'tai-chi' | 'individual' | 'asg' | 'power-training' | 'other';
+  ageGroup?: ('adults' | 'children' | 'all') | null;
+  coverImage?: (number | null) | Media;
+  heading: {
+    title: string;
+    subtitle?: string | null;
+    backgroundImage?: (number | null) | Media;
+  };
+  introduction?: {
+    title?: string | null;
+    content?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    image?: (number | null) | Media;
+  };
+  highlights?:
+    | {
+        title: string;
+        description?: string | null;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  benefits?:
+    | {
+        title: string;
+        description?: string | null;
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  targetAudience?: {
+    forWhoTitle?: string | null;
+    forWhoContent?: string | null;
+    expectTitle?: string | null;
+    expectContent?: string | null;
+  };
+  redirect?: {
+    title?: string | null;
+    description?: string | null;
+    targetClass?: (number | null) | Class;
+    buttonText?: string | null;
+  };
+  logistics?: {
+    intensity?: ('low' | 'medium' | 'medium-high' | 'high') | null;
+    /**
+     * np. "Długie spodnie sportowe, koszulka, woda"
+     */
+    whatToBring?: string | null;
+  };
+  instructor?: (number | null) | Instructor;
+  testimonials?: (number | Testimonial)[] | null;
+  cta?: {
+    heading?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instructors".
+ */
+export interface Instructor {
+  id: number;
+  name: string;
+  /**
+   * np. "michal-jaworski" — używany w URL /kadra/[slug]
+   */
+  slug?: string | null;
+  photo?: (number | null) | Media;
+  specialization?: string | null;
+  classes?: (number | Class)[] | null;
+  bio?: string | null;
+  achievements?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  author: string;
+  avatar?: (number | null) | Media;
+  content: string;
+  rating?: number | null;
+  relatedClass?: (number | null) | Class;
+  isFeatured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  category?: ('general' | 'classes' | 'pricing' | 'corporate' | 'registration') | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events".
+ */
+export interface Event {
+  id: number;
+  title: string;
+  /**
+   * Używany w URL, np. "turniej-karate-2025"
+   */
+  slug: string;
+  coverImage?: (number | null) | Media;
+  startDate: string;
+  endDate?: string | null;
+  location?: string | null;
+  shortDescription?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  registrationLink?: string | null;
+  status?: ('upcoming' | 'ongoing' | 'past' | 'cancelled') | null;
+  relatedClasses?: (number | Class)[] | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers".
+ */
+export interface Offer {
+  id: number;
+  title: string;
+  /**
+   * np. "dla-firm", "urodziny", "warsztaty-samoobrona-kobiet"
+   */
+  slug: string;
+  category?: ('company' | 'schools' | 'workshop' | 'birthday' | 'other') | null;
+  coverImage?: (number | null) | Media;
+  heading: {
+    title: string;
+    subtitle?: string | null;
+    backgroundImage?: (number | null) | Media;
+  };
+  intro?: {
+    title?: string | null;
+    content?: string | null;
+  };
+  offerings?:
+    | {
+        icon?: string | null;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  formats?:
+    | {
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  forWho?: {
+    title?: string | null;
+    content?: string | null;
+    bullets?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  contact?: {
+    email?: string | null;
+    phone?: string | null;
+    note?: string | null;
+  };
+  cta?: {
+    heading?: string | null;
+    description?: string | null;
+    buttonText?: string | null;
+    buttonLink?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -180,20 +702,48 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'classes';
+        value: number | Class;
+      } | null)
+    | ({
+        relationTo: 'instructors';
+        value: number | Instructor;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'events';
+        value: number | Event;
+      } | null)
+    | ({
+        relationTo: 'faq';
+        value: number | Faq;
+      } | null)
+    | ({
+        relationTo: 'offers';
+        value: number | Offer;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -203,10 +753,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -226,7 +776,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -274,6 +824,483 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              description?: T;
+              backgroundImage?: T;
+              primaryCta?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              secondaryCta?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              socialProof?:
+                | T
+                | {
+                    googleReviewsText?: T;
+                    partnerLogos?:
+                      | T
+                      | {
+                          logo?: T;
+                          name?: T;
+                          id?: T;
+                        };
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        classesOverview?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              classes?: T;
+              id?: T;
+              blockName?: T;
+            };
+        benefits?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        testimonialsSection?:
+          | T
+          | {
+              heading?: T;
+              testimonials?: T;
+              id?: T;
+              blockName?: T;
+            };
+        instructorsSection?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              instructors?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pricing?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              plans?:
+                | T
+                | {
+                    name?: T;
+                    price?: T;
+                    period?: T;
+                    features?:
+                      | T
+                      | {
+                          text?: T;
+                          id?: T;
+                        };
+                    isFeatured?: T;
+                    ctaText?: T;
+                    ctaLink?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        services?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    icon?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              primaryButton?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              secondaryButton?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              variant?: T;
+              id?: T;
+              blockName?: T;
+            };
+        stats?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    value?: T;
+                    label?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        logoList?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              logos?:
+                | T
+                | {
+                    logo?: T;
+                    name?: T;
+                    url?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contactInfo?:
+          | T
+          | {
+              heading?: T;
+              address?: T;
+              phone?: T;
+              email?: T;
+              openingHours?:
+                | T
+                | {
+                    day?: T;
+                    hours?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contactForm?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              successMessage?: T;
+              recipientEmail?: T;
+              id?: T;
+              blockName?: T;
+            };
+        map?:
+          | T
+          | {
+              embedUrl?: T;
+              address?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faqSection?:
+          | T
+          | {
+              heading?: T;
+              faqs?: T;
+              id?: T;
+              blockName?: T;
+            };
+        schedule?:
+          | T
+          | {
+              heading?: T;
+              embedCode?: T;
+              entries?:
+                | T
+                | {
+                    dayOfWeek?: T;
+                    time?: T;
+                    className?: T;
+                    instructor?: T;
+                    location?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        eventsList?:
+          | T
+          | {
+              heading?: T;
+              variant?: T;
+              limit?: T;
+              manualSelection?: T;
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "classes_select".
+ */
+export interface ClassesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  type?: T;
+  ageGroup?: T;
+  coverImage?: T;
+  heading?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        backgroundImage?: T;
+      };
+  introduction?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        image?: T;
+      };
+  highlights?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  benefits?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  targetAudience?:
+    | T
+    | {
+        forWhoTitle?: T;
+        forWhoContent?: T;
+        expectTitle?: T;
+        expectContent?: T;
+      };
+  redirect?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        targetClass?: T;
+        buttonText?: T;
+      };
+  logistics?:
+    | T
+    | {
+        intensity?: T;
+        whatToBring?: T;
+      };
+  instructor?: T;
+  testimonials?: T;
+  cta?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        buttonText?: T;
+        buttonLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "instructors_select".
+ */
+export interface InstructorsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  photo?: T;
+  specialization?: T;
+  classes?: T;
+  bio?: T;
+  achievements?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  author?: T;
+  avatar?: T;
+  content?: T;
+  rating?: T;
+  relatedClass?: T;
+  isFeatured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "events_select".
+ */
+export interface EventsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  coverImage?: T;
+  startDate?: T;
+  endDate?: T;
+  location?: T;
+  shortDescription?: T;
+  content?: T;
+  registrationLink?: T;
+  status?: T;
+  relatedClasses?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faq_select".
+ */
+export interface FaqSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  category?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "offers_select".
+ */
+export interface OffersSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  category?: T;
+  coverImage?: T;
+  heading?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        backgroundImage?: T;
+      };
+  intro?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+      };
+  offerings?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  formats?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  forWho?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        bullets?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        note?: T;
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        buttonText?: T;
+        buttonLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -311,6 +1338,305 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  logo?: (number | null) | Media;
+  logoText?: string | null;
+  links?:
+    | {
+        label: string;
+        href: string;
+        subLinks?:
+          | {
+              label: string;
+              href: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  ctaButton?: {
+    text?: string | null;
+    href?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  logo?: (number | null) | Media;
+  description?: string | null;
+  columns?:
+    | {
+        heading: string;
+        links?:
+          | {
+              label: string;
+              href: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  socialLinks?:
+    | {
+        platform: 'facebook' | 'instagram' | 'youtube' | 'tiktok';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  bottomText?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "schedule".
+ */
+export interface Schedule {
+  id: number;
+  title?: string | null;
+  subtitle?: string | null;
+  entries?:
+    | {
+        class: number | Class;
+        day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+        /**
+         * Format: GG:MM
+         */
+        startTime: string;
+        /**
+         * Format: GG:MM
+         */
+        endTime: string;
+        /**
+         * Np. "4–6 lat", "7–10 lat", "11–14 lat". Wypełnij dla zajęć dla dzieci i młodzieży (poniżej 18 lat).
+         */
+        ageRange?: string | null;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-services".
+ */
+export interface HomepageService {
+  id: number;
+  sectionLabel?: string | null;
+  sectionTitle?: string | null;
+  columns?: ('2' | '3' | '4') | null;
+  cards?:
+    | {
+        tag: string;
+        title: string;
+        description: string;
+        ctaText?: string | null;
+        ctaUrl: string;
+        /**
+         * Np. #2a5298, #8b0000, #1a6b3c
+         */
+        color?: string | null;
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-pricing".
+ */
+export interface HomepagePricing {
+  id: number;
+  sectionLabel?: string | null;
+  sectionTitle?: string | null;
+  note?: string | null;
+  plans?:
+    | {
+        name: string;
+        price: string;
+        /**
+         * Zostaw puste jeśli nie dotyczy
+         */
+        period?: string | null;
+        features?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        ctaText?: string | null;
+        ctaUrl?: string | null;
+        featured?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  logo?: T;
+  logoText?: T;
+  links?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        subLinks?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  ctaButton?:
+    | T
+    | {
+        text?: T;
+        href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  logo?: T;
+  description?: T;
+  columns?:
+    | T
+    | {
+        heading?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  bottomText?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "schedule_select".
+ */
+export interface ScheduleSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  entries?:
+    | T
+    | {
+        class?: T;
+        day?: T;
+        startTime?: T;
+        endTime?: T;
+        ageRange?: T;
+        notes?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-services_select".
+ */
+export interface HomepageServicesSelect<T extends boolean = true> {
+  sectionLabel?: T;
+  sectionTitle?: T;
+  columns?: T;
+  cards?:
+    | T
+    | {
+        tag?: T;
+        title?: T;
+        description?: T;
+        ctaText?: T;
+        ctaUrl?: T;
+        color?: T;
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "homepage-pricing_select".
+ */
+export interface HomepagePricingSelect<T extends boolean = true> {
+  sectionLabel?: T;
+  sectionTitle?: T;
+  note?: T;
+  plans?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        period?: T;
+        features?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        ctaText?: T;
+        ctaUrl?: T;
+        featured?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "collections_widget".
+ */
+export interface CollectionsWidget {
+  data?: {
+    [k: string]: unknown;
+  };
+  width: 'full';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

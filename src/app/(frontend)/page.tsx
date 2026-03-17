@@ -1,59 +1,85 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
-import { getPayload } from 'payload'
 import React from 'react'
-import { fileURLToPath } from 'url'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import type {
+  Instructor,
+  Testimonial,
+  Navigation,
+  Footer as FooterType,
+  Page,
+  HomepageService,
+  HomepagePricing,
+} from '@/payload-types'
+import Navbar from '@/components/home/Navbar'
+import HeroSection from '@/components/home/HeroSection'
+import ClassesSection from '@/components/home/ClassesSection'
+import BenefitsSection from '@/components/home/BenefitsSection'
+import TestimonialsSection from '@/components/home/TestimonialsSection'
+import InstructorsSection from '@/components/home/InstructorsSection'
+import PricingSection from '@/components/home/PricingSection'
+import ServicesSection from '@/components/home/ServicesSection'
+import CTASection from '@/components/home/CTASection'
+import Footer from '@/components/home/Footer'
+import PartnersSection from '@/components/home/PartnersSection'
+import './homepage.css'
 
-import config from '@/payload.config'
-import './styles.css'
+type HeroBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'hero' }>
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  let instructors: Instructor[] | null = null
+  let testimonials: Testimonial[] | null = null
+  let nav: Navigation | null = null
+  let footer: FooterType | null = null
+  let heroBlock: HeroBlock | null = null
+  let homepageServices: HomepageService | null = null
+  let homepagePricing: HomepagePricing | null = null
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  try {
+    const payload = await getPayload({ config })
+    const [instructorsRes, testimonialsRes, navRes, footerRes, homePageRes, servicesRes, pricingRes] =
+      await Promise.all([
+        payload.find({ collection: 'instructors', limit: 10, sort: 'order' }),
+        payload.find({
+          collection: 'testimonials',
+          where: { isFeatured: { equals: true } },
+          limit: 6,
+        }),
+        payload.findGlobal({ slug: 'navigation' }),
+        payload.findGlobal({ slug: 'footer' }),
+        payload.find({
+          collection: 'pages',
+          where: { slug: { equals: 'home' } },
+          limit: 1,
+          depth: 1,
+        }),
+        payload.findGlobal({ slug: 'homepage-services' }),
+        payload.findGlobal({ slug: 'homepage-pricing' }),
+      ])
+    instructors = instructorsRes.docs
+    testimonials = testimonialsRes.docs
+    nav = navRes
+    footer = footerRes
+    homepageServices = servicesRes
+    homepagePricing = pricingRes
+    const homePage = homePageRes.docs[0]
+    heroBlock = (homePage?.layout?.find((b) => b.blockType === 'hero') as HeroBlock) ?? null
+  } catch {
+    // DB unavailable — components fall back to static data
+  }
 
   return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
+    <>
+      <Navbar data={nav} />
+      <HeroSection data={heroBlock} />
+      <PartnersSection />
+      <ClassesSection />
+      <BenefitsSection />
+      <TestimonialsSection testimonials={testimonials} />
+      <InstructorsSection instructors={instructors} />
+      <PricingSection data={homepagePricing} />
+      <ServicesSection data={homepageServices} />
+      <CTASection />
+      <Footer data={footer} />
+    </>
   )
 }

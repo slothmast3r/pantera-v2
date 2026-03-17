@@ -1,67 +1,109 @@
-# Payload Blank Template
+# Pantera v2
 
-This template comes configured with the bare minimum to get started on anything you need.
+Strona internetowa Klubu Sztuk Walki Pantera — Next.js 15 + Payload CMS 3.
 
-## Quick start
+## Stack
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+- **Next.js 15** (App Router, RSC)
+- **Payload CMS 3** — treści, grafik zajęć, cennik, nawigacja
+- **PostgreSQL** — baza danych (przez Docker)
+- **TypeScript**
+- **pnpm**
 
-## Quick Start - local setup
+## Uruchomienie lokalne
 
-To spin up this template locally, follow these steps:
+### 1. Zainstaluj zależności
 
-### Clone
+```bash
+pnpm install
+```
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### 2. Uruchom bazę danych
 
-### Development
+```bash
+docker compose up -d
+```
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+### 3. Skonfiguruj zmienne środowiskowe
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+Skopiuj `.env.example` do `.env` i uzupełnij:
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+```env
+DATABASE_URI=postgresql://postgres:password@localhost:5432/pantera
+PAYLOAD_SECRET=twoj-sekret
 
-#### Docker (Optional)
+# tpay (opcjonalne — bez nich działa tryb dev z mock redirect)
+TPAY_CLIENT_ID=
+TPAY_CLIENT_SECRET=
+TPAY_NOTIFICATION_EMAIL=
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-To do so, follow these steps:
+### 4. Uruchom aplikację
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+```bash
+pnpm dev
+```
 
-## How it works
+Strona: [http://localhost:3000](http://localhost:3000)
+Admin: [http://localhost:3000/admin](http://localhost:3000/admin)
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+### 5. Seed danych (opcjonalne)
 
-### Collections
+```bash
+pnpm seed
+```
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+## Struktura projektu
 
-- #### Users (Authentication)
+```
+src/
+├── app/
+│   ├── (frontend)/          # Strony publiczne
+│   │   ├── page.tsx         # Strona główna
+│   │   ├── grafik/          # Grafik zajęć (z filtrami)
+│   │   ├── oferta/          # Oferta zajęć
+│   │   ├── kadra/           # Profile instruktorów
+│   │   ├── kontakt/         # Kontakt + FAQ
+│   │   ├── platnosc/        # Płatności online (tpay)
+│   │   ├── o-nas/           # O nas
+│   │   ├── zajecia/         # Pojedyncze zajęcia
+│   │   └── regulamin/       # Regulamin
+│   ├── (payload)/admin/     # Panel Payload CMS
+│   └── api/                 # API routes (kontakt, platnosc)
+├── collections/             # Kolekcje Payload (Classes, Instructors, FAQ…)
+├── globals/                 # Globals Payload (Navigation, Footer, Schedule, HomepageServices, HomepagePricing)
+├── components/
+│   ├── home/                # Sekcje strony głównej
+│   └── admin/               # Komponenty panelu admina (ScheduleRowLabel)
+├── blocks/                  # Bloki treści Payload
+└── seed/                    # Dane startowe
+```
 
-  Users are auth-enabled collections that have access to the admin panel.
+## Payload CMS — globals
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+| Global | Opis |
+|---|---|
+| `navigation` | Linki nawigacji + CTA |
+| `footer` | Kolumny stopki |
+| `schedule` | Grafik zajęć (wpisy z etykietą: dzień · godziny · zajęcia) |
+| `homepage-services` | Sekcja usług na homepage (karty, liczba kolumn) |
+| `homepage-pricing` | Cennik na homepage (plany, benefity) |
 
-- #### Media
+## Płatności (tpay)
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+API route `/api/platnosc` obsługuje integrację z tpay Transactions API:
+- OAuth Bearer token (`TPAY_CLIENT_ID` + `TPAY_CLIENT_SECRET`)
+- Gdy env vars są puste — zwraca mock redirect (tryb dev)
+- Strony wynikowe: `/platnosc/sukces` i `/platnosc/blad`
 
-### Docker
+## Skrypty
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+```bash
+pnpm dev              # Dev server
+pnpm build            # Build produkcyjny
+pnpm seed             # Załaduj dane startowe
+pnpm generate:types   # Wygeneruj typy Payload
+pnpm lint             # ESLint
+```

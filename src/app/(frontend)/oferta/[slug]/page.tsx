@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -197,9 +198,9 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
         <div className="offer-header__overlay" />
         <div className="container">
           <nav className="offer-header__breadcrumb" aria-label="Breadcrumb">
-            <a href="/">Strona główna</a>
+            <Link href="/">Strona główna</Link>
             <span>›</span>
-            <a href="/oferta">Oferta</a>
+            <Link href="/oferta">Oferta</Link>
             <span>›</span>
             <span style={{ color: 'rgba(255,255,255,0.8)' }}>{offer.title}</span>
           </nav>
@@ -210,9 +211,9 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
           {offer.heading?.subtitle && (
             <p className="offer-header__lead">{offer.heading.subtitle}</p>
           )}
-          <a href={offer.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
+          <Link href={offer.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
             {offer.cta?.buttonText ?? 'Zapytaj o ofertę'}
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -312,12 +313,12 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
           <h2>{offer.cta?.heading ?? 'Zapytaj o ofertę'}</h2>
           <p>{offer.cta?.description ?? 'Skontaktuj się z nami i wspólnie ustalimy szczegóły.'}</p>
           <div className="offer-cta__buttons">
-            <a href={offer.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
+            <Link href={offer.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
               {offer.cta?.buttonText ?? 'Wyślij zapytanie'}
-            </a>
-            <a href="/oferta" className="btn btn--outline-white">
+            </Link>
+            <Link href="/oferta" className="btn btn--outline-white">
               ← Wszystkie oferty
-            </a>
+            </Link>
           </div>
         </div>
       </section>

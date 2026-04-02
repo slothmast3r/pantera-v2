@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -82,9 +83,9 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
       {/* Breadcrumb */}
       <div className="instr-breadcrumb">
         <div className="instr-breadcrumb__inner">
-          <a href="/o-nas">O nas</a>
+          <Link href="/o-nas">O nas</Link>
           <span>›</span>
-          <a href="/o-nas#kadra">Kadra</a>
+          <Link href="/o-nas#kadra">Kadra</Link>
           <span>›</span>
           <span>{instructor.name}</span>
         </div>
@@ -127,7 +128,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
                 <p className="instr-section__title">Prowadzone zajęcia</p>
                 <div className="instr-classes__grid">
                   {classes.map((cls) => (
-                    <a
+                    <Link
                       key={cls.id}
                       href={`/zajecia/${cls.slug}`}
                       className="instr-class-card"
@@ -142,7 +143,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
                         )}
                       </div>
                       <span className="instr-class-card__arrow">→</span>
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -169,9 +170,9 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
               <p className="instr-cta__text">
                 Pierwsze zajęcia są bezpłatne. Umów się już dziś.
               </p>
-              <a href="/kontakt" className="instr-cta__btn">
+              <Link href="/kontakt" className="instr-cta__btn">
                 Zapisz się na próbny trening
-              </a>
+              </Link>
             </div>
 
           </div>

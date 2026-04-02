@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
@@ -27,7 +28,7 @@ export default async function PlatnoscSukcesPage() {
           <p className="pay-result__text">
             Dziękujemy za wpłatę. Potwierdzenie zostało wysłane na podany adres e-mail.
           </p>
-          <a href="/" className="pay-result__btn">Wróć na stronę główną</a>
+          <Link href="/" className="pay-result__btn">Wróć na stronę główną</Link>
         </section>
       </main>
       <Footer data={footerData} />

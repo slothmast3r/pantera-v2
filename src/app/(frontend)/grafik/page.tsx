@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import './grafik.css'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
@@ -100,9 +101,9 @@ export default async function GrafikPage() {
           <p className="grafik-cta__subtitle">
             Wybierz termin, który Ci odpowiada i umów się na próbny trening.
           </p>
-          <a href="/kontakt" className="grafik-cta__btn">
+          <Link href="/kontakt" className="grafik-cta__btn">
             Zapisz się teraz
-          </a>
+          </Link>
         </section>
       </main>
       <Footer data={footerData} />

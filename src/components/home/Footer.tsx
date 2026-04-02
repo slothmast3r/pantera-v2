@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import type { Footer as FooterType } from '@/payload-types'
 
 const staticColumns = [
@@ -85,7 +86,7 @@ export default function Footer({ data }: { data?: FooterType | null }) {
             <ul>
               {col.links?.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>{link.label}</a>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>

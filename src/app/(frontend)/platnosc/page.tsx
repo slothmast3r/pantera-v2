@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
@@ -52,7 +53,7 @@ export default async function PlatnoscPage() {
                 <p className="pay-info__text">
                   Zadzwoń lub napisz do nas, a chętnie pomożemy ustalić właściwą kwotę.
                 </p>
-                <a href="/kontakt" className="pay-info__link">Skontaktuj się →</a>
+                <Link href="/kontakt" className="pay-info__link">Skontaktuj się →</Link>
               </div>
               <div className="pay-info__secure">
                 <span className="pay-info__secure-icon material-symbols-outlined">lock</span>

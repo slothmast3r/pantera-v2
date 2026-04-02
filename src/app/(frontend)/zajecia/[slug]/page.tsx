@@ -113,7 +113,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
         <div className="class-header__overlay" />
         <div className="container">
           <nav className="class-header__breadcrumb" aria-label="Breadcrumb">
-            <a href="/">Strona główna</a>
+            <Link href="/">Strona główna</Link>
             <span>›</span>
             <Link href="/zajecia">Zajęcia</Link>
             <span>›</span>
@@ -136,12 +136,12 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
           {cls.heading?.subtitle && (
             <p className="class-header__lead">{cls.heading.subtitle}</p>
           )}
-          <a
+          <Link
             href={cls.cta?.buttonLink ?? '/kontakt'}
             className="btn btn--orange"
           >
             {cls.cta?.buttonText ?? 'Zapisz się na zajęcia'}
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -265,9 +265,9 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
           <h2>{cls.cta?.heading ?? 'Dołącz do nas już dziś'}</h2>
           <p>{cls.cta?.description ?? 'Pierwsze zajęcia są bezpłatne. Przekonaj się, dlaczego nam ufają setki rodzin z Mokotowa.'}</p>
           <div className="class-cta__buttons">
-            <a href={cls.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
+            <Link href={cls.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
               {cls.cta?.buttonText ?? 'Zapisz się na zajęcia'}
-            </a>
+            </Link>
             <Link href="/zajecia" className="btn btn--outline-white">
               ← Wszystkie zajęcia
             </Link>

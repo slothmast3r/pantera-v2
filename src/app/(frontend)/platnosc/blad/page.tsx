@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
@@ -28,8 +29,8 @@ export default async function PlatnoscBladPage() {
             Coś poszło nie tak. Możesz spróbować ponownie lub skontaktować się z nami.
           </p>
           <div className="pay-result__actions">
-            <a href="/platnosc" className="pay-result__btn">Spróbuj ponownie</a>
-            <a href="/kontakt" className="pay-result__btn pay-result__btn--outline">Kontakt</a>
+            <Link href="/platnosc" className="pay-result__btn">Spróbuj ponownie</Link>
+            <Link href="/kontakt" className="pay-result__btn pay-result__btn--outline">Kontakt</Link>
           </div>
         </section>
       </main>

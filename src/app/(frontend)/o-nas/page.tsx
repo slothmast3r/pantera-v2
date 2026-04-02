@@ -193,8 +193,8 @@ export default async function AboutPage() {
               <h3>Zacznij swoją przygodę z Panterą</h3>
               <p>Pierwsze zajęcia są bezpłatne. Przekonaj się sam, dlaczego nam ufają setki rodzin z Mokotowa.</p>
               <div className="about-cta__buttons">
-                <a href="/kontakt" className="btn btn--orange">Umów bezpłatne zajęcia</a>
-                <a href="/grafik" className="btn btn--outline-white">Zobacz grafik</a>
+                <Link href="/kontakt" className="btn btn--orange">Umów bezpłatne zajęcia</Link>
+                <Link href="/grafik" className="btn btn--outline-white">Zobacz grafik</Link>
               </div>
             </div>
           </div>

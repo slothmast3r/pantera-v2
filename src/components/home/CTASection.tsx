@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 export default function CTASection() {
   return (
@@ -7,7 +8,7 @@ export default function CTASection() {
       <div className="cta-section__content">
         <h2>Gotowy na pierwszy krok?</h2>
         <p>Dołącz do setek zadowolonych klubowiczów. Pierwsze zajęcia są na nas!</p>
-        <a href="/kontakt" className="btn btn--orange">Umów się na pierwsze zajęcia</a>
+        <Link href="/kontakt" className="btn btn--orange">Umów się na pierwsze zajęcia</Link>
       </div>
     </section>
   )

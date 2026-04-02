@@ -60,7 +60,7 @@ function GroupedDropdown({ subLinks, pathname }: { subLinks: { label: string; hr
         <div className="navbar__dropdown-group">
           <span className="navbar__dropdown-group-label"><Icon name="person" /> Dorośli</span>
           {adults.map((sub) => (
-            <a key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</a>
+            <Link key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</Link>
           ))}
         </div>
       )}
@@ -68,7 +68,7 @@ function GroupedDropdown({ subLinks, pathname }: { subLinks: { label: string; hr
         <div className="navbar__dropdown-group">
           <span className="navbar__dropdown-group-label"><Icon name="child_care" /> Dzieci</span>
           {children.map((sub) => (
-            <a key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</a>
+            <Link key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</Link>
           ))}
         </div>
       )}
@@ -94,9 +94,9 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
   return (
     <nav className="navbar">
       <div className="navbar__container">
-        <a href="/" className="navbar__logo">
+        <Link href="/" className="navbar__logo">
           <img src="/logo.svg" alt="Pantera Family & Sport Club" className="navbar__logo-img" />
-        </a>
+        </Link>
         <button
           className="navbar__hamburger"
           onClick={() => {
@@ -121,7 +121,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                   key={link.href}
                   className={`${subs.length ? 'navbar__dropdown' : ''} ${isOpen ? 'navbar__dropdown--open' : ''}`}
                 >
-                  <a
+                  <Link
                     href={link.href}
                     className={isActive ? 'navbar__link--active' : undefined}
                     onClick={
@@ -134,7 +134,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                     }
                   >
                     {link.label}{subs.length ? <Icon name="keyboard_arrow_down" className="navbar__chevron" /> : ''}
-                  </a>
+                  </Link>
                   {subs.length ? (
                     useGrouped ? (
                       <GroupedDropdown subLinks={subs} pathname={pathname} />
@@ -142,7 +142,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                       <ul className="navbar__dropdown-menu">
                         {subs.map((sub) => (
                           <li key={sub.href}>
-                            <a href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</a>
+                            <Link href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined}>{sub.label}</Link>
                           </li>
                         ))}
                       </ul>
@@ -152,14 +152,14 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
               )
             })}
             <li className="navbar__mobile-cta">
-              <a href={cta.href ?? '/kontakt'} className="navbar__cta">
+              <Link href={cta.href ?? '/kontakt'} className="navbar__cta">
                 {cta.text ?? 'Zapisz się na zajęcia'}
-              </a>
+              </Link>
             </li>
           </ul>
-          <a href={cta.href ?? '/kontakt'} className="navbar__cta navbar__cta--desktop">
+          <Link href={cta.href ?? '/kontakt'} className="navbar__cta navbar__cta--desktop">
             {cta.text ?? 'Zapisz się na zajęcia'}
-          </a>
+          </Link>
         </div>
       </div>
     </nav>

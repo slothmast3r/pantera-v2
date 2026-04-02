@@ -85,7 +85,6 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
   const pathname = usePathname()
   const links = data?.links ?? staticLinks
   const cta = data?.ctaButton ?? { text: 'Zapisz się na zajęcia', href: '/kontakt' }
-  const logoText = data?.logoText ?? 'PANTERA'
 
   function toggleDropdown(href: string) {
     setOpenDropdown((prev) => (prev === href ? null : href))
@@ -95,6 +94,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
     <nav className="navbar">
       <div className="navbar__container">
         <Link href="/" className="navbar__logo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="Pantera Family & Sport Club" className="navbar__logo-img" />
         </Link>
         <button

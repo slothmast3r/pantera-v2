@@ -159,8 +159,8 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
                 )}
                 {cls.introduction.content && (
                   <div className="rich-text">
-                    {(cls.introduction.content as any)?.root?.children?.map((node: any, i: number) => {
-                      const text = node.children?.map((c: any) => c.text ?? '').join('') ?? ''
+                    {(cls.introduction.content as { root?: { children?: { children?: { text?: string }[] }[] } })?.root?.children?.map((node, i: number) => {
+                      const text = node.children?.map((c) => c.text ?? '').join('') ?? ''
                       if (!text) return null
                       return <p key={i}>{text}</p>
                     })}
@@ -168,6 +168,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
                 )}
               </div>
               <div className="class-intro__image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 {getCoverUrl(cls.introduction.image) ? (
                   <img src={getCoverUrl(cls.introduction.image)!} alt={cls.title} />
                 ) : null}

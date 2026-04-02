@@ -28,9 +28,6 @@ function getPhotoUrl(photo: Instructor['photo']): string | null {
   return (photo as Media).url ?? null
 }
 
-function isClass(val: number | Class): val is Class {
-  return typeof val === 'object' && 'slug' in val
-}
 
 export default async function InstructorPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -94,6 +91,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
       {/* Hero */}
       <section className="instr-hero">
         <div className="instr-hero__inner">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           {photoUrl ? (
             <img src={photoUrl} alt={instructor.name} className="instr-hero__photo" />
           ) : (

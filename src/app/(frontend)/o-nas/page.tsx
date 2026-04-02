@@ -215,6 +215,7 @@ export default async function AboutPage() {
               const slug = (instructor as Instructor).slug
               const cardInner = (
                 <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   {photoUrl ? (
                     <img src={photoUrl} alt={instructor.name} className="team-card__photo" />
                   ) : (

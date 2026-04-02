@@ -28,6 +28,7 @@ export default function PartnersSection() {
               className="partners__logo"
               title={p.name}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={p.logo} alt={p.name} />
             </a>
           ))}

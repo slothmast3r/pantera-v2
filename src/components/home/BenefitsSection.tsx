@@ -38,6 +38,7 @@ export default function BenefitsSection() {
             {benefits.map((b) => (
               <li key={b.title} className="benefits__item">
                 <span className="benefits__icon">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={b.icon} alt="" aria-hidden="true" className="benefits__icon-img" />
                 </span>
                 <div>

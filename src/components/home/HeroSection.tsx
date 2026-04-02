@@ -47,13 +47,16 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
         <div className="hero__partners" aria-label="Partnerzy">
           <span className="hero__partners-label">Zrzeszeni w:</span>
           <div className="hero__partners-logos">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/partners/united-krav-maga.svg" alt="United Krav Maga" className="partner-united" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/partners/zawsze-w-formie.svg" alt="Zawsze w Formie" className="partner-zwf" />
           </div>
         </div>
       </div>
       </div>
       <div className="hero__divider" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/divider2.svg" alt="" />
       </div>
     </section>

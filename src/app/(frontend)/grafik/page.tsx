@@ -7,8 +7,7 @@ import config from '@payload-config'
 import type { Class } from '@/payload-types'
 import GrafikClient, { type DisplayEntry } from './GrafikClient'
 
-const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'] as const
-type DayValue = (typeof DAYS)[number]
+type DayValue = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday'
 
 const TYPE_COLORS: Record<string, string> = {
   'krav-maga': '#c0392b',

@@ -152,6 +152,7 @@ export default async function OfertaPage() {
               return (
                 <a key={offer.id} href={`/oferta/${offer.slug}`} className="oferta-card">
                   <div className="oferta-card__header">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     {coverUrl ? (
                       <img src={coverUrl} alt={offer.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} />
                     ) : null}

@@ -46,6 +46,7 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
             const photoUrl = getPhotoUrl(i.photo)
             return (
               <div key={i.id} className="instructors__card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 {photoUrl ? (
                   <img src={photoUrl} alt={i.name} className="instructors__photo" />
                 ) : (

@@ -45,6 +45,7 @@ export default function ClassesSection() {
         </div>
       </div>
       <div className="classes__divider" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/divider2.svg" alt="" />
       </div>
     </section>

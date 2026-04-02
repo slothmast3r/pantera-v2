@@ -2,6 +2,18 @@ import React from 'react'
 import Link from 'next/link'
 import type { Footer as FooterType } from '@/payload-types'
 
+type ContactItem = {
+  icon: string
+  customIcon?: string | null
+  label: string
+  href?: string | null
+}
+
+type SocialLinkExtra = {
+  customIcon?: string
+  label?: string
+}
+
 const staticColumns = [
   {
     heading: 'Zajęcia',
@@ -55,19 +67,20 @@ export default function Footer({ data }: { data?: FooterType | null }) {
     { platform: 'facebook' as const, url: 'https://facebook.com', id: 'fb' },
     { platform: 'instagram' as const, url: 'https://instagram.com', id: 'ig' },
   ]
-  const contactItems = (data as any)?.contactItems ?? staticContactItems
+  const contactItems = (data as FooterType & { contactItems?: ContactItem[] })?.contactItems ?? staticContactItems
 
   return (
     <footer className="footer">
       <div className="footer__container">
         <div className="footer__brand">
           <div className="footer__logo">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.svg" alt="Pantera Family & Sport Club" className="footer__logo-img" />
           </div>
           <p>{description}</p>
           <div className="footer__social">
             {socialLinks.map((s) => {
-              const s2 = s as any
+              const s2 = s as typeof s & SocialLinkExtra
               const faClass = s.platform === 'other'
                 ? `fa-${s2.customIcon ?? 'link'}`
                 : (faBrandIcons[s.platform] ?? 'fa-link')
@@ -95,7 +108,7 @@ export default function Footer({ data }: { data?: FooterType | null }) {
         <div className="footer__col">
           <h4>Kontakt</h4>
           <ul className="footer__contact-list">
-            {contactItems.map((item: any, i: number) => {
+            {contactItems.map((item: ContactItem, i: number) => {
               const iconName = item.icon === 'other' ? (item.customIcon ?? 'link') : item.icon
               const content = (
                 <>

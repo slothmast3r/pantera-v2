@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@/components/ui/Icon'
 import type { HomepagePricing } from '@/payload-types'
 
 const staticPlans = [
@@ -70,7 +71,7 @@ export default function PricingSection({ data }: { data?: HomepagePricing | null
               </div>
               <ul className="pricing__features">
                 {plan.features?.map((f, j) => (
-                  <li key={j}>✓ {typeof f === 'string' ? f : f.text}</li>
+                  <li key={j}><Icon name="check" className="pricing__check-icon" /> {typeof f === 'string' ? f : f.text}</li>
                 ))}
               </ul>
               <a

@@ -1,36 +1,11 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Class, Media, Navigation, Footer as FooterType } from '@/payload-types'
+import type { Class, Navigation, Footer as FooterType } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
+import ZajeciaClient from './ZajeciaClient'
 import './zajecia.css'
-
-const typeLabels: Record<string, string> = {
-  'krav-maga': 'Krav Maga',
-  karate: 'Karate',
-  'tai-chi': 'Tai Chi',
-  individual: 'Indywidualne',
-  asg: 'ASG',
-  'power-training': 'Power Training',
-  other: 'Inne',
-}
-
-const ageLabels: Record<string, string> = {
-  adults: 'Dorośli',
-  children: 'Dzieci',
-  all: 'Wszyscy',
-}
-
-const typeIcons: Record<string, string> = {
-  'krav-maga': '🥊',
-  karate: '🥋',
-  'tai-chi': '☯️',
-  individual: '👤',
-  asg: '🎯',
-  'power-training': '💪',
-  other: '⭐',
-}
 
 const staticClasses: Partial<Class>[] = [
   { id: -1, title: 'Krav Maga', slug: 'krav-maga', type: 'krav-maga', ageGroup: 'adults', heading: { title: 'Skuteczna samoobrona dla dorosłych' } },
@@ -40,11 +15,6 @@ const staticClasses: Partial<Class>[] = [
   { id: -5, title: 'Karate Dzieci', slug: 'karate-dzieci', type: 'karate', ageGroup: 'children', heading: { title: 'Karate dla dzieci w bezpiecznym środowisku' } },
   { id: -6, title: 'Zajęcia Indywidualne', slug: 'indywidualne', type: 'individual', ageGroup: 'all', heading: { title: 'Trening dopasowany do Ciebie' } },
 ]
-
-function getCoverUrl(coverImage: Class['coverImage']): string | null {
-  if (!coverImage || typeof coverImage === 'number') return null
-  return (coverImage as Media).url ?? null
-}
 
 export default async function ZajeciaPage() {
   let classes: Partial<Class>[] | null = null
@@ -94,43 +64,9 @@ export default async function ZajeciaPage() {
             {items.length} {items.length === 1 ? 'propozycja' : items.length < 5 ? 'propozycje' : 'propozycji'} dla Ciebie i Twojej rodziny
           </p>
 
-          <div className="zajecia-grid">
-            {items.map((cls) => {
-              const coverUrl = getCoverUrl(cls.coverImage)
-              const icon = typeIcons[cls.type ?? ''] ?? '⭐'
-              return (
-                <a key={cls.id} href={`/zajecia/${cls.slug}`} className="zajecia-card" style={{ textDecoration: 'none' }}>
-                  {coverUrl ? (
-                    <img src={coverUrl} alt={cls.title} className="zajecia-card__image" />
-                  ) : (
-                    <div className="zajecia-card__image--placeholder">{icon}</div>
-                  )}
-                  <div className="zajecia-card__body">
-                    <div className="zajecia-card__badges">
-                      {cls.type && (
-                        <span className="zajecia-card__badge zajecia-card__badge--type">
-                          {typeLabels[cls.type] ?? cls.type}
-                        </span>
-                      )}
-                      {cls.ageGroup && (
-                        <span className={`zajecia-card__badge ${cls.ageGroup === 'children' ? 'zajecia-card__badge--age-children' : 'zajecia-card__badge--age-adults'}`}>
-                          {cls.ageGroup === 'children' ? '🧒 ' : '👤 '}{ageLabels[cls.ageGroup] ?? cls.ageGroup}
-                        </span>
-                      )}
-                    </div>
-                    <h3>{cls.title}</h3>
-                    {cls.heading?.subtitle && (
-                      <p className="zajecia-card__subtitle">{cls.heading.subtitle}</p>
-                    )}
-                    {!cls.heading?.subtitle && cls.heading?.title && (
-                      <p className="zajecia-card__subtitle">{cls.heading.title}</p>
-                    )}
-                    <span className="zajecia-card__link">Sprawdź ofertę →</span>
-                  </div>
-                </a>
-              )
-            })}
-          </div>
+          <Suspense fallback={<div className="zajecia-grid" />}>
+            <ZajeciaClient items={items} />
+          </Suspense>
         </div>
       </section>
 

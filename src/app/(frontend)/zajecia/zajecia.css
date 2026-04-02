@@ -40,6 +40,37 @@
   line-height: 1.7;
 }
 
+/* ===== FILTERS ===== */
+.zajecia-filters {
+  display: flex;
+  gap: 10px;
+  margin: 32px 0 28px;
+  flex-wrap: wrap;
+}
+.zajecia-filter-btn {
+  padding: 8px 22px;
+  border-radius: 999px;
+  border: 2px solid #e0e0e0;
+  background: #fff;
+  color: #555;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.zajecia-filter-btn:hover {
+  border-color: #0094FF;
+  color: #0094FF;
+}
+.zajecia-filter-btn--active:hover {
+  color: #fff;
+}
+.zajecia-filter-btn--active {
+  background: #0094FF;
+  border-color: #0094FF;
+  color: #fff;
+}
+
 /* ===== ARCHIVE — GRID ===== */
 .zajecia-list {
   padding: 80px 20px;

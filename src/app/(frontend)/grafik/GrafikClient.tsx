@@ -171,7 +171,7 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
                           </p>
                           <h3 className="grafik-card__title">{entry.cls.title}</h3>
                           {entry.ageRange && (
-                            <span className="grafik-card__age">🧒 {entry.ageRange}</span>
+                            <span className="grafik-card__age"><span className="material-symbols-outlined" style={{fontSize:'13px',verticalAlign:'middle',marginRight:'3px'}}>child_care</span>{entry.ageRange}</span>
                           )}
                           {entry.notes && <p className="grafik-card__notes">{entry.notes}</p>}
                         </a>

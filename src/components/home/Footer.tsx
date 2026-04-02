@@ -23,21 +23,27 @@ const staticColumns = [
       { label: 'Regulamin', href: '/regulamin' },
     ],
   },
-  {
-    heading: 'Kontakt',
-    links: [
-      { label: '📍 Mokotów, Warszawa', href: '#' },
-      { label: '📞 +48 XXX XXX XXX', href: 'tel:+48000000000' },
-      { label: '✉️ kontakt@pantera.pl', href: 'mailto:kontakt@pantera.pl' },
-    ],
-  },
 ]
 
-const socialIcons: Record<string, string> = {
-  facebook: 'f',
-  instagram: 'ig',
-  youtube: 'yt',
-  tiktok: 'tt',
+const staticContactItems = [
+  { icon: 'location_on', label: 'ul. Powsińska 25, Warszawa', href: 'https://maps.google.com/?q=Powsinska+25+Warszawa' },
+  { icon: 'phone', label: '+48 508 689 718', href: 'tel:+48508689718' },
+  { icon: 'mail', label: 'kontakt@pantera.waw.pl', href: 'mailto:kontakt@pantera.waw.pl' },
+  { icon: 'schedule', label: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00', href: null },
+]
+
+// Font Awesome 6 Brands — klasy per platforma
+const faBrandIcons: Record<string, string> = {
+  facebook: 'fa-facebook',
+  instagram: 'fa-instagram',
+  youtube: 'fa-youtube',
+  tiktok: 'fa-tiktok',
+  linkedin: 'fa-linkedin',
+  twitter: 'fa-x-twitter',
+  snapchat: 'fa-snapchat',
+  pinterest: 'fa-pinterest',
+  whatsapp: 'fa-whatsapp',
+  telegram: 'fa-telegram',
 }
 
 export default function Footer({ data }: { data?: FooterType | null }) {
@@ -48,22 +54,29 @@ export default function Footer({ data }: { data?: FooterType | null }) {
     { platform: 'facebook' as const, url: 'https://facebook.com', id: 'fb' },
     { platform: 'instagram' as const, url: 'https://instagram.com', id: 'ig' },
   ]
+  const contactItems = (data as any)?.contactItems ?? staticContactItems
 
   return (
     <footer className="footer">
       <div className="footer__container">
         <div className="footer__brand">
           <div className="footer__logo">
-            <span>🐾 PANTERA</span>
-            <small>FAMILY &amp; SPORT CLUB</small>
+            <img src="/logo.svg" alt="Pantera Family & Sport Club" className="footer__logo-img" />
           </div>
           <p>{description}</p>
           <div className="footer__social">
-            {socialLinks.map((s) => (
-              <a key={s.id ?? s.platform} href={s.url} aria-label={s.platform}>
-                {socialIcons[s.platform] ?? s.platform}
-              </a>
-            ))}
+            {socialLinks.map((s) => {
+              const s2 = s as any
+              const faClass = s.platform === 'other'
+                ? `fa-${s2.customIcon ?? 'link'}`
+                : (faBrandIcons[s.platform] ?? 'fa-link')
+              const ariaLabel = s2.label || s.platform
+              return (
+                <a key={s.id ?? s.platform} href={s.url} aria-label={ariaLabel} title={ariaLabel}>
+                  <i className={`fa-brands ${faClass}`} aria-hidden="true" />
+                </a>
+              )
+            })}
           </div>
         </div>
         {columns.map((col) => (
@@ -78,6 +91,28 @@ export default function Footer({ data }: { data?: FooterType | null }) {
             </ul>
           </div>
         ))}
+        <div className="footer__col">
+          <h4>Kontakt</h4>
+          <ul className="footer__contact-list">
+            {contactItems.map((item: any, i: number) => {
+              const iconName = item.icon === 'other' ? (item.customIcon ?? 'link') : item.icon
+              const content = (
+                <>
+                  <span className="material-symbols-outlined footer__contact-icon">{iconName}</span>
+                  <span>{item.label}</span>
+                </>
+              )
+              return (
+                <li key={i} className="footer__contact-item">
+                  {item.href
+                    ? <a href={item.href} className="footer__contact-link">{content}</a>
+                    : <span className="footer__contact-link">{content}</span>
+                  }
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       </div>
       <div className="footer__bottom">
         <p>{bottomText}</p>

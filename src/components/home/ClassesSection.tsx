@@ -4,19 +4,19 @@ const classes = [
   {
     title: 'Dla Dzieci',
     desc: 'Budujemy pewność siebie i formy ruchowe u dzieci w bezpiecznym, rodzinnym środowisku.',
-    slug: 'krav-maga-dzieci',
+    href: '/zajecia?filter=children',
     color: '#2a5298',
   },
   {
     title: 'Dla Dorosłych',
     desc: 'Krav Maga, Karate i sztuki walki dla dorosłych. Naucz się jak się bronić i ćwicz efektywnie.',
-    slug: 'krav-maga',
+    href: '/zajecia?filter=adults',
     color: '#8b0000',
   },
   {
-    title: 'Harmonia i Zdrowie',
+    title: 'Tai Chi',
     desc: 'Tai Chi i zajęcia skupiające się na harmonii ciała i umysłu, dobre dla każdego wieku.',
-    slug: 'tai-chi',
+    href: '/zajecia/tai-chi',
     color: '#1a6b3c',
   },
 ]
@@ -30,16 +30,22 @@ export default function ClassesSection() {
         <p className="section-subtitle">Znajdź zajęcia idealne dla swojego wieku i celu treningowego</p>
         <div className="classes__grid">
           {classes.map((cls) => (
-            <div key={cls.slug} className="classes__card" style={{ background: cls.color }}>
+            <a key={cls.href} href={cls.href} className="classes__card" style={{ background: cls.color }}>
               <div className="classes__card-overlay" />
               <div className="classes__card-content">
                 <h3>{cls.title}</h3>
-                <p>{cls.desc}</p>
-                <a href={`/zajecia/${cls.slug}`} className="btn btn--white-outline">Sprawdź ofertę →</a>
+                <div className="classes__card-hover">
+                  <div>
+                    <p>{cls.desc}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
+      </div>
+      <div className="classes__divider" aria-hidden="true">
+        <img src="/divider2.svg" alt="" />
       </div>
     </section>
   )

@@ -22,7 +22,9 @@ const staticCards = [
   },
 ]
 
-function getImageUrl(img: HomepageService['cards'][number]['image']): string | null {
+type CardImage = NonNullable<HomepageService['cards']>[number]['image']
+
+function getImageUrl(img: CardImage): string | null {
   if (!img || typeof img === 'number') return null
   return (img as Media).url ?? null
 }

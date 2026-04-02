@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@/components/ui/Icon'
 import type { Media } from '@/payload-types'
 
 interface HeroData {
@@ -32,16 +33,27 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   return (
     <section className="hero" style={style}>
       <div className="hero__overlay" />
+      <div className="hero__container">
       <div className="hero__content">
-        <div className="hero__badge">PANTERA FAMILY &amp; SPORT CLUB</div>
+        <div className="hero__proof">
+          <div className="hero__stars">
+            <Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /> <span>{googleText}</span>
+          </div>
+        </div>
         <h1 className="hero__title">{title}</h1>
         <p className="hero__desc">{description}</p>
         <a href={ctaLink} className="btn btn--orange">{ctaText}</a>
-        <div className="hero__proof">
-          <div className="hero__stars">
-            ★★★★★ <span>{googleText}</span>
+        <div className="hero__partners" aria-label="Partnerzy">
+          <span className="hero__partners-label">Zrzeszeni w:</span>
+          <div className="hero__partners-logos">
+            <img src="/partners/united-krav-maga.svg" alt="United Krav Maga" className="partner-united" />
+            <img src="/partners/zawsze-w-formie.svg" alt="Zawsze w Formie" className="partner-zwf" />
           </div>
         </div>
+      </div>
+      </div>
+      <div className="hero__divider" aria-hidden="true">
+        <img src="/divider2.svg" alt="" />
       </div>
     </section>
   )

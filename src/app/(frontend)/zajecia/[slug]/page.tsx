@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -114,7 +115,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
           <nav className="class-header__breadcrumb" aria-label="Breadcrumb">
             <a href="/">Strona główna</a>
             <span>›</span>
-            <a href="/zajecia">Zajęcia</a>
+            <Link href="/zajecia">Zajęcia</Link>
             <span>›</span>
             <span style={{ color: 'rgba(255,255,255,0.8)' }}>{cls.title}</span>
           </nav>
@@ -267,9 +268,9 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
             <a href={cls.cta?.buttonLink ?? '/kontakt'} className="btn btn--orange">
               {cls.cta?.buttonText ?? 'Zapisz się na zajęcia'}
             </a>
-            <a href="/zajecia" className="btn btn--outline-white">
+            <Link href="/zajecia" className="btn btn--outline-white">
               ← Wszystkie zajęcia
-            </a>
+            </Link>
           </div>
         </div>
       </section>

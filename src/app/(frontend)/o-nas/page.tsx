@@ -1,4 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
+import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Instructor, Media, Navigation, Footer as FooterType } from '@/payload-types'
@@ -106,22 +108,22 @@ export default async function AboutPage() {
           </p>
           <div className="about-philosophy__grid">
             <div className="pillar">
-              <span className="pillar__icon">🛡️</span>
+              <span className="pillar__icon"><Icon name="shield" size={36} /></span>
               <h3>Bezpieczeństwo przede wszystkim</h3>
               <p>Każde zajęcia są prowadzone z dbałością o bezpieczeństwo uczestników. Uczymy technik obronnych, nie agresji.</p>
             </div>
             <div className="pillar">
-              <span className="pillar__icon">👥</span>
+              <span className="pillar__icon"><Icon name="group" size={36} /></span>
               <h3>Małe grupy, duże efekty</h3>
               <p>Pracujemy w grupach do 12 osób, by instruktor mógł poświęcić czas każdemu z uczestników indywidualnie.</p>
             </div>
             <div className="pillar">
-              <span className="pillar__icon">🤝</span>
+              <span className="pillar__icon"><Icon name="handshake" size={36} /></span>
               <h3>Odpowiedzialność i szacunek</h3>
               <p>Sztuki walki uczą pokory. W Panterze kształtujemy charakter równie mocno, co sprawność fizyczną.</p>
             </div>
             <div className="pillar">
-              <span className="pillar__icon">🥋</span>
+              <span className="pillar__icon"><Icon name="sports_martial_arts" size={36} /></span>
               <h3>Praktyka, nie teoria</h3>
               <p>Nasze metody są sprawdzone w realnych sytuacjach. Uczymy tego, co działa – zarówno w sporcie, jak i życiu.</p>
             </div>
@@ -157,7 +159,7 @@ export default async function AboutPage() {
       <section className="about-foundation">
         <div className="container">
           <div className="about-foundation__card">
-            <div className="about-foundation__badge">🏆</div>
+            <div className="about-foundation__badge"><Icon name="emoji_events" size={40} /></div>
             <div>
               <div className="label">DZIAŁALNOŚĆ SPOŁECZNA</div>
               <h2>Fundacja „Zawsze w Formie"</h2>
@@ -211,10 +213,8 @@ export default async function AboutPage() {
             {teamItems.map((instructor) => {
               const photoUrl = getPhotoUrl(instructor.photo)
               const slug = (instructor as Instructor).slug
-              const CardEl = slug ? 'a' : 'div'
-              const cardProps = slug ? { href: `/kadra/${slug}` } : {}
-              return (
-                <CardEl key={instructor.id} className={`team-card${slug ? ' team-card--link' : ''}`} {...(cardProps as any)}>
+              const cardInner = (
+                <>
                   {photoUrl ? (
                     <img src={photoUrl} alt={instructor.name} className="team-card__photo" />
                   ) : (
@@ -226,7 +226,16 @@ export default async function AboutPage() {
                     <p className="team-card__bio">{instructor.bio}</p>
                     {slug && <span className="team-card__more">Zobacz profil →</span>}
                   </div>
-                </CardEl>
+                </>
+              )
+              return slug ? (
+                <Link key={instructor.id} href={`/kadra/${slug}`} className="team-card team-card--link">
+                  {cardInner}
+                </Link>
+              ) : (
+                <div key={instructor.id} className="team-card">
+                  {cardInner}
+                </div>
               )
             })}
           </div>

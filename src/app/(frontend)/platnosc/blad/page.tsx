@@ -22,7 +22,7 @@ export default async function PlatnoscBladPage() {
       <Navbar data={navData} />
       <main>
         <section className="pay-result pay-result--error">
-          <div className="pay-result__icon">✕</div>
+          <div className="pay-result__icon"><span className="material-symbols-outlined">cancel</span></div>
           <h1 className="pay-result__title">Płatność nieudana</h1>
           <p className="pay-result__text">
             Coś poszło nie tak. Możesz spróbować ponownie lub skontaktować się z nami.

@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Navigation, Footer as FooterType } from '@/payload-types'
@@ -85,28 +86,28 @@ export default async function KontaktPage() {
           {/* INFO */}
           <aside className="kontakt-info">
             <div className="kontakt-info__card">
-              <div className="kontakt-info__icon">📍</div>
+              <div className="kontakt-info__icon"><Icon name="location_on" /></div>
               <div>
                 <div className="kontakt-info__label">Adres</div>
                 <div className="kontakt-info__value">ul. Powsińska 25<br />Warszawa, Mokotów (Sadyba)</div>
               </div>
             </div>
             <div className="kontakt-info__card">
-              <div className="kontakt-info__icon">📞</div>
+              <div className="kontakt-info__icon"><Icon name="phone" /></div>
               <div>
                 <div className="kontakt-info__label">Telefon</div>
                 <a href="tel:+48508689718" className="kontakt-info__value kontakt-info__link">508 689 718</a>
               </div>
             </div>
             <div className="kontakt-info__card">
-              <div className="kontakt-info__icon">✉️</div>
+              <div className="kontakt-info__icon"><Icon name="mail" /></div>
               <div>
                 <div className="kontakt-info__label">E-mail</div>
                 <a href="mailto:kontakt@pantera.waw.pl" className="kontakt-info__value kontakt-info__link">kontakt@pantera.waw.pl</a>
               </div>
             </div>
             <div className="kontakt-info__card">
-              <div className="kontakt-info__icon">🕐</div>
+              <div className="kontakt-info__icon"><Icon name="schedule" /></div>
               <div>
                 <div className="kontakt-info__label">Godziny otwarcia</div>
                 <div className="kontakt-info__value">Pon–Pt: 15:00–21:00<br />Sob: 9:00–14:00</div>

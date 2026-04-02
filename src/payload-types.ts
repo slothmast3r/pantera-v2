@@ -1389,10 +1389,50 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Linki do mediów społecznościowych wyświetlane w stopce.
+   */
   socialLinks?:
     | {
-        platform: 'facebook' | 'instagram' | 'youtube' | 'tiktok';
+        platform:
+          | 'facebook'
+          | 'instagram'
+          | 'youtube'
+          | 'tiktok'
+          | 'linkedin'
+          | 'twitter'
+          | 'snapchat'
+          | 'pinterest'
+          | 'whatsapp'
+          | 'telegram'
+          | 'other';
         url: string;
+        /**
+         * Nazwa klasy Font Awesome Brands bez prefiksu "fa-", np. "mastodon", "bluesky", "threads". Lista: fontawesome.com/icons?f=brands
+         */
+        customIcon?: string | null;
+        /**
+         * Tekst dla czytników ekranowych, np. "Śledź nas na Instagramie".
+         */
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Dane kontaktowe wyświetlane w stopce jako osobna kolumna "Kontakt".
+   */
+  contactItems?:
+    | {
+        icon: 'location_on' | 'phone' | 'mail' | 'schedule' | 'language' | 'map' | 'chat' | 'fax' | 'other';
+        /**
+         * Nazwa ikony z fonts.google.com/icons, np. "storefront", "park". Aktywne tylko gdy wybrano "Inne".
+         */
+        customIcon?: string | null;
+        label: string;
+        /**
+         * Np. tel:+48508689718 lub mailto:kontakt@pantera.waw.pl lub https://...
+         */
+        href?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -1546,6 +1586,17 @@ export interface FooterSelect<T extends boolean = true> {
     | {
         platform?: T;
         url?: T;
+        customIcon?: T;
+        label?: T;
+        id?: T;
+      };
+  contactItems?:
+    | T
+    | {
+        icon?: T;
+        customIcon?: T;
+        label?: T;
+        href?: T;
         id?: T;
       };
   bottomText?: T;

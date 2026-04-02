@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '@/components/ui/Icon'
 import type { Testimonial } from '@/payload-types'
 
 const staticTestimonials = [
@@ -33,7 +34,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
         <div className="testimonials__grid">
           {items.map((t) => (
             <div key={t.id} className="testimonials__card">
-              <div className="testimonials__stars">{'★'.repeat(t.rating ?? 5)}</div>
+              <div className="testimonials__stars">{Array.from({ length: t.rating ?? 5 }).map((_, i) => <Icon key={i} name="star" className="testimonials__star-icon" />)}</div>
               <p className="testimonials__text">&ldquo;{t.content}&rdquo;</p>
               <div className="testimonials__footer">
                 <div className="testimonials__avatar">{t.author[0]}</div>

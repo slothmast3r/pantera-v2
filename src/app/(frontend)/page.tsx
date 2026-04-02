@@ -20,7 +20,6 @@ import PricingSection from '@/components/home/PricingSection'
 import ServicesSection from '@/components/home/ServicesSection'
 import CTASection from '@/components/home/CTASection'
 import Footer from '@/components/home/Footer'
-import PartnersSection from '@/components/home/PartnersSection'
 import './homepage.css'
 
 type HeroBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'hero' }>
@@ -71,7 +70,6 @@ export default async function HomePage() {
     <>
       <Navbar data={nav} />
       <HeroSection data={heroBlock} />
-      <PartnersSection />
       <ClassesSection />
       <BenefitsSection />
       <TestimonialsSection testimonials={testimonials} />

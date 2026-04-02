@@ -26,7 +26,7 @@ ul { list-style: none; }
 
 /* ===== SECTION UTILITIES ===== */
 .section-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
-.section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; color: #F57C28; text-transform: uppercase; margin-bottom: 10px; }
+.section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; color: #0094FF; text-transform: uppercase; margin-bottom: 10px; }
 .section-label--white { color: rgba(255,255,255,0.7); }
 .section-title { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: #1C1C1C; }
 .section-title--left { text-align: left; }
@@ -47,7 +47,7 @@ ul { list-style: none; }
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--hero-bg, url('/hero-bg.jpg')) center/cover no-repeat;
+  background: var(--hero-bg, url('/hero-pantera.png')) center/cover no-repeat;
   opacity: 0.3;
 }
 .hero__overlay {
@@ -55,17 +55,23 @@ ul { list-style: none; }
   inset: 0;
   background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 100%);
 }
-.hero__content {
+.hero__container {
   position: relative;
   z-index: 1;
-  max-width: 700px;
-  padding: 80px 20px 80px 5vw;
+  width: 100%;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.hero__content {
+  max-width: 640px;
+  padding: 80px 0 130px;
 }
 .hero__badge {
   display: inline-block;
-  background: rgba(245,124,40,0.2);
-  border: 1px solid #F57C28;
-  color: #F57C28;
+  background: rgba(0,148,255,0.15);
+  border: 1px solid #0094FF;
+  color: #0094FF;
   font-size: 0.7rem;
   letter-spacing: 0.15em;
   font-weight: 700;
@@ -90,13 +96,64 @@ ul { list-style: none; }
   line-height: 1.7;
 }
 .hero__proof {
-  margin-top: 32px;
+  margin-top: 0;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
 }
-.hero__stars { color: #F57C28; font-size: 0.9rem; }
+.hero__stars { color: #F5C518; font-size: 0.9rem; display: flex; align-items: center; gap: 1px; flex-wrap: wrap; }
 .hero__stars span { color: rgba(255,255,255,0.6); margin-left: 6px; }
+.hero__star-icon { font-size: 18px !important; }
+.testimonials__star-icon { font-size: 16px !important; }
+.pricing__check-icon { font-size: 16px !important; color: #0094FF; vertical-align: middle; margin-right: 2px; }
+.navbar__chevron { font-size: 18px !important; vertical-align: middle; margin-left: 1px; }
+.hero__partners {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.hero__partners-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  white-space: nowrap;
+}
+.hero__partners-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.hero__partners-logos img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.hero__partners-logos img:hover { opacity: 1; }
+.hero__divider {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.hero__divider img {
+  width: 100%;
+  height: 50px;
+  display: block;
+  /* #F5F5F5 — kolor tła sekcji Zajęcia */
+  filter: brightness(0) invert(0.96);
+}
 
 /* ===== PARTNERS ===== */
 .partners {
@@ -144,8 +201,25 @@ ul { list-style: none; }
 /* ===== CLASSES ===== */
 .classes {
   background: #F5F5F5;
-  padding: 80px 0;
+  padding: 80px 0 130px;
   text-align: center;
+  position: relative;
+}
+.classes__divider {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  line-height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.classes__divider img {
+  width: 100%;
+  height: 50px;
+  display: block;
+  /* #ffffff — kolor tła sekcji Benefits */
+  filter: brightness(0) invert(1);
 }
 .classes__grid {
   display: grid;
@@ -163,11 +237,15 @@ ul { list-style: none; }
   cursor: pointer;
   transition: transform 0.3s;
 }
-.classes__card:hover { transform: translateY(-4px); }
+.classes__card:hover { }
 .classes__card-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  transition: opacity 0.3s;
+}
+.classes__card:hover .classes__card-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.15) 100%);
 }
 .classes__card-content {
   position: relative;
@@ -175,9 +253,34 @@ ul { list-style: none; }
   padding: 28px;
   text-align: left;
   color: #fff;
+  width: 100%;
 }
-.classes__card-content h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
-.classes__card-content p { font-size: 0.88rem; margin-bottom: 20px; opacity: 0.9; line-height: 1.6; }
+.classes__card-content h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0; }
+.classes__card-hover {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+  overflow: hidden;
+}
+.classes__card:hover .classes__card-hover {
+  grid-template-rows: 1fr;
+}
+.classes__card-hover > div {
+  overflow: hidden;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.classes__card:hover .classes__card-hover > div {
+  transform: translateY(0);
+  opacity: 1;
+}
+.classes__card-hover p {
+  font-size: 0.88rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  margin: 12px 0 20px;
+}
 
 /* ===== BENEFITS ===== */
 .benefits { padding: 80px 0; background: #fff; }
@@ -195,22 +298,28 @@ ul { list-style: none; }
   aspect-ratio: 4/5;
   background: linear-gradient(135deg, #1C1C1C, #3a3a3a);
   border-radius: 12px;
-  background-image: url('/boxing-gloves.jpg');
-  background-size: cover;
+  background-image: url('/gloves.png');
+  background-size: contain;
   background-position: center;
+  background-repeat: no-repeat;
 }
 .benefits__list { margin: 32px 0; display: flex; flex-direction: column; gap: 24px; padding: 0; list-style: none; }
 .benefits__item { display: flex; gap: 16px; align-items: flex-start; }
 .benefits__icon {
-  font-size: 1.3rem;
   flex-shrink: 0;
   width: 44px;
   height: 44px;
-  background: rgba(245,124,40,0.1);
+  background: rgba(0,148,255,0.1);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.benefits__icon-img {
+  width: 22px;
+  height: 22px;
+  /* #0094FF — niebieski kolor akcentu */
+  filter: brightness(0) saturate(100%) invert(40%) sepia(90%) saturate(600%) hue-rotate(190deg) brightness(105%) contrast(105%);
 }
 .benefits__item strong { font-size: 1rem; display: block; margin-bottom: 4px; color: #1C1C1C; }
 .benefits__item p { font-size: 0.88rem; color: #666; margin: 0; line-height: 1.6; }
@@ -268,13 +377,13 @@ ul { list-style: none; }
 }
 .instructors__info { padding: 20px; }
 .instructors__info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; color: #1C1C1C; }
-.instructors__spec { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: #F57C28; text-transform: uppercase; }
+.instructors__spec { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: #0094FF; text-transform: uppercase; }
 .instructors__info p { font-size: 0.85rem; color: #666; margin-top: 10px; line-height: 1.6; }
 
 /* ===== PRICING ===== */
 .pricing {
   padding: 80px 0;
-  background: #F57C28;
+  background: #0f3460;
   text-align: center;
 }
 .pricing__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; align-items: start; }
@@ -300,7 +409,7 @@ ul { list-style: none; }
 .pricing__name { font-size: 1rem; font-weight: 700; margin-bottom: 20px; }
 .pricing__price { margin-bottom: 28px; }
 .pricing__amount { font-size: 2.4rem; font-weight: 900; line-height: 1; }
-.pricing__card--featured .pricing__amount { color: #F57C28; }
+.pricing__card--featured .pricing__amount { color: #0094FF; }
 .pricing__period { font-size: 0.85rem; opacity: 0.8; margin-left: 4px; }
 .pricing__features { margin-bottom: 32px; display: flex; flex-direction: column; gap: 10px; padding: 0; list-style: none; }
 .pricing__features li { font-size: 0.88rem; opacity: 0.9; }
@@ -325,7 +434,7 @@ ul { list-style: none; }
   background-position: center;
 }
 .services__tag {
-  background: #F57C28;
+  background: #0094FF;
   color: #fff;
   font-size: 0.72rem;
   font-weight: 700;

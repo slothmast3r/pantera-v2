@@ -1,23 +1,24 @@
 import React from 'react'
+import Link from 'next/link'
 
 const benefits = [
   {
-    icon: '🛡️',
+    icon: '/icons/shield.svg',
     title: 'Bezpieczeństwo',
     desc: 'Bezpieczeństwo w całej naszej szkole i metody nauczania są najwyższym priorytetem.',
   },
   {
-    icon: '👥',
+    icon: '/icons/family.svg',
     title: 'Kameralność',
     desc: 'Małe grupy, bliskie relacje, przyjazna i motywująca atmosfera.',
   },
   {
-    icon: '🥋',
+    icon: '/icons/diploma.svg',
     title: 'Profesjonalne kadry',
     desc: 'Nasi instruktorzy posiadają wieloletnie doświadczenie i certyfikacje.',
   },
   {
-    icon: '❤️',
+    icon: '/icons/heart-infinity.svg',
     title: 'Rodzinna społeczność',
     desc: 'Dołącz do Pantery i stań się częścią bezpiecznej rodzinnej społeczności.',
   },
@@ -36,7 +37,9 @@ export default function BenefitsSection() {
           <ul className="benefits__list">
             {benefits.map((b) => (
               <li key={b.title} className="benefits__item">
-                <span className="benefits__icon">{b.icon}</span>
+                <span className="benefits__icon">
+                  <img src={b.icon} alt="" aria-hidden="true" className="benefits__icon-img" />
+                </span>
                 <div>
                   <strong>{b.title}</strong>
                   <p>{b.desc}</p>
@@ -44,7 +47,7 @@ export default function BenefitsSection() {
               </li>
             ))}
           </ul>
-          <a href="/zajecia" className="btn btn--orange">Wybierz zajęcia →</a>
+          <Link href="/zajecia" className="btn btn--orange">Wybierz zajęcia →</Link>
         </div>
       </div>
     </section>

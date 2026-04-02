@@ -55,7 +55,7 @@ export default async function PlatnoscPage() {
                 <a href="/kontakt" className="pay-info__link">Skontaktuj się →</a>
               </div>
               <div className="pay-info__secure">
-                <span className="pay-info__secure-icon">🔒</span>
+                <span className="pay-info__secure-icon material-symbols-outlined">lock</span>
                 <span>Płatność obsługiwana przez <strong>tpay.com</strong> — certyfikowane centrum płatności</span>
               </div>
             </div>

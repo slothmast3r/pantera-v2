@@ -83,12 +83,6 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
           ],
         },
       ],
-      contactItems: [
-        { icon: 'location_on', label: 'ul. Powsińska 25, Warszawa', href: 'https://maps.google.com/?q=Powsinska+25+Warszawa' },
-        { icon: 'phone', label: '+48 508 689 718', href: 'tel:+48508689718' },
-        { icon: 'mail', label: 'kontakt@pantera.waw.pl', href: 'mailto:kontakt@pantera.waw.pl' },
-        { icon: 'schedule', label: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00', href: null },
-      ],
       socialLinks: [
         { platform: 'facebook', url: 'https://facebook.com/panterafamilysportclub' },
         { platform: 'instagram', url: 'https://instagram.com/panterafsc' },
@@ -97,6 +91,21 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
     },
   })
   console.log('Updated footer global')
+
+  // ===== CONTACT INFO =====
+  console.log('Seeding contact-info global...')
+  await payload.updateGlobal({
+    slug: 'contact-info',
+    data: {
+      address: 'ul. Powsińska 25, Warszawa, Mokotów (Sadyba)',
+      addressLink: 'https://maps.google.com/?q=Powsinska+25+Warszawa',
+      phone: '508 689 718',
+      email: 'kontakt@pantera.waw.pl',
+      hours: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00',
+      mapEmbedUrl: 'https://maps.google.com/maps?q=Powsi%C5%84ska+25+Warszawa&output=embed&hl=pl&z=16',
+    },
+  })
+  console.log('Updated contact-info global')
 
   // ===== HOME PAGE =====
   console.log('Seeding home page...')

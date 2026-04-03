@@ -1,13 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import type { Footer as FooterType } from '@/payload-types'
-
-type ContactItem = {
-  icon: string
-  customIcon?: string | null
-  label: string
-  href?: string | null
-}
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import type { Footer as FooterType, ContactInfo } from '@/payload-types'
 
 type SocialLinkExtra = {
   customIcon?: string
@@ -29,7 +24,7 @@ const staticColumns = [
     heading: 'Klub',
     links: [
       { label: 'O nas', href: '/o-nas' },
-      { label: 'Dla Firm', href: '/dla-firm' },
+      { label: 'Dla Firm', href: '/oferta/dla-firm' },
       { label: 'Grafik', href: '/grafik' },
       { label: 'Płatność online', href: '/platnosc' },
       { label: 'Kontakt', href: '/kontakt' },
@@ -38,14 +33,15 @@ const staticColumns = [
   },
 ]
 
-const staticContactItems = [
-  { icon: 'location_on', label: 'ul. Powsińska 25, Warszawa', href: 'https://maps.google.com/?q=Powsinska+25+Warszawa' },
-  { icon: 'phone', label: '+48 508 689 718', href: 'tel:+48508689718' },
-  { icon: 'mail', label: 'kontakt@pantera.waw.pl', href: 'mailto:kontakt@pantera.waw.pl' },
-  { icon: 'schedule', label: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00', href: null },
-]
+const staticContactInfo = {
+  address: 'ul. Powsińska 25, Warszawa, Mokotów (Sadyba)',
+  addressLink: 'https://maps.google.com/?q=Powsinska+25+Warszawa',
+  phone: '508 689 718',
+  email: 'kontakt@pantera.waw.pl',
+  hours: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00',
+  mapEmbedUrl: null,
+}
 
-// Font Awesome 6 Brands — klasy per platforma
 const faBrandIcons: Record<string, string> = {
   facebook: 'fa-facebook',
   instagram: 'fa-instagram',
@@ -59,7 +55,17 @@ const faBrandIcons: Record<string, string> = {
   telegram: 'fa-telegram',
 }
 
-export default function Footer({ data }: { data?: FooterType | null }) {
+export default async function Footer({ data }: { data?: FooterType | null }) {
+  let contactInfo: ContactInfo | typeof staticContactInfo = staticContactInfo
+
+  try {
+    const payload = await getPayload({ config })
+    const ci = await payload.findGlobal({ slug: 'contact-info' })
+    if (ci) contactInfo = ci
+  } catch {
+    // DB unavailable — fall back to static
+  }
+
   const columns = data?.columns ?? staticColumns
   const description = data?.description ?? 'Rodzinny klub sportowy na Mokotowie. Krav Maga, Karate, Tai Chi.'
   const bottomText = data?.bottomText ?? '© 2024 Pantera Family & Sport Club. Wszelkie prawa zastrzeżone.'
@@ -67,7 +73,29 @@ export default function Footer({ data }: { data?: FooterType | null }) {
     { platform: 'facebook' as const, url: 'https://facebook.com', id: 'fb' },
     { platform: 'instagram' as const, url: 'https://instagram.com', id: 'ig' },
   ]
-  const contactItems = (data as FooterType & { contactItems?: ContactItem[] })?.contactItems ?? staticContactItems
+
+  const contactItems = [
+    contactInfo.address && {
+      icon: 'location_on',
+      label: contactInfo.address,
+      href: contactInfo.addressLink ?? null,
+    },
+    contactInfo.phone && {
+      icon: 'phone',
+      label: contactInfo.phone,
+      href: `tel:${contactInfo.phone.replace(/\s/g, '')}`,
+    },
+    contactInfo.email && {
+      icon: 'mail',
+      label: contactInfo.email,
+      href: `mailto:${contactInfo.email}`,
+    },
+    contactInfo.hours && {
+      icon: 'schedule',
+      label: contactInfo.hours,
+      href: null,
+    },
+  ].filter(Boolean) as { icon: string; label: string; href: string | null }[]
 
   return (
     <footer className="footer">
@@ -108,11 +136,10 @@ export default function Footer({ data }: { data?: FooterType | null }) {
         <div className="footer__col">
           <h4>Kontakt</h4>
           <ul className="footer__contact-list">
-            {contactItems.map((item: ContactItem, i: number) => {
-              const iconName = item.icon === 'other' ? (item.customIcon ?? 'link') : item.icon
+            {contactItems.map((item, i) => {
               const content = (
                 <>
-                  <span className="material-symbols-outlined footer__contact-icon">{iconName}</span>
+                  <span className="material-symbols-outlined footer__contact-icon">{item.icon}</span>
                   <span>{item.label}</span>
                 </>
               )

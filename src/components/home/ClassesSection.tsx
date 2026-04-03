@@ -33,7 +33,10 @@ export default function ClassesSection() {
             <a key={cls.href} href={cls.href} className="classes__card" style={{ background: cls.color }}>
               <div className="classes__card-overlay" />
               <div className="classes__card-content">
-                <h3>{cls.title}</h3>
+                <div className="classes__card-title-row">
+                  <h3>{cls.title}</h3>
+                  <span className="classes__card-arrow">→</span>
+                </div>
                 <div className="classes__card-hover">
                   <div>
                     <p>{cls.desc}</p>

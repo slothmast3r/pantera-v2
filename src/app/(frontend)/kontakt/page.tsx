@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Navigation, Footer as FooterType } from '@/payload-types'
+import type { Navigation, Footer as FooterType, ContactInfo } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import KontaktForm from './KontaktForm'
@@ -41,21 +41,34 @@ const staticFaq = [
   },
 ]
 
+const staticContactInfo = {
+  address: 'ul. Powsińska 25',
+  addressSub: 'Warszawa, Mokotów (Sadyba)',
+  addressLink: 'https://maps.google.com/?q=Powsinska+25+Warszawa',
+  phone: '508 689 718',
+  email: 'kontakt@pantera.waw.pl',
+  hours: 'Pon–Pt: 15:00–21:00\nSob: 9:00–14:00',
+  mapEmbedUrl: 'https://maps.google.com/maps?q=Powsi%C5%84ska+25+Warszawa&output=embed&hl=pl&z=16',
+}
+
 export default async function KontaktPage() {
   let nav: Navigation | null = null
   let footer: FooterType | null = null
   let faqItems = staticFaq
+  let contactInfo: ContactInfo | typeof staticContactInfo = staticContactInfo
 
   try {
     const payload = await getPayload({ config })
-    const [navRes, footerRes, faqRes] = await Promise.all([
+    const [navRes, footerRes, faqRes, contactRes] = await Promise.all([
       payload.findGlobal({ slug: 'navigation' }),
       payload.findGlobal({ slug: 'footer' }),
       payload.find({ collection: 'faq', limit: 20, sort: 'order' }),
+      payload.findGlobal({ slug: 'contact-info' }),
     ])
     nav = navRes
     footer = footerRes
     if (faqRes.docs.length > 0) faqItems = faqRes.docs as typeof staticFaq
+    if (contactRes) contactInfo = contactRes
   } catch {
     // DB unavailable — fall back to static data
   }
@@ -85,43 +98,56 @@ export default async function KontaktPage() {
 
           {/* INFO */}
           <aside className="kontakt-info">
-            <div className="kontakt-info__card">
-              <div className="kontakt-info__icon"><Icon name="location_on" /></div>
-              <div>
-                <div className="kontakt-info__label">Adres</div>
-                <div className="kontakt-info__value">ul. Powsińska 25<br />Warszawa, Mokotów (Sadyba)</div>
+            {contactInfo.address && (
+              <div className="kontakt-info__card">
+                <div className="kontakt-info__icon"><Icon name="location_on" /></div>
+                <div>
+                  <div className="kontakt-info__label">Adres</div>
+                  {contactInfo.addressLink
+                    ? <a href={contactInfo.addressLink} target="_blank" rel="noopener noreferrer" className="kontakt-info__value kontakt-info__link">{contactInfo.address}</a>
+                    : <div className="kontakt-info__value">{contactInfo.address}</div>
+                  }
+                </div>
               </div>
-            </div>
-            <div className="kontakt-info__card">
-              <div className="kontakt-info__icon"><Icon name="phone" /></div>
-              <div>
-                <div className="kontakt-info__label">Telefon</div>
-                <a href="tel:+48508689718" className="kontakt-info__value kontakt-info__link">508 689 718</a>
+            )}
+            {contactInfo.phone && (
+              <div className="kontakt-info__card">
+                <div className="kontakt-info__icon"><Icon name="phone" /></div>
+                <div>
+                  <div className="kontakt-info__label">Telefon</div>
+                  <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="kontakt-info__value kontakt-info__link">{contactInfo.phone}</a>
+                </div>
               </div>
-            </div>
-            <div className="kontakt-info__card">
-              <div className="kontakt-info__icon"><Icon name="mail" /></div>
-              <div>
-                <div className="kontakt-info__label">E-mail</div>
-                <a href="mailto:kontakt@pantera.waw.pl" className="kontakt-info__value kontakt-info__link">kontakt@pantera.waw.pl</a>
+            )}
+            {contactInfo.email && (
+              <div className="kontakt-info__card">
+                <div className="kontakt-info__icon"><Icon name="mail" /></div>
+                <div>
+                  <div className="kontakt-info__label">E-mail</div>
+                  <a href={`mailto:${contactInfo.email}`} className="kontakt-info__value kontakt-info__link">{contactInfo.email}</a>
+                </div>
               </div>
-            </div>
-            <div className="kontakt-info__card">
-              <div className="kontakt-info__icon"><Icon name="schedule" /></div>
-              <div>
-                <div className="kontakt-info__label">Godziny otwarcia</div>
-                <div className="kontakt-info__value">Pon–Pt: 15:00–21:00<br />Sob: 9:00–14:00</div>
+            )}
+            {contactInfo.hours && (
+              <div className="kontakt-info__card">
+                <div className="kontakt-info__icon"><Icon name="schedule" /></div>
+                <div>
+                  <div className="kontakt-info__label">Godziny otwarcia</div>
+                  <div className="kontakt-info__value" style={{ whiteSpace: 'pre-line' }}>{contactInfo.hours}</div>
+                </div>
               </div>
-            </div>
-            <div className="kontakt-info__map">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2445.9!2d21.048!3d52.192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTLCsDExJzMxLjIiTiAyMcKwMDInNTIuOCJF!5e0!3m2!1spl!2spl!4v1234567890"
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Lokalizacja Pantera"
-              />
-            </div>
+            )}
+            {contactInfo.mapEmbedUrl && (
+              <div className="kontakt-info__map">
+                <iframe
+                  src={contactInfo.mapEmbedUrl}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Lokalizacja Pantera"
+                />
+              </div>
+            )}
           </aside>
 
         </div>

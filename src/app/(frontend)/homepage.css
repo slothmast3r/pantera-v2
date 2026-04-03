@@ -25,7 +25,7 @@ ul { list-style: none; }
 .btn--white-outline:hover { background: rgba(255,255,255,0.15); }
 
 /* ===== SECTION UTILITIES ===== */
-.section-container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+.section-container { max-width: clamp(1140px, 85vw, 1600px); margin: 0 auto; padding: 0 20px; }
 .section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; color: #0094FF; text-transform: uppercase; margin-bottom: 10px; }
 .section-label--white { color: rgba(255,255,255,0.7); }
 .section-title { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: #1C1C1C; }
@@ -59,7 +59,7 @@ ul { list-style: none; }
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1140px;
+  max-width: clamp(1140px, 85vw, 1600px);
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -162,7 +162,7 @@ ul { list-style: none; }
   padding: 20px 20px;
 }
 .partners__inner {
-  max-width: 1140px;
+  max-width: clamp(1140px, 85vw, 1600px);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -255,6 +255,7 @@ ul { list-style: none; }
   color: #fff;
   width: 100%;
 }
+.classes__card-title-row { display: flex; align-items: center; justify-content: space-between; }
 .classes__card-content h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0; }
 .classes__card-hover {
   display: grid;
@@ -279,13 +280,21 @@ ul { list-style: none; }
   font-size: 0.88rem;
   opacity: 0.9;
   line-height: 1.6;
-  margin: 12px 0 20px;
+  margin: 12px 0 16px;
 }
+.classes__card-arrow {
+  font-size: 1.2rem;
+  color: rgba(255,255,255,0.5);
+  display: inline-block;
+  transition: transform 0.25s, color 0.25s;
+  flex-shrink: 0;
+}
+.classes__card:hover .classes__card-arrow { transform: translateX(5px); color: #fff; }
 
 /* ===== BENEFITS ===== */
 .benefits { padding: 80px 0; background: #fff; }
 .benefits__container {
-  max-width: 1140px;
+  max-width: clamp(1140px, 85vw, 1600px);
   margin: 0 auto;
   padding: 0 20px;
   display: grid;
@@ -481,6 +490,8 @@ ul { list-style: none; }
     grid-template-columns: repeat(2, 1fr);
   }
   .benefits__container { grid-template-columns: 1fr; gap: 40px; }
+  .benefits__image { order: 2; }
+  .benefits__content { order: 1; }
 }
 
 @media (max-width: 768px) {

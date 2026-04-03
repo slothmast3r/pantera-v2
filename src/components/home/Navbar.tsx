@@ -91,7 +91,11 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
   }
 
   return (
-    <nav className="navbar">
+    <>
+      {menuOpen && (
+        <div className="navbar__overlay" onClick={() => { setMenuOpen(false); setOpenDropdown(null) }} />
+      )}
+      <nav className="navbar">
       <div className="navbar__container">
         <Link href="/" className="navbar__logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -162,9 +166,12 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
           }}
           aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
         >
-          <Icon name={menuOpen ? 'close' : 'menu'} />
+          <span className="navbar__hamburger-bar" />
+          <span className="navbar__hamburger-bar" />
+          <span className="navbar__hamburger-bar" />
         </button>
       </div>
     </nav>
+    </>
   )
 }

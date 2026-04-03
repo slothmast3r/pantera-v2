@@ -107,6 +107,7 @@ export interface Config {
     schedule: Schedule;
     'homepage-services': HomepageService;
     'homepage-pricing': HomepagePricing;
+    'contact-info': ContactInfo;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
@@ -114,6 +115,7 @@ export interface Config {
     schedule: ScheduleSelect<false> | ScheduleSelect<true>;
     'homepage-services': HomepageServicesSelect<false> | HomepageServicesSelect<true>;
     'homepage-pricing': HomepagePricingSelect<false> | HomepagePricingSelect<true>;
+    'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
   };
   locale: null;
   widgets: {
@@ -1418,24 +1420,6 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Dane kontaktowe wyświetlane w stopce jako osobna kolumna "Kontakt".
-   */
-  contactItems?:
-    | {
-        icon: 'location_on' | 'phone' | 'mail' | 'schedule' | 'language' | 'map' | 'chat' | 'fax' | 'other';
-        /**
-         * Nazwa ikony z fonts.google.com/icons, np. "storefront", "park". Aktywne tylko gdy wybrano "Inne".
-         */
-        customIcon?: string | null;
-        label: string;
-        /**
-         * Np. tel:+48508689718 lub mailto:kontakt@pantera.waw.pl lub https://...
-         */
-        href?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   bottomText?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1532,6 +1516,27 @@ export interface HomepagePricing {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info".
+ */
+export interface ContactInfo {
+  id: number;
+  address?: string | null;
+  /**
+   * Link otwierający Google Maps w nowej karcie.
+   */
+  addressLink?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  hours?: string | null;
+  /**
+   * URL do osadzenia mapy Google Maps jako iframe na stronie Kontakt.
+   */
+  mapEmbedUrl?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
 export interface NavigationSelect<T extends boolean = true> {
@@ -1588,15 +1593,6 @@ export interface FooterSelect<T extends boolean = true> {
         url?: T;
         customIcon?: T;
         label?: T;
-        id?: T;
-      };
-  contactItems?:
-    | T
-    | {
-        icon?: T;
-        customIcon?: T;
-        label?: T;
-        href?: T;
         id?: T;
       };
   bottomText?: T;
@@ -1675,6 +1671,21 @@ export interface HomepagePricingSelect<T extends boolean = true> {
         featured?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-info_select".
+ */
+export interface ContactInfoSelect<T extends boolean = true> {
+  address?: T;
+  addressLink?: T;
+  phone?: T;
+  email?: T;
+  hours?: T;
+  mapEmbedUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

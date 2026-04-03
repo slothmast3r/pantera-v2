@@ -90,61 +90,6 @@ export const Footer: GlobalConfig = {
       ],
     },
     {
-      name: 'contactItems',
-      label: 'Kolumna kontaktowa',
-      type: 'array',
-      admin: {
-        description: 'Dane kontaktowe wyświetlane w stopce jako osobna kolumna "Kontakt".',
-      },
-      fields: [
-        {
-          name: 'icon',
-          label: 'Ikona',
-          type: 'select',
-          required: true,
-          options: [
-            { label: '📍 Lokalizacja / Adres', value: 'location_on' },
-            { label: '📞 Telefon', value: 'phone' },
-            { label: '✉️ E-mail', value: 'mail' },
-            { label: '🕐 Godziny otwarcia', value: 'schedule' },
-            { label: '🌐 Strona WWW', value: 'language' },
-            { label: '🗺️ Dojazd / Mapa', value: 'map' },
-            { label: '💬 Messenger / Czat', value: 'chat' },
-            { label: '📠 Fax', value: 'fax' },
-            { label: '🔧 Inne (własna ikona)', value: 'other' },
-          ],
-        },
-        {
-          name: 'customIcon',
-          label: 'Własna ikona Material Symbols',
-          type: 'text',
-          admin: {
-            description: 'Nazwa ikony z fonts.google.com/icons, np. "storefront", "park". Aktywne tylko gdy wybrano "Inne".',
-            placeholder: 'np. storefront',
-            condition: (_, siblingData) => siblingData?.icon === 'other',
-          },
-        },
-        {
-          name: 'label',
-          label: 'Treść',
-          type: 'text',
-          required: true,
-          admin: {
-            placeholder: 'np. ul. Powsińska 25, Warszawa',
-          },
-        },
-        {
-          name: 'href',
-          label: 'Link (opcjonalnie)',
-          type: 'text',
-          admin: {
-            description: 'Np. tel:+48508689718 lub mailto:kontakt@pantera.waw.pl lub https://...',
-            placeholder: 'tel:+48508689718',
-          },
-        },
-      ],
-    },
-    {
       name: 'bottomText',
       label: 'Tekst na dole (copyright)',
       type: 'text',

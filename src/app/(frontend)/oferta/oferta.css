@@ -1,5 +1,5 @@
 /* ===== SHARED ===== */
-.container { max-width: 1140px; margin: 0 auto; padding: 0 20px; }
+.container { max-width: clamp(1140px, 85vw, 1600px); margin: 0 auto; padding: 0 20px; }
 .label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; color: #F57C28; text-transform: uppercase; margin-bottom: 10px; }
 .label--white { color: rgba(255,255,255,0.65); }
 .btn { display: inline-block; padding: 13px 30px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }

@@ -100,42 +100,6 @@ export default async function OfertaPage() {
 
       <section className="oferta-list">
         <div className="container">
-          <div className="label">ZAJĘCIA REGULARNE</div>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#1C1C1C', marginBottom: '8px' }}>
-            Treningi w naszym klubie
-          </h2>
-          <p style={{ color: '#666', marginBottom: 0 }}>
-            Dołącz do stałych grup treningowych — dla dorosłych i dzieci.
-          </p>
-          <div className="oferta-grid" style={{ marginTop: '40px' }}>
-            {[
-              { icon: '🛡️', label: 'Dorośli', title: 'Krav Maga', desc: 'Samoobrona dla dorosłych — praktyczna, realistyczna, skuteczna.', href: '/zajecia/krav-maga' },
-              { icon: '🥋', label: 'Dorośli', title: 'Karate', desc: 'Tradycyjne karate Kyokushin — technika, siła i dyscyplina.', href: '/zajecia/karate' },
-              { icon: '💪', label: 'Dorośli', title: 'Power Training', desc: 'Trening siłowo-kondycyjny z elementami sztuk walki.', href: '/zajecia/power-training' },
-              { icon: '☯️', label: 'Dorośli', title: 'Tai Chi', desc: 'Ruch, oddech, balans — dla zdrowia kręgosłupa i redukcji stresu.', href: '/zajecia/tai-chi' },
-              { icon: '🎯', label: 'Dorośli', title: 'Indywidualne', desc: 'Treningi 1-na-1 lub w parach — program dopasowany do Ciebie.', href: '/zajecia/indywidualne' },
-              { icon: '🔫', label: 'Dorośli', title: 'Strzelectwo ASG', desc: 'Trening strzelecki z replikami ASG — taktyka i celność.', href: '/zajecia/asg' },
-              { icon: '🛡️', label: 'Dzieci', title: 'Krav Maga Kids', desc: 'Samoobrona i pewność siebie dla dzieci w wieku 7–14 lat.', href: '/zajecia/krav-maga-dzieci' },
-              { icon: '🥋', label: 'Dzieci', title: 'Karate Dzieci', desc: 'Karate dla dzieci — koncentracja, respekt i sprawność fizyczna.', href: '/zajecia/karate-dzieci' },
-            ].map((cls) => (
-              <a key={cls.href} href={cls.href} className="oferta-card">
-                <div className="oferta-card__header">
-                  <span className="oferta-card__icon">{cls.icon}</span>
-                  <span className="oferta-card__badge">{cls.label}</span>
-                </div>
-                <div className="oferta-card__body">
-                  <h3>{cls.title}</h3>
-                  <p>{cls.desc}</p>
-                  <span className="oferta-card__link">Zobacz zajęcia →</span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="oferta-list" style={{ background: '#fff', paddingTop: '0' }}>
-        <div className="container" style={{ paddingTop: '80px', borderTop: '1px solid #f0f0f0' }}>
           <div className="label">EVENTY I WARSZTATY</div>
           <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#1C1C1C', marginBottom: '8px' }}>
             Co możemy dla Ciebie zorganizować?

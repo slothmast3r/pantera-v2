@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import type { Instructor, Media } from '@/payload-types'
 
 const staticInstructors = [
@@ -56,6 +57,11 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
                   <h3>{i.name}</h3>
                   <span className="instructors__spec">{i.specialization}</span>
                   <p>{i.bio}</p>
+                  {i.slug && (
+                    <Link href={`/kadra/${i.slug}`} className="instructors__more">
+                      Dowiedz się więcej →
+                    </Link>
+                  )}
                 </div>
               </div>
             )

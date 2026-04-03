@@ -10,12 +10,42 @@
 .btn--outline-dark { background: transparent; color: #1C1C1C; border-color: #1C1C1C; }
 .btn--outline-dark:hover { background: #1C1C1C; color: #fff; }
 
+/* ===== PHOTO PLACEHOLDER ===== */
+.photo-placeholder {
+  background: #d8dce3;
+  border: 2px dashed #aab;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #889;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  min-height: 200px;
+}
+
 /* ===== PAGE HEADER ===== */
 .about-header {
   background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 60%, #0f3460 100%);
   padding: 100px 20px 80px;
   position: relative;
   overflow: hidden;
+}
+.about-header__photo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 48%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+}
+.about-header__photo.photo-placeholder {
+  border-radius: 0;
+  border: none;
+  opacity: 0.6;
 }
 .about-header::after {
   content: '';
@@ -26,6 +56,17 @@
   height: 480px;
   border-radius: 50%;
   background: rgba(245,124,40,0.07);
+  pointer-events: none;
+}
+.about-header::before {
+  content: '';
+  position: absolute;
+  left: -120px;
+  bottom: -120px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: rgba(0,148,255,0.08);
   pointer-events: none;
 }
 .about-header .container { position: relative; z-index: 1; max-width: 760px; }
@@ -55,6 +96,18 @@
   gap: 60px;
   align-items: center;
 }
+.about-who__photo {
+  height: 100%;
+  min-height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.about-who__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .about-who__text h2 {
   font-size: 2rem;
   font-weight: 800;
@@ -72,12 +125,19 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
+  margin-top: 32px;
 }
 .about-who__stat {
   background: #f7f8fa;
   border-radius: 12px;
   padding: 28px 24px;
   border-left: 4px solid #F57C28;
+}
+.about-who__stat:nth-child(even) {
+  border-left-color: #0094FF;
+}
+.about-who__stat:nth-child(even) .about-who__stat-number {
+  color: #0094FF;
 }
 .about-who__stat-number {
   font-size: 2.4rem;
@@ -163,7 +223,20 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
-  align-items: start;
+  align-items: stretch;
+}
+.about-mission__photo {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.about-mission__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 .about-mission h2 {
   font-size: 2rem;
@@ -180,7 +253,7 @@
 .mission-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 32px 0 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -199,7 +272,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #F57C28;
+  background: #0094FF;
   margin-top: 2px;
   display: flex;
   align-items: center;
@@ -226,16 +299,20 @@
   align-items: center;
 }
 .about-foundation__badge {
-  background: #F57C28;
-  color: #fff;
+  background: rgb(22,24,17);
   border-radius: 50%;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
   flex-shrink: 0;
+  padding: 16px;
+}
+.about-foundation__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 .about-foundation h2 {
   font-size: 1.6rem;
@@ -337,7 +414,7 @@
 }
 .team-card__photo {
   width: 100%;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1/1;
   background: linear-gradient(135deg, #1a2a3a, #0f3460);
   object-fit: cover;
 }
@@ -354,6 +431,8 @@
   .about-who__grid,
   .about-mission__inner,
   .about-cta__inner { grid-template-columns: 1fr; gap: 40px; }
+  .about-header__photo { display: none; }
+  .about-who__photo { min-height: 220px; }
   .about-philosophy__grid { grid-template-columns: repeat(2, 1fr); }
   .about-team__grid { grid-template-columns: repeat(2, 1fr); }
   .about-foundation__card { grid-template-columns: 1fr; gap: 24px; padding: 36px 28px; }

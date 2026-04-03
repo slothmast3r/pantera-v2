@@ -46,6 +46,8 @@ export default async function AboutPage() {
 
       {/* HEADER */}
       <section className="about-header">
+        {/* PLACEHOLDER: zamień na <img src="/about/header-bg.jpg" className="about-header__photo" alt="" /> */}
+        <div className="about-header__photo photo-placeholder">ZDJĘCIE TŁO</div>
         <div className="container">
           <div className="label label--white">O PANTERZE</div>
           <h1>
@@ -75,25 +77,27 @@ export default async function AboutPage() {
                 Nasze zajęcia prowadzą certyfikowani instruktorzy z wieloletnim doświadczeniem. Pracujemy w małych
                 grupach, bo wierzymy, że tylko tak można naprawdę zadbać o każdego uczestnika.
               </p>
+              <div className="about-who__stats">
+                <div className="about-who__stat">
+                  <div className="about-who__stat-number">13+</div>
+                  <div className="about-who__stat-label">lat doświadczenia</div>
+                </div>
+                <div className="about-who__stat">
+                  <div className="about-who__stat-number">4</div>
+                  <div className="about-who__stat-label">sekcje sportowe</div>
+                </div>
+                <div className="about-who__stat">
+                  <div className="about-who__stat-number">200+</div>
+                  <div className="about-who__stat-label">aktywnych uczestników</div>
+                </div>
+                <div className="about-who__stat">
+                  <div className="about-who__stat-number">3</div>
+                  <div className="about-who__stat-label">certyfikowanych instruktorów</div>
+                </div>
+              </div>
             </div>
-            <div className="about-who__stats">
-              <div className="about-who__stat">
-                <div className="about-who__stat-number">13+</div>
-                <div className="about-who__stat-label">lat doświadczenia</div>
-              </div>
-              <div className="about-who__stat">
-                <div className="about-who__stat-number">4</div>
-                <div className="about-who__stat-label">sekcje sportowe</div>
-              </div>
-              <div className="about-who__stat">
-                <div className="about-who__stat-number">200+</div>
-                <div className="about-who__stat-label">aktywnych uczestników</div>
-              </div>
-              <div className="about-who__stat">
-                <div className="about-who__stat-number">3</div>
-                <div className="about-who__stat-label">certyfikowanych instruktorów</div>
-              </div>
-            </div>
+            {/* PLACEHOLDER: zamień na <div className="about-who__photo"><img src="/about/sala.jpg" alt="Sala treningowa" /></div> */}
+            <div className="about-who__photo photo-placeholder">ZDJĘCIE SALI</div>
           </div>
         </div>
       </section>
@@ -135,6 +139,8 @@ export default async function AboutPage() {
       <section className="about-mission">
         <div className="container">
           <div className="about-mission__inner">
+            {/* PLACEHOLDER: zamień na <div className="about-mission__photo"><img src="/about/trening.jpg" alt="Trening" /></div> */}
+            <div className="about-mission__photo photo-placeholder">ZDJĘCIE TRENINGU</div>
             <div>
               <div className="label label--white">NASZA MISJA</div>
               <h2>Budujemy pewnych siebie, odpowiedzialnych ludzi</h2>
@@ -143,14 +149,14 @@ export default async function AboutPage() {
                 wychowawczych i rozwojowych. Misją Pantery jest dostarczenie każdemu uczestnikowi
                 narzędzi do budowania lepszej wersji siebie.
               </p>
+              <ul className="mission-list">
+                <li>Rozwijamy pewność siebie u dzieci i dorosłych poprzez systematyczny trening</li>
+                <li>Uczymy jak zachować się w sytuacji zagrożenia – realnie i skutecznie</li>
+                <li>Tworzymy środowisko wzajemnego wsparcia i motywacji</li>
+                <li>Dbamy o zdrowie fizyczne i psychiczne naszych uczestników</li>
+                <li>Integrujemy społeczność lokalną poprzez sport i wspólne wartości</li>
+              </ul>
             </div>
-            <ul className="mission-list">
-              <li>Rozwijamy pewność siebie u dzieci i dorosłych poprzez systematyczny trening</li>
-              <li>Uczymy jak zachować się w sytuacji zagrożenia – realnie i skutecznie</li>
-              <li>Tworzymy środowisko wzajemnego wsparcia i motywacji</li>
-              <li>Dbamy o zdrowie fizyczne i psychiczne naszych uczestników</li>
-              <li>Integrujemy społeczność lokalną poprzez sport i wspólne wartości</li>
-            </ul>
           </div>
         </div>
       </section>
@@ -159,7 +165,10 @@ export default async function AboutPage() {
       <section className="about-foundation">
         <div className="container">
           <div className="about-foundation__card">
-            <div className="about-foundation__badge"><Icon name="emoji_events" size={40} /></div>
+            <div className="about-foundation__badge">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/partners/zawsze-w-formie.svg" alt="Fundacja Zawsze w Formie" className="about-foundation__logo" />
+            </div>
             <div>
               <div className="label">DZIAŁALNOŚĆ SPOŁECZNA</div>
               <h2>Fundacja „Zawsze w Formie"</h2>

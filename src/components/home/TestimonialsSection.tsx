@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import type { Testimonial } from '@/payload-types'
 
@@ -48,6 +49,11 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
             </div>
           ))}
         </div>
+        {/* TODO: replace href with real Google Maps profile URL; when switching to API add "Powered by Google" logo per branding guidelines */}
+        <Link href="https://share.google/0bHi75WhFk7b2tbb3" target="_blank" rel="noopener noreferrer" className="testimonials__attribution">
+          <i className="fa-brands fa-google" />
+          Opinie pochodzą z Google Maps
+        </Link>
       </div>
     </section>
   )

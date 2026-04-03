@@ -1,13 +1,40 @@
 import { getPayload } from 'payload'
+import fs from 'fs'
+import path from 'path'
+
+async function uploadPhoto(payload: Awaited<ReturnType<typeof getPayload>>, filename: string, alt: string) {
+  const filePath = path.resolve(process.cwd(), 'public/instructors', filename)
+  if (!fs.existsSync(filePath)) return null
+  const data = fs.readFileSync(filePath)
+  const media = await payload.create({
+    collection: 'media',
+    data: { alt },
+    file: {
+      data,
+      mimetype: 'image/png',
+      name: filename,
+      size: data.length,
+    },
+  })
+  return media.id as number
+}
 
 export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayload>>) {
   console.log('Seeding instructors...')
+
+  const [photo1, photo2, photo3] = await Promise.all([
+    uploadPhoto(payload, 'michal-jaworski.png', 'Michał Jaworski'),
+    uploadPhoto(payload, 'tomasz-lewkowicz.png', 'Tomasz Lewkowicz'),
+    uploadPhoto(payload, 'janusz-zuchowski.png', 'Janusz Żuchowski'),
+  ])
+
   const [instructor1, instructor2, instructor3] = await Promise.all([
     payload.create({
       collection: 'instructors',
       data: {
         name: 'Michał Jaworski',
         slug: 'michal-jaworski',
+        ...(photo1 ? { photo: photo1 } : {}),
         specialization: 'KRAV MAGA / SAMOOBRONA',
         bio: 'Instruktor z ponad 20-letnim doświadczeniem w Krav Maga i samoobronie. Certyfikat United Krav Maga. Prowadzi treningi z dziećmi od 2004 roku.',
         achievements: [
@@ -23,6 +50,7 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
       data: {
         name: 'Tomasz Lewkowicz',
         slug: 'tomasz-lewkowicz',
+        ...(photo2 ? { photo: photo2 } : {}),
         specialization: 'KARATE / POWER TRAINING',
         bio: 'Trener z 25+ letnim doświadczeniem w karate. Sędzia międzynarodowy. Pasja do kształtowania charakteru przez sport.',
         achievements: [
@@ -36,8 +64,9 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
     payload.create({
       collection: 'instructors',
       data: {
-        name: 'Janusz Dąbrowski',
-        slug: 'janusz-dabrowski',
+        name: 'Janusz Żuchowski',
+        slug: 'janusz-zuchowski',
+        ...(photo3 ? { photo: photo3 } : {}),
         specialization: 'TAI CHI / MASTER',
         bio: 'Mistrz Tai Chi z wieloletnim doświadczeniem w pracy z każdym wiekiem.',
         achievements: [

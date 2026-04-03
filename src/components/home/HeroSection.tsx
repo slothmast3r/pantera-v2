@@ -38,7 +38,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
       <div className="hero__content">
         <div className="hero__proof">
           <div className="hero__stars">
-            <Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /> <span>{googleText}</span>
+            <Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><Icon name="star" className="hero__star-icon" /><span className="hero__stars-label"><i className="fa-brands fa-google hero__google-icon" aria-label="Google Reviews" /></span>
           </div>
         </div>
         <h1 className="hero__title">{title}</h1>

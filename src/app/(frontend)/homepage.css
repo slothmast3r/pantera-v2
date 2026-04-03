@@ -48,12 +48,25 @@ ul { list-style: none; }
   position: absolute;
   inset: 0;
   background: var(--hero-bg, url('/hero-pantera.png')) center/cover no-repeat;
-  opacity: 0.3;
+  opacity: 0.9;
 }
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.88) 0%,
+    rgba(0,0,0,0.75) 35%,
+    rgba(0,0,0,0.3) 65%,
+    rgba(0,0,0,0) 100%
+  );
+}
+@media (max-width: 768px) {
+  .hero__overlay {
+    background: rgba(0,0,0,0.65);
+  }
+  .hero::before {
+    opacity: 0.4;
+  }
 }
 .hero__container {
   position: relative;
@@ -103,9 +116,10 @@ ul { list-style: none; }
   gap: 16px;
 }
 .hero__stars { color: #F5C518; font-size: 0.9rem; display: flex; align-items: center; gap: 1px; flex-wrap: wrap; }
-.hero__stars span { color: rgba(255,255,255,0.6); margin-left: 6px; }
-.hero__star-icon { font-size: 18px !important; }
-.testimonials__star-icon { font-size: 16px !important; }
+.hero__stars-label { margin-left: 10px; }
+.hero__google-icon { font-size: 16px; color: rgba(255,255,255,0.55); }
+.hero__star-icon { font-size: 18px !important; font-variation-settings: 'FILL' 1; color: #F5C518; }
+.testimonials__star-icon { font-size: 16px !important; font-variation-settings: 'FILL' 1; }
 .pricing__check-icon { font-size: 16px !important; color: #0094FF; vertical-align: middle; margin-right: 2px; }
 .navbar__chevron { font-size: 18px !important; vertical-align: middle; margin-left: 1px; }
 .hero__partners {
@@ -143,17 +157,17 @@ ul { list-style: none; }
   bottom: -1px;
   left: 0;
   width: 100%;
+  height: 80px;
   line-height: 0;
   z-index: 2;
   pointer-events: none;
+  -webkit-mask-image: url('/divider2.svg');
+  mask-image: url('/divider2.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  background: linear-gradient(to bottom, #b0b0b0 0%, #F5F5F5 60%);
 }
-.hero__divider img {
-  width: 100%;
-  height: 50px;
-  display: block;
-  /* #F5F5F5 — kolor tła sekcji Zajęcia */
-  filter: brightness(0) invert(0.96);
-}
+.hero__divider img { display: none; }
 
 /* ===== PARTNERS ===== */
 .partners {
@@ -360,11 +374,25 @@ ul { list-style: none; }
   align-items: center;
   justify-content: center;
   font-size: 1rem;
+  line-height: 1;
   flex-shrink: 0;
 }
 .testimonials__footer strong { font-size: 0.9rem; display: block; }
 .testimonials__google { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 4px; margin-top: 2px; }
 .testimonials__google span { color: #4285F4; font-weight: 700; }
+.testimonials__attribution {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 36px;
+  font-size: 0.78rem;
+  color: #999;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.testimonials__attribution:hover { color: #555; }
+.testimonials__attribution .fa-google { font-size: 0.9rem; }
 
 /* ===== INSTRUCTORS ===== */
 .instructors { padding: 80px 0; background: #F5F5F5; text-align: center; }
@@ -379,7 +407,8 @@ ul { list-style: none; }
 .instructors__card:hover { transform: translateY(-4px); }
 .instructors__photo {
   width: 100%;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   background: linear-gradient(135deg, #2a2a2a, #4a4a4a);
   background-size: cover;
   background-position: center top;
@@ -388,6 +417,8 @@ ul { list-style: none; }
 .instructors__info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; color: #1C1C1C; }
 .instructors__spec { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; color: #0094FF; text-transform: uppercase; }
 .instructors__info p { font-size: 0.85rem; color: #666; margin-top: 10px; line-height: 1.6; }
+.instructors__more { display: inline-block; margin-top: 14px; font-size: 0.85rem; font-weight: 600; color: #F57C28; text-decoration: none; transition: color 0.2s; }
+.instructors__more:hover { color: #d96a1a; }
 
 /* ===== PRICING ===== */
 .pricing {

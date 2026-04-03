@@ -164,7 +164,7 @@ ul {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #aaa;
-  padding: 0 0 8px;
+  padding: 8px 0 4px;
   display: block;
 }
 .navbar__dropdown-menu--grouped .navbar__dropdown-group a {

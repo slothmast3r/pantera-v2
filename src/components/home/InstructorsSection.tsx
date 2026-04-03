@@ -9,6 +9,7 @@ const staticInstructors = [
     specialization: 'KRAV MAGA / SAMOOBRONA',
     bio: 'Doświadczony instruktor z wieloletnim stażem w sztukach walki.',
     photo: null,
+    slug: null,
   },
   {
     id: -2,
@@ -16,6 +17,7 @@ const staticInstructors = [
     specialization: 'KARATE / POWER TRAINING',
     bio: 'Mistrz karate i trener personalny z pasją do nauczania.',
     photo: null,
+    slug: null,
   },
   {
     id: -3,
@@ -23,6 +25,7 @@ const staticInstructors = [
     specialization: 'TAI CHI / MASTER',
     bio: 'Mistrz Tai Chi z wieloletnim doświadczeniem w pracy z każdym wiekiem.',
     photo: null,
+    slug: null,
   },
 ]
 

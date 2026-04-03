@@ -97,16 +97,6 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.svg" alt="Pantera Family & Sport Club" className="navbar__logo-img" />
         </Link>
-        <button
-          className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
-          onClick={() => {
-            setMenuOpen(!menuOpen)
-            setOpenDropdown(null)
-          }}
-          aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
-        >
-          <Icon name={menuOpen ? 'close' : 'menu'} />
-        </button>
         <div className="navbar__right">
           <ul className={`navbar__links ${menuOpen ? 'open' : ''}`}>
             {links.map((link) => {
@@ -164,6 +154,16 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
             {cta.text ?? 'Zapisz się na zajęcia'}
           </Link>
         </div>
+        <button
+          className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
+          onClick={() => {
+            setMenuOpen(!menuOpen)
+            setOpenDropdown(null)
+          }}
+          aria-label={menuOpen ? 'Zamknij menu' : 'Otwórz menu'}
+        >
+          <Icon name={menuOpen ? 'close' : 'menu'} />
+        </button>
       </div>
     </nav>
   )

@@ -1,21 +1,44 @@
 import type { CollectionConfig } from 'payload'
 import { autoSlug } from '../hooks/autoSlug'
 import { seoFields } from '../fields/seo'
+import { RichTextBlock } from '../blocks/RichText'
+import { CTABlock } from '../blocks/CTA'
+import { FAQBlock } from '../blocks/FAQBlock'
+import { OfferCardsBlock } from '../blocks/OfferCards'
+import { ForWhoBlock } from '../blocks/ForWho'
+import { ContactCardBlock } from '../blocks/ContactCard'
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export const Offers: CollectionConfig = {
   slug: 'offers',
   labels: { singular: 'Oferta', plural: 'Oferty' },
+  versions: {
+    drafts: {
+      autosave: { interval: 500 },
+    },
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'updatedAt'],
     group: 'Treści',
+    livePreview: {
+      url: ({ data }) => `${SITE_URL}/oferta/${data.slug}`,
+    },
+    preview: (doc) => `${SITE_URL}/oferta/${(doc as any).slug}`,
   },
   hooks: {
     beforeChange: [autoSlug('title')],
   },
   access: { read: () => true },
   fields: [
-    { name: 'title', label: 'Nazwa oferty', type: 'text', required: true },
+    // --- Metadane ---
+    {
+      name: 'title',
+      label: 'Nazwa oferty',
+      type: 'text',
+      required: true,
+    },
     {
       name: 'slug',
       label: 'Slug URL',
@@ -36,9 +59,15 @@ export const Offers: CollectionConfig = {
         { label: 'Inne', value: 'other' },
       ],
     },
-    { name: 'coverImage', label: 'Zdjęcie główne', type: 'upload', relationTo: 'media' },
+    {
+      name: 'coverImage',
+      label: 'Zdjęcie główne',
+      type: 'upload',
+      relationTo: 'media',
+      admin: { description: 'Wyświetlane na liście ofert i jako fallback tła nagłówka.' },
+    },
 
-    // --- Nagłówek ---
+    // --- Nagłówek (zawsze strukturalny — spójny wygląd hero na każdej ofercie) ---
     {
       name: 'heading',
       label: 'Nagłówek strony',
@@ -46,83 +75,44 @@ export const Offers: CollectionConfig = {
       fields: [
         { name: 'title', label: 'Tytuł (H1)', type: 'text', required: true },
         { name: 'subtitle', label: 'Lead / Podtytuł', type: 'textarea' },
-        { name: 'backgroundImage', label: 'Zdjęcie w tle', type: 'upload', relationTo: 'media' },
-      ],
-    },
-
-    // --- Wprowadzenie ---
-    {
-      name: 'intro',
-      label: 'Sekcja wprowadzająca',
-      type: 'group',
-      fields: [
-        { name: 'title', label: 'Tytuł sekcji', type: 'text' },
-        { name: 'content', label: 'Opis', type: 'textarea' },
-      ],
-    },
-
-    // --- Co proponujemy (karty) ---
-    {
-      name: 'offerings',
-      label: 'Co proponujemy (karty z ikoną)',
-      type: 'array',
-      fields: [
-        { name: 'icon', label: 'Ikona (emoji)', type: 'text' },
-        { name: 'title', label: 'Tytuł', type: 'text', required: true },
-        { name: 'description', label: 'Opis', type: 'textarea' },
-      ],
-    },
-
-    // --- Forma współpracy ---
-    {
-      name: 'formats',
-      label: 'Forma współpracy',
-      type: 'array',
-      fields: [
-        { name: 'title', label: 'Nazwa formy', type: 'text', required: true },
-        { name: 'description', label: 'Opis', type: 'textarea' },
-      ],
-    },
-
-    // --- Dla kogo ---
-    {
-      name: 'forWho',
-      label: 'Dla kogo?',
-      type: 'group',
-      fields: [
-        { name: 'title', label: 'Tytuł sekcji', type: 'text' },
-        { name: 'content', label: 'Opis', type: 'textarea' },
         {
-          name: 'bullets',
-          label: 'Lista punktów',
-          type: 'array',
-          fields: [{ name: 'text', label: 'Punkt', type: 'text' }],
+          name: 'backgroundImage',
+          label: 'Zdjęcie w tle nagłówka',
+          type: 'upload',
+          relationTo: 'media',
+        },
+        {
+          name: 'ctaText',
+          label: 'Tekst przycisku CTA',
+          type: 'text',
+          defaultValue: 'Zapytaj o ofertę',
+          admin: { description: 'Przycisk wyświetlany w nagłówku, zazwyczaj prowadzący do kontaktu.' },
+        },
+        {
+          name: 'ctaLink',
+          label: 'Link CTA',
+          type: 'text',
+          defaultValue: '/kontakt',
         },
       ],
     },
 
-    // --- Kontakt ---
+    // --- Treść strony — w pełni blokowa ---
     {
-      name: 'contact',
-      label: 'Kontakt dla tej oferty',
-      type: 'group',
-      fields: [
-        { name: 'email', label: 'E-mail', type: 'email' },
-        { name: 'phone', label: 'Telefon', type: 'text' },
-        { name: 'note', label: 'Dodatkowa notatka', type: 'text' },
-      ],
-    },
-
-    // --- CTA ---
-    {
-      name: 'cta',
-      label: 'CTA',
-      type: 'group',
-      fields: [
-        { name: 'heading', label: 'Nagłówek', type: 'text' },
-        { name: 'description', label: 'Opis', type: 'textarea' },
-        { name: 'buttonText', label: 'Tekst przycisku', type: 'text' },
-        { name: 'buttonLink', label: 'Link przycisku', type: 'text' },
+      name: 'layout',
+      label: 'Treść strony',
+      type: 'blocks',
+      admin: {
+        description: 'Zbuduj stronę oferty z bloków. Kolejność bloków = kolejność na stronie.',
+        initCollapsed: false,
+      },
+      blocks: [
+        RichTextBlock,
+        OfferCardsBlock,
+        ForWhoBlock,
+        ContactCardBlock,
+        CTABlock,
+        FAQBlock,
       ],
     },
 

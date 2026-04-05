@@ -369,3 +369,33 @@
   .offer-cta__buttons { flex-direction: column; align-items: center; }
   .oferta-header { padding: 72px 20px 60px; }
 }
+
+/* ===== BLOCK RENDERER STYLES ===== */
+.offer-richtext { padding: 48px 0; }
+.offer-richtext p { font-size: 1rem; color: #444; line-height: 1.8; max-width: 760px; margin: 0 auto 16px; }
+
+.offer-contact-section { padding: 40px 0; background: #f9f9f9; }
+.offer-contact-section .offer-contact-card { max-width: 480px; }
+
+.offer-cta--block { padding: 72px 20px; }
+.offer-cta--light { background: #F5F5F5; }
+.offer-cta--light h2 { color: #1C1C1C; }
+.offer-cta--light p { color: #555; }
+.offer-cta--light .btn--outline-white { color: #1C1C1C; border-color: rgba(0,0,0,0.3); }
+.offer-cta--light .btn--outline-white:hover { background: rgba(0,0,0,0.05); }
+
+.offer-faq { padding: 64px 0; background: #fff; }
+.offer-faq h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 32px; }
+.offer-faq__list { max-width: 760px; display: flex; flex-direction: column; gap: 8px; }
+.offer-faq__item { border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden; }
+.offer-faq__item summary { padding: 16px 20px; font-weight: 600; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.offer-faq__item summary::after { content: '+'; font-size: 1.2rem; color: #F57C28; }
+.offer-faq__item[open] summary::after { content: '−'; }
+.offer-faq__item p { padding: 0 20px 16px; color: #555; line-height: 1.7; margin: 0; }
+
+.offer-for-who--light { background: #f9f9f9; }
+.offer-for-who--light .offer-for-who__inner { color: #1C1C1C; }
+.offer-for-who--light h2 { color: #1C1C1C; }
+.offer-for-who--light p { color: #555; }
+.offer-for-who--light .offer-bullets li { color: #444; }
+.offer-for-who--light .offer-bullets li::before { background: #F57C28; }

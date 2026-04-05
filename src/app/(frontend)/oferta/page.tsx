@@ -28,32 +28,28 @@ const staticOffers: Partial<Offer>[] = [
     slug: 'dla-firm',
     title: 'Dla Firm i Korporacji',
     category: 'company',
-    heading: { title: 'Warsztaty dla Firm', subtitle: 'Integracja, wellbeing i bezpieczeństwo dla Twojego zespołu.' },
-    intro: { content: 'Jednorazowe eventy integracyjne, cykliczne benefity dla pracowników lub programy szyte na miarę.' },
+    heading: { title: 'Warsztaty dla Firm', subtitle: 'Jednorazowe eventy integracyjne, cykliczne benefity dla pracowników lub programy szyte na miarę.' },
   },
   {
     id: -2,
     slug: 'dla-szkol',
     title: 'Dla Szkół i Przedszkoli',
     category: 'schools',
-    heading: { title: 'Edukacja poprzez Ruch', subtitle: 'Warsztaty i pokazy samoobrony dostosowane do wieku uczniów.' },
-    intro: { content: 'Promujemy aktywność fizyczną i edukację bezpieczeństwa w placówkach edukacyjnych.' },
+    heading: { title: 'Edukacja poprzez Ruch', subtitle: 'Promujemy aktywność fizyczną i edukację bezpieczeństwa w placówkach edukacyjnych.' },
   },
   {
     id: -3,
     slug: 'urodziny',
     title: 'Urodziny na Sportowo',
     category: 'birthday',
-    heading: { title: 'Aktywne Urodziny', subtitle: 'Niezapomniane przyjęcie urodzinowe z elementami karate i samoobrony.' },
-    intro: { content: 'Sala 115 m², bezpieczne materace, sprzęt sportowy i doświadczeni instruktorzy.' },
+    heading: { title: 'Aktywne Urodziny', subtitle: 'Sala 115 m², bezpieczne materace, sprzęt sportowy i doświadczeni instruktorzy.' },
   },
   {
     id: -4,
     slug: 'warsztaty-rodzinne',
     title: 'Warsztaty Rodzinne',
     category: 'workshop',
-    heading: { title: 'Rodzic + Dziecko', subtitle: 'Wspólna sportowa przygoda wzmacniająca więź rodzinną.' },
-    intro: { content: 'Podstawy samoobrony, bezpieczne przewroty i mnóstwo zabaw ruchowych dla całej rodziny.' },
+    heading: { title: 'Rodzic + Dziecko', subtitle: 'Podstawy samoobrony, bezpieczne przewroty i mnóstwo zabaw ruchowych dla całej rodziny.' },
   },
 ]
 
@@ -125,10 +121,7 @@ export default async function OfertaPage() {
                   </div>
                   <div className="oferta-card__body">
                     <h3>{offer.title}</h3>
-                    {offer.intro?.content && (
-                      <p>{offer.intro.content.length > 120 ? offer.intro.content.slice(0, 120) + '…' : offer.intro.content}</p>
-                    )}
-                    {!offer.intro?.content && offer.heading?.subtitle && (
+                    {offer.heading?.subtitle && (
                       <p>{offer.heading.subtitle.length > 120 ? offer.heading.subtitle.slice(0, 120) + '…' : offer.heading.subtitle}</p>
                     )}
                     <span className="oferta-card__link">Dowiedz się więcej →</span>

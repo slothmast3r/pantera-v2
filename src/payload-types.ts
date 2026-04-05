@@ -108,6 +108,7 @@ export interface Config {
     'homepage-services': HomepageService;
     'homepage-pricing': HomepagePricing;
     'contact-info': ContactInfo;
+    'analytics-settings': AnalyticsSetting;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
@@ -116,6 +117,7 @@ export interface Config {
     'homepage-services': HomepageServicesSelect<false> | HomepageServicesSelect<true>;
     'homepage-pricing': HomepagePricingSelect<false> | HomepagePricingSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
+    'analytics-settings': AnalyticsSettingsSelect<false> | AnalyticsSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -444,6 +446,7 @@ export interface Page {
     | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -548,6 +551,7 @@ export interface Class {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -686,52 +690,113 @@ export interface Offer {
    */
   slug: string;
   category?: ('company' | 'schools' | 'workshop' | 'birthday' | 'other') | null;
+  /**
+   * Wyświetlane na liście ofert i jako fallback tła nagłówka.
+   */
   coverImage?: (number | null) | Media;
   heading: {
     title: string;
     subtitle?: string | null;
     backgroundImage?: (number | null) | Media;
+    /**
+     * Przycisk wyświetlany w nagłówku, zazwyczaj prowadzący do kontaktu.
+     */
+    ctaText?: string | null;
+    ctaLink?: string | null;
   };
-  intro?: {
-    title?: string | null;
-    content?: string | null;
-  };
-  offerings?:
-    | {
-        icon?: string | null;
-        title: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
+  /**
+   * Zbuduj stronę oferty z bloków. Kolejność bloków = kolejność na stronie.
+   */
+  layout?:
+    | (
+        | {
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            label?: string | null;
+            items?:
+              | {
+                  icon?: string | null;
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'offerCards';
+          }
+        | {
+            label?: string | null;
+            title: string;
+            content?: string | null;
+            bullets?:
+              | {
+                  text: string;
+                  id?: string | null;
+                }[]
+              | null;
+            variant?: ('dark' | 'light') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'forWho';
+          }
+        | {
+            heading?: string | null;
+            email?: string | null;
+            phone?: string | null;
+            /**
+             * Np. "Rezerwacje z wyprzedzeniem minimum 2 tygodnie."
+             */
+            note?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactCard';
+          }
+        | {
+            heading: string;
+            description?: string | null;
+            primaryButton: {
+              text: string;
+              link: string;
+            };
+            secondaryButton?: {
+              text?: string | null;
+              link?: string | null;
+            };
+            variant?: ('default' | 'dark' | 'accent') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            heading?: string | null;
+            faqs?: (number | Faq)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faqSection';
+          }
+      )[]
     | null;
-  formats?:
-    | {
-        title: string;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  forWho?: {
-    title?: string | null;
-    content?: string | null;
-    bullets?:
-      | {
-          text?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  contact?: {
-    email?: string | null;
-    phone?: string | null;
-    note?: string | null;
-  };
-  cta?: {
-    heading?: string | null;
-    description?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
-  };
   /**
    * Ustawienia SEO dla tej strony. Zostaw puste aby użyć domyślnych wartości.
    */
@@ -751,6 +816,7 @@ export interface Offer {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1154,6 +1220,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1236,6 +1303,7 @@ export interface ClassesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1325,54 +1393,91 @@ export interface OffersSelect<T extends boolean = true> {
         title?: T;
         subtitle?: T;
         backgroundImage?: T;
+        ctaText?: T;
+        ctaLink?: T;
       };
-  intro?:
+  layout?:
     | T
     | {
-        title?: T;
-        content?: T;
-      };
-  offerings?:
-    | T
-    | {
-        icon?: T;
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  formats?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  forWho?:
-    | T
-    | {
-        title?: T;
-        content?: T;
-        bullets?:
+        richText?:
           | T
           | {
-              text?: T;
+              content?: T;
               id?: T;
+              blockName?: T;
             };
-      };
-  contact?:
-    | T
-    | {
-        email?: T;
-        phone?: T;
-        note?: T;
-      };
-  cta?:
-    | T
-    | {
-        heading?: T;
-        description?: T;
-        buttonText?: T;
-        buttonLink?: T;
+        offerCards?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              label?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        forWho?:
+          | T
+          | {
+              label?: T;
+              title?: T;
+              content?: T;
+              bullets?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              variant?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactCard?:
+          | T
+          | {
+              heading?: T;
+              email?: T;
+              phone?: T;
+              note?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              primaryButton?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              secondaryButton?:
+                | T
+                | {
+                    text?: T;
+                    link?: T;
+                  };
+              variant?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faqSection?:
+          | T
+          | {
+              heading?: T;
+              faqs?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   seo?:
     | T
@@ -1383,6 +1488,7 @@ export interface OffersSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1619,6 +1725,29 @@ export interface ContactInfo {
   createdAt?: string | null;
 }
 /**
+ * Konfiguracja integracji z Google Analytics 4. Dane wyświetlają się na dashboardzie panelu admina.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-settings".
+ */
+export interface AnalyticsSetting {
+  id: number;
+  /**
+   * Numeryczne ID właściwości GA4, np. 123456789. Znajdziesz je w GA4: Admin → Właściwość → ID właściwości.
+   */
+  propertyId?: string | null;
+  /**
+   * Adres email service account z Google Cloud, np. my-account@project.iam.gserviceaccount.com. Service account musi mieć dostęp Viewer do właściwości GA4.
+   */
+  serviceAccountEmail?: string | null;
+  /**
+   * Klucz prywatny z pliku JSON service account (pole "private_key"). Zaczyna się od -----BEGIN PRIVATE KEY-----.
+   */
+  privateKey?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
@@ -1769,6 +1898,18 @@ export interface ContactInfoSelect<T extends boolean = true> {
   email?: T;
   hours?: T;
   mapEmbedUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "analytics-settings_select".
+ */
+export interface AnalyticsSettingsSelect<T extends boolean = true> {
+  propertyId?: T;
+  serviceAccountEmail?: T;
+  privateKey?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

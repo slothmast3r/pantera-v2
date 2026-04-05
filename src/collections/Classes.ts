@@ -3,13 +3,22 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { autoSlug } from '../hooks/autoSlug'
 import { seoFields } from '../fields/seo'
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
+
 export const Classes: CollectionConfig = {
   slug: 'classes',
   labels: { singular: 'Zajęcia', plural: 'Zajęcia' },
+  versions: {
+    drafts: { autosave: { interval: 500 } },
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'ageGroup', 'updatedAt'],
     group: 'Treści',
+    livePreview: {
+      url: ({ data }) => `${SITE_URL}/zajecia/${(data as any).slug}`,
+    },
+    preview: (doc) => `${SITE_URL}/zajecia/${(doc as any).slug}`,
   },
   hooks: {
     beforeChange: [autoSlug('title')],

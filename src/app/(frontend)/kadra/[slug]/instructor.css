@@ -4,7 +4,7 @@
 
 /* ── Hero ── */
 .instr-hero {
-  background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 60%, #0f3460 100%);
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 60%, var(--color-navy) 100%);
   padding: 80px 24px 72px;
   position: relative;
   overflow: hidden;
@@ -18,7 +18,7 @@
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: rgba(245, 124, 40, 0.07);
+  background: rgba(var(--color-primary-rgb), 0.07);
   pointer-events: none;
 }
 
@@ -38,7 +38,7 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 4px solid rgba(245, 124, 40, 0.6);
+  border: 4px solid rgba(var(--color-primary-rgb), 0.6);
 }
 
 .instr-hero__photo--placeholder {
@@ -46,8 +46,8 @@
   height: 140px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: linear-gradient(135deg, #1a2a3a, #0f3460);
-  border: 4px solid rgba(245, 124, 40, 0.4);
+  background: linear-gradient(135deg, var(--color-navy-mid), var(--color-navy));
+  border: 4px solid rgba(var(--color-primary-rgb), 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +59,7 @@
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #F57C28;
+  color: var(--color-primary);
   margin-bottom: 10px;
 }
 
@@ -76,13 +76,13 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #F57C28;
+  color: var(--color-primary);
   display: block;
 }
 
 /* ── Body ── */
 .instr-body {
-  background: #f7f8fa;
+  background: var(--color-bg-section);
   padding: 64px 24px 80px;
 }
 
@@ -100,7 +100,7 @@
 
 .instr-section {
   background: #fff;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 28px 32px;
   margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -111,14 +111,14 @@
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #F57C28;
+  color: var(--color-primary);
   margin-bottom: 14px;
 }
 
 .instr-bio {
   font-size: 1rem;
   line-height: 1.75;
-  color: #444;
+  color: var(--color-text-secondary);
 }
 
 /* ── Classes ── */
@@ -133,9 +133,9 @@
   align-items: center;
   gap: 16px;
   padding: 14px 18px;
-  border-radius: 8px;
-  background: #f7f8fa;
-  border-left: 4px solid var(--class-color, #0f3460);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-section);
+  border-left: 4px solid var(--class-color, var(--color-navy));
   text-decoration: none;
   transition: background 0.15s, transform 0.15s;
 }
@@ -152,13 +152,13 @@
 .instr-class-card__title {
   font-size: 0.95rem;
   font-weight: 700;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 2px;
 }
 
 .instr-class-card__age {
   font-size: 0.78rem;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .instr-class-card__arrow {
@@ -172,7 +172,7 @@
 
 .instr-achievements {
   background: #fff;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 28px 28px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
@@ -183,7 +183,7 @@
   font-weight: 700;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #F57C28;
+  color: var(--color-primary);
   margin-bottom: 16px;
 }
 
@@ -201,7 +201,7 @@
   gap: 12px;
   align-items: flex-start;
   font-size: 0.88rem;
-  color: #444;
+  color: var(--color-text-secondary);
   line-height: 1.55;
 }
 
@@ -214,8 +214,8 @@
 
 /* ── CTA sidebar card ── */
 .instr-cta {
-  background: linear-gradient(135deg, #0f1923 0%, #0f3460 100%);
-  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy) 100%);
+  border-radius: var(--radius-lg);
   padding: 28px;
   text-align: center;
 }
@@ -236,18 +236,18 @@
 
 .instr-cta__btn {
   display: block;
-  background: #F57C28;
+  background: var(--color-primary);
   color: #fff;
   font-weight: 700;
   font-size: 0.9rem;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   text-decoration: none;
   transition: background 0.15s;
 }
 
 .instr-cta__btn:hover {
-  background: #d96a1a;
+  background: var(--color-primary-hover);
 }
 
 /* ── Breadcrumb ── */
@@ -261,14 +261,14 @@
   max-width: 860px;
   margin: 0 auto;
   font-size: 0.82rem;
-  color: #888;
+  color: var(--color-text-faint);
   display: flex;
   gap: 6px;
   align-items: center;
 }
 
 .instr-breadcrumb__inner a {
-  color: #0f3460;
+  color: var(--color-navy);
   text-decoration: none;
   font-weight: 500;
 }

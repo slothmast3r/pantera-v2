@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import { useActionState } from 'react'
 
 const SUBJECTS = [
   'Zapisy na zajęcia',
@@ -10,42 +10,32 @@ const SUBJECTS = [
   'Inne',
 ]
 
-type Status = 'idle' | 'loading' | 'success' | 'error'
+type FormState = { status: 'idle' | 'success' | 'error'; error?: string }
+
+async function sendMessage(_prev: FormState, formData: FormData): Promise<FormState> {
+  try {
+    const res = await fetch('/api/kontakt', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+      }),
+    })
+    if (!res.ok) throw new Error()
+    return { status: 'success' }
+  } catch {
+    return { status: 'error', error: 'Coś poszło nie tak. Spróbuj ponownie lub zadzwoń do nas.' }
+  }
+}
 
 export default function KontaktForm() {
-  const [subject, setSubject] = useState(SUBJECTS[0])
-  const [status, setStatus] = useState<Status>('idle')
-  const [error, setError] = useState<string | null>(null)
+  const [state, formAction, isPending] = useActionState(sendMessage, { status: 'idle' })
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setStatus('loading')
-    setError(null)
-
-    const form = e.currentTarget
-    const data = {
-      name: (form.elements.namedItem('name') as HTMLInputElement).value,
-      email: (form.elements.namedItem('email') as HTMLInputElement).value,
-      phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
-      subject,
-      message: (form.elements.namedItem('message') as HTMLTextAreaElement).value,
-    }
-
-    try {
-      const res = await fetch('/api/kontakt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error()
-      setStatus('success')
-    } catch {
-      setStatus('error')
-      setError('Coś poszło nie tak. Spróbuj ponownie lub zadzwoń do nas.')
-    }
-  }
-
-  if (status === 'success') {
+  if (state.status === 'success') {
     return (
       <div className="kontakt-success">
         <div className="kontakt-success__icon">✓</div>
@@ -56,35 +46,54 @@ export default function KontaktForm() {
   }
 
   return (
-    <form className="kontakt-form" onSubmit={handleSubmit} noValidate>
+    <form className="kontakt-form" action={formAction} noValidate>
       <div className="kontakt-form__row">
         <div className="kontakt-form__field">
           <label className="kontakt-form__label">
             Imię i nazwisko <span className="kontakt-form__required">*</span>
           </label>
-          <input name="name" type="text" className="kontakt-form__input" placeholder="Jan Kowalski" required />
+          <input
+            name="name"
+            type="text"
+            className="kontakt-form__input"
+            placeholder="Jan Kowalski"
+            required
+          />
         </div>
         <div className="kontakt-form__field">
           <label className="kontakt-form__label">
             E-mail <span className="kontakt-form__required">*</span>
           </label>
-          <input name="email" type="email" className="kontakt-form__input" placeholder="jan@example.com" required />
+          <input
+            name="email"
+            type="email"
+            className="kontakt-form__input"
+            placeholder="jan@example.com"
+            required
+          />
         </div>
       </div>
 
       <div className="kontakt-form__row">
         <div className="kontakt-form__field">
           <label className="kontakt-form__label">Telefon</label>
-          <input name="phone" type="tel" className="kontakt-form__input" placeholder="+48 500 000 000" />
+          <input
+            name="phone"
+            type="tel"
+            className="kontakt-form__input"
+            placeholder="+48 500 000 000"
+          />
         </div>
         <div className="kontakt-form__field">
           <label className="kontakt-form__label">Temat</label>
           <select
+            name="subject"
             className="kontakt-form__input kontakt-form__select"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            defaultValue={SUBJECTS[0]}
           >
-            {SUBJECTS.map((s) => <option key={s}>{s}</option>)}
+            {SUBJECTS.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
           </select>
         </div>
       </div>
@@ -102,11 +111,22 @@ export default function KontaktForm() {
         />
       </div>
 
-      {error && <div className="kontakt-form__error">{error}</div>}
+      {state.error && <div className="kontakt-form__error">{state.error}</div>}
 
-      <button type="submit" className="kontakt-form__submit" disabled={status === 'loading'}>
-        {status === 'loading' ? (
-          <><span className="kontakt-form__spinner" /> Wysyłanie...</>
+      <button
+        type="submit"
+        className={`kontakt-form__submit${isPending ? ' kontakt-form__submit--pending' : ''}`}
+        disabled={isPending}
+      >
+        {isPending ? (
+          <>
+            Wysyłanie
+            <span className="kontakt-form__dots" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+          </>
         ) : (
           'Wyślij wiadomość →'
         )}

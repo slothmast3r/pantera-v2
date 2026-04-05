@@ -1,20 +1,20 @@
 /* ===== SHARED (reused from homepage pattern) ===== */
-.container { max-width: clamp(1140px, 85vw, 1600px); margin: 0 auto; padding: 0 20px; }
-.label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; color: #F57C28; text-transform: uppercase; margin-bottom: 10px; }
+.container { max-width: var(--container-width); margin: 0 auto; padding: 0 20px; }
+.label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; color: var(--color-primary); text-transform: uppercase; margin-bottom: 10px; }
 .label--white { color: rgba(255,255,255,0.65); }
-.btn { display: inline-block; padding: 13px 30px; border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
-.btn--orange { background: #F57C28; color: #fff; border-color: #F57C28; }
-.btn--orange:hover { background: #d96a1a; border-color: #d96a1a; }
+.btn { display: inline-block; padding: 13px 30px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+.btn--orange { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.btn--orange:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
 .btn--outline-white { background: transparent; color: #fff; border-color: rgba(255,255,255,0.6); }
 .btn--outline-white:hover { background: rgba(255,255,255,0.1); }
-.btn--outline-dark { background: transparent; color: #1C1C1C; border-color: #1C1C1C; }
-.btn--outline-dark:hover { background: #1C1C1C; color: #fff; }
+.btn--outline-dark { background: transparent; color: var(--color-text); border-color: var(--color-text); }
+.btn--outline-dark:hover { background: var(--color-text); color: #fff; }
 
 /* ===== PHOTO PLACEHOLDER ===== */
 .photo-placeholder {
   background: #d8dce3;
   border: 2px dashed #aab;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,7 +28,7 @@
 
 /* ===== PAGE HEADER ===== */
 .about-header {
-  background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 60%, #0f3460 100%);
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 60%, var(--color-navy) 100%);
   padding: 100px 20px 80px;
   position: relative;
   overflow: hidden;
@@ -55,7 +55,7 @@
   width: 480px;
   height: 480px;
   border-radius: 50%;
-  background: rgba(245,124,40,0.07);
+  background: rgba(var(--color-primary-rgb), 0.07);
   pointer-events: none;
 }
 .about-header::before {
@@ -66,7 +66,7 @@
   width: 360px;
   height: 360px;
   border-radius: 50%;
-  background: rgba(0,148,255,0.08);
+  background: rgba(var(--color-accent-rgb), 0.08);
   pointer-events: none;
 }
 .about-header .container { position: relative; z-index: 1; max-width: 760px; }
@@ -77,7 +77,7 @@
   line-height: 1.2;
   margin-bottom: 20px;
 }
-.about-header h1 span { color: #F57C28; }
+.about-header h1 span { color: var(--color-primary); }
 .about-header__lead {
   font-size: 1.1rem;
   color: rgba(255,255,255,0.75);
@@ -99,7 +99,7 @@
 .about-who__photo {
   height: 100%;
   min-height: 320px;
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
 }
 .about-who__photo img {
@@ -111,12 +111,12 @@
 .about-who__text h2 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 20px;
   line-height: 1.25;
 }
 .about-who__text p {
-  color: #444;
+  color: var(--color-text-secondary);
   line-height: 1.75;
   margin-bottom: 16px;
   font-size: 1rem;
@@ -128,27 +128,27 @@
   margin-top: 32px;
 }
 .about-who__stat {
-  background: #f7f8fa;
-  border-radius: 12px;
+  background: var(--color-bg-section);
+  border-radius: var(--radius-lg);
   padding: 28px 24px;
-  border-left: 4px solid #F57C28;
+  border-left: 4px solid var(--color-primary);
 }
 .about-who__stat:nth-child(even) {
-  border-left-color: #0094FF;
+  border-left-color: var(--color-accent);
 }
 .about-who__stat:nth-child(even) .about-who__stat-number {
-  color: #0094FF;
+  color: var(--color-accent);
 }
 .about-who__stat-number {
   font-size: 2.4rem;
   font-weight: 800;
-  color: #F57C28;
+  color: var(--color-primary);
   line-height: 1;
   margin-bottom: 6px;
 }
 .about-who__stat-label {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-text-muted);
   font-weight: 500;
   line-height: 1.35;
 }
@@ -156,16 +156,16 @@
 /* ===== FILOZOFIA ===== */
 .about-philosophy {
   padding: 90px 20px;
-  background: #f7f8fa;
+  background: var(--color-bg-section);
 }
 .about-philosophy h2 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 10px;
 }
 .about-philosophy__subtitle {
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: 52px;
   font-size: 1rem;
 }
@@ -176,12 +176,12 @@
 }
 .pillar {
   background: #fff;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   padding: 32px 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.pillar:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.pillar:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .pillar__icon {
   font-size: 2rem;
   margin-bottom: 16px;
@@ -190,19 +190,19 @@
 .pillar h3 {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 10px;
 }
 .pillar p {
   font-size: 0.88rem;
-  color: #666;
+  color: var(--color-text-muted);
   line-height: 1.65;
 }
 
 /* ===== MISJA ===== */
 .about-mission {
   padding: 90px 20px;
-  background: #1C1C1C;
+  background: var(--color-text);
   position: relative;
   overflow: hidden;
 }
@@ -214,7 +214,7 @@
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: rgba(245,124,40,0.08);
+  background: rgba(var(--color-primary-rgb), 0.08);
   pointer-events: none;
 }
 .about-mission__inner {
@@ -229,7 +229,7 @@
   width: 100%;
   height: 100%;
   min-height: 340px;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 .about-mission__photo img {
@@ -272,7 +272,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #0094FF;
+  background: var(--color-accent);
   margin-top: 2px;
   display: flex;
   align-items: center;
@@ -290,8 +290,8 @@
 }
 .about-foundation__card {
   background: linear-gradient(135deg, #fff9f5 0%, #fff3eb 100%);
-  border: 1px solid rgba(245,124,40,0.25);
-  border-radius: 16px;
+  border: 1px solid rgba(var(--color-primary-rgb), 0.25);
+  border-radius: var(--radius-xl);
   padding: 52px 56px;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -317,7 +317,7 @@
 .about-foundation h2 {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 12px;
 }
 .about-foundation p {
@@ -329,7 +329,7 @@
 /* ===== HISTORIA + CTA ===== */
 .about-cta {
   padding: 100px 20px;
-  background: linear-gradient(135deg, #0f1923 0%, #1a2a3a 100%);
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -389,16 +389,16 @@
 /* ===== INSTRUCTORS ===== */
 .about-team {
   padding: 90px 20px;
-  background: #f7f8fa;
+  background: var(--color-bg-section);
 }
 .about-team h2 {
   font-size: 2rem;
   font-weight: 800;
-  color: #1C1C1C;
+  color: var(--color-text);
   margin-bottom: 10px;
 }
 .about-team__subtitle {
-  color: #666;
+  color: var(--color-text-muted);
   margin-bottom: 48px;
 }
 .about-team__grid {
@@ -408,23 +408,23 @@
 }
 .team-card {
   background: #fff;
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
 }
 .team-card__photo {
   width: 100%;
   aspect-ratio: 1/1;
-  background: linear-gradient(135deg, #1a2a3a, #0f3460);
+  background: linear-gradient(135deg, var(--color-navy-mid), var(--color-navy));
   object-fit: cover;
 }
 .team-card__body { padding: 20px 24px; }
 .team-card__body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
-.team-card__spec { font-size: 0.78rem; color: #F57C28; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; display: block; }
-.team-card__bio { font-size: 0.88rem; color: #666; line-height: 1.6; }
+.team-card__spec { font-size: 0.78rem; color: var(--color-primary); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+.team-card__bio { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.6; }
 .team-card--link { display: block; text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; }
-.team-card--link:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.11); }
-.team-card__more { display: inline-block; margin-top: 12px; font-size: 0.8rem; font-weight: 700; color: #F57C28; }
+.team-card--link:hover { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+.team-card__more { display: inline-block; margin-top: 12px; font-size: 0.8rem; font-weight: 700; color: var(--color-primary); }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {

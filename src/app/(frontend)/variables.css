@@ -1,0 +1,61 @@
+/* Tailwind utilities only — without Preflight reset to avoid conflicts with existing CSS */
+@import "tailwindcss/utilities";
+
+/* ==========================================
+   DESIGN TOKENS
+   ========================================== */
+
+:root {
+  /* --- Brand colors --- */
+  --color-primary:       #F57C28;
+  --color-primary-rgb:   245, 124, 40;
+  --color-primary-hover: #d96a1a;
+  --color-accent:        #0094FF;
+  --color-accent-rgb:    0, 148, 255;
+
+  /* --- Dark palette (heroes, gradients) --- */
+  --color-navy:      #0f3460;
+  --color-navy-rgb:  15, 52, 96;
+  --color-navy-dark: #0f1923;
+  --color-navy-mid:  #1a2a3a;
+
+  /* --- Text --- */
+  --color-text:           #1C1C1C;
+  --color-text-secondary: #444;
+  --color-text-muted:     #666;
+  --color-text-faint:     #888;
+
+  /* --- Backgrounds --- */
+  --color-bg:         #fff;
+  --color-bg-section: #f7f8fa;
+  --color-bg-input:   #fafafa;
+  --color-bg-hover:   #f5f5f5;
+
+  /* --- Borders --- */
+  --color-border:       #ddd;
+  --color-border-light: #e8e8e8;
+
+  /* --- Semantic --- */
+  --color-success:    #16a34a;
+  --color-success-bg: #dcfce7;
+  --color-error:      #e63946;
+  --color-error-dark: #c0392b;
+  --color-error-bg:   #fff2f2;
+  --color-star:       #F5C518;
+
+  /* --- Shadows --- */
+  --shadow-sm:    0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-md:    0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg:    0 4px 24px rgba(0, 0, 0, 0.10);
+  --shadow-xl:    0 10px 28px rgba(0, 0, 0, 0.10);
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), 0.12);
+
+  /* --- Border radius --- */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* --- Layout --- */
+  --container-width: clamp(1140px, 85vw, 1600px);
+}

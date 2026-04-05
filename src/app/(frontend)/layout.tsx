@@ -1,4 +1,5 @@
 import React from 'react'
+import './variables.css'
 import './styles.css'
 
 export const metadata = {

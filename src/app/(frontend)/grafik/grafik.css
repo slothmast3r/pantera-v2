@@ -4,7 +4,7 @@
 
 /* --- Hero --- */
 .grafik-hero {
-  background: linear-gradient(135deg, #0f3460 0%, #1a237e 100%);
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
   color: #fff;
   padding: 72px 24px 60px;
   text-align: center;
@@ -36,7 +36,7 @@
 /* --- Divider --- */
 .grafik-divider {
   line-height: 0;
-  background: linear-gradient(135deg, #0f3460 0%, #1a237e 100%);
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
   padding: 0;
   margin-bottom: -1px;
 }
@@ -94,7 +94,7 @@
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  border: 1.5px solid #ddd;
+  border: 1.5px solid var(--color-border);
   background: transparent;
   color: #555;
   cursor: pointer;
@@ -104,13 +104,13 @@
 }
 
 .grafik-pill:hover {
-  border-color: #0f3460;
-  color: #0f3460;
+  border-color: var(--color-navy);
+  color: var(--color-navy);
 }
 
 .grafik-pill--active {
-  background: #0f3460;
-  border-color: #0f3460;
+  background: var(--color-navy);
+  border-color: var(--color-navy);
   color: #fff;
 }
 
@@ -164,7 +164,7 @@
 
 /* --- Day Column --- */
 .grafik-day__header {
-  background: #0f3460;
+  background: var(--color-navy);
   color: #fff;
   border-radius: 8px 8px 0 0;
   padding: 10px 12px;
@@ -204,7 +204,7 @@
 .grafik-card {
   display: block;
   background: #fff;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   border-left: 4px solid var(--card-color, #ccc);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
   padding: 10px 12px;
@@ -222,7 +222,7 @@
 .grafik-card__time {
   font-size: 11px;
   font-weight: 700;
-  color: #888;
+  color: var(--color-text-faint);
   margin-bottom: 3px;
   font-family: 'SF Mono', 'Consolas', 'Menlo', monospace;
   letter-spacing: 0.4px;
@@ -294,7 +294,7 @@
   align-items: center;
   gap: 7px;
   font-size: 13px;
-  color: #444;
+  color: var(--color-text-secondary);
 }
 
 .grafik-legend__dot {
@@ -306,7 +306,7 @@
 
 /* --- CTA --- */
 .grafik-cta {
-  background: linear-gradient(135deg, #0f3460 0%, #1a237e 100%);
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
   color: #fff;
   padding: 72px 24px;
   text-align: center;
@@ -330,10 +330,10 @@
 
 .grafik-cta__btn {
   display: inline-block;
-  background: #e63946;
+  background: var(--color-error);
   color: #fff;
   padding: 16px 44px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-size: 16px;
   font-weight: 700;
   text-decoration: none;
@@ -342,7 +342,7 @@
 }
 
 .grafik-cta__btn:hover {
-  background: #c0392b;
+  background: var(--color-error-dark);
   transform: translateY(-2px);
 }
 

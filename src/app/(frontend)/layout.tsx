@@ -1,6 +1,7 @@
 import React from 'react'
 import './variables.css'
 import './styles.css'
+import { Toaster } from '@/components/ui/Toaster'
 
 export const metadata = {
   description: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi w Warszawie.',
@@ -20,7 +21,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

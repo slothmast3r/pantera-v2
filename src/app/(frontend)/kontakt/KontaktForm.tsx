@@ -1,5 +1,8 @@
 'use client'
-import { useActionState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { Button } from '@/components/ui/Button'
 
 const SUBJECTS = [
   'Zapisy na zajęcia',
@@ -10,127 +13,185 @@ const SUBJECTS = [
   'Inne',
 ]
 
-type FormState = { status: 'idle' | 'success' | 'error'; error?: string }
+const contactSchema = z.object({
+  name: z.string().min(2, 'Imię i nazwisko musi mieć co najmniej 2 znaki.'),
+  email: z.string().email('Podaj prawidłowy adres e-mail.'),
+  phone: z.string().optional(),
+  subject: z.string().min(1, 'Wybierz temat.'),
+  message: z.string().min(10, 'Wiadomość musi mieć co najmniej 10 znaków.'),
+})
+
+type FieldErrors = Partial<Record<keyof z.infer<typeof contactSchema>, string>>
+type FormState = { status: 'idle' | 'success' | 'error'; fieldErrors?: FieldErrors }
 
 async function sendMessage(_prev: FormState, formData: FormData): Promise<FormState> {
+  const parsed = contactSchema.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    phone: formData.get('phone') || undefined,
+    subject: formData.get('subject'),
+    message: formData.get('message'),
+  })
+
+  if (!parsed.success) {
+    const fieldErrors: FieldErrors = {}
+    for (const issue of parsed.error.issues) {
+      const field = issue.path[0] as keyof FieldErrors
+      if (!fieldErrors[field]) fieldErrors[field] = issue.message
+    }
+    return { status: 'error', fieldErrors }
+  }
+
   try {
     const res = await fetch('/api/kontakt', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: formData.get('name'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        subject: formData.get('subject'),
-        message: formData.get('message'),
-      }),
+      body: JSON.stringify(parsed.data),
     })
     if (!res.ok) throw new Error()
     return { status: 'success' }
   } catch {
-    return { status: 'error', error: 'Coś poszło nie tak. Spróbuj ponownie lub zadzwoń do nas.' }
+    return { status: 'error' }
   }
 }
 
 export default function KontaktForm() {
   const [state, formAction, isPending] = useActionState(sendMessage, { status: 'idle' })
+  const [shakeKey, setShakeKey] = useState(0)
+  const e = state.fieldErrors ?? {}
 
-  if (state.status === 'success') {
-    return (
-      <div className="kontakt-success">
-        <div className="kontakt-success__icon">✓</div>
-        <h3>Wiadomość wysłana!</h3>
-        <p>Odpiszemy w ciągu 24 godzin. Do zobaczenia na sali!</p>
-      </div>
-    )
-  }
+  useEffect(() => {
+    if (state.status === 'error') {
+      setShakeKey((k) => k + 1)
+      if (!state.fieldErrors) {
+        toast.error('Coś poszło nie tak. Spróbuj ponownie lub zadzwoń do nas.')
+      }
+    }
+  }, [state])
 
   return (
-    <form className="kontakt-form" action={formAction} noValidate>
-      <div className="kontakt-form__row">
-        <div className="kontakt-form__field">
-          <label className="kontakt-form__label">
-            Imię i nazwisko <span className="kontakt-form__required">*</span>
-          </label>
-          <input
-            name="name"
-            type="text"
-            className="kontakt-form__input"
-            placeholder="Jan Kowalski"
-            required
-          />
-        </div>
-        <div className="kontakt-form__field">
-          <label className="kontakt-form__label">
-            E-mail <span className="kontakt-form__required">*</span>
-          </label>
-          <input
-            name="email"
-            type="email"
-            className="kontakt-form__input"
-            placeholder="jan@example.com"
-            required
-          />
-        </div>
-      </div>
-
-      <div className="kontakt-form__row">
-        <div className="kontakt-form__field">
-          <label className="kontakt-form__label">Telefon</label>
-          <input
-            name="phone"
-            type="tel"
-            className="kontakt-form__input"
-            placeholder="+48 500 000 000"
-          />
-        </div>
-        <div className="kontakt-form__field">
-          <label className="kontakt-form__label">Temat</label>
-          <select
-            name="subject"
-            className="kontakt-form__input kontakt-form__select"
-            defaultValue={SUBJECTS[0]}
-          >
-            {SUBJECTS.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="kontakt-form__field">
-        <label className="kontakt-form__label">
-          Wiadomość <span className="kontakt-form__required">*</span>
-        </label>
-        <textarea
-          name="message"
-          className="kontakt-form__input kontakt-form__textarea"
-          placeholder="Napisz, w czym możemy pomóc..."
-          rows={5}
-          required
-        />
-      </div>
-
-      {state.error && <div className="kontakt-form__error">{state.error}</div>}
-
-      <button
-        type="submit"
-        className={`kontakt-form__submit${isPending ? ' kontakt-form__submit--pending' : ''}`}
-        disabled={isPending}
-      >
-        {isPending ? (
-          <>
-            Wysyłanie
-            <span className="kontakt-form__dots" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-          </>
+    <div className="kontakt-transition-container">
+      <div className="kontakt-transition-inner">
+        {state.status === 'success' ? (
+          <div className="kontakt-success">
+            <div className="kontakt-success__icon-circle">
+              <svg className="checkmark-svg" viewBox="0 0 52 52">
+                <path className="checkmark-path" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+              </svg>
+            </div>
+            <h3 className="kontakt-success__title">Wiadomość wysłana!</h3>
+            <p className="kontakt-success__text">
+              Dziękujemy za kontakt. Odpowiemy w ciągu 24 godzin. Do zobaczenia na sali!
+            </p>
+          </div>
         ) : (
-          'Wyślij wiadomość →'
+          <form action={formAction} noValidate>
+            <div className="kontakt-row">
+              <Field label="Imię i nazwisko" required error={e.name}>
+                <input
+                  key={`name-${shakeKey}`}
+                  name="name"
+                  type="text"
+                  className={`kontakt-input ${e.name ? 'kontakt-input--error' : ''}`}
+                  placeholder="Jan Kowalski"
+                  required
+                />
+              </Field>
+              <Field label="E-mail" required error={e.email}>
+                <input
+                  key={`email-${shakeKey}`}
+                  name="email"
+                  type="email"
+                  className={`kontakt-input ${e.email ? 'kontakt-input--error' : ''}`}
+                  placeholder="jan@example.com"
+                  required
+                />
+              </Field>
+            </div>
+
+            <div className="kontakt-row">
+              <Field label="Telefon" error={e.phone}>
+                <input
+                  key={`phone-${shakeKey}`}
+                  name="phone"
+                  type="tel"
+                  className={`kontakt-input ${e.phone ? 'kontakt-input--error' : ''}`}
+                  placeholder="+48 500 000 000"
+                />
+              </Field>
+              <Field label="Temat" error={e.subject}>
+                <select
+                  key={`subject-${shakeKey}`}
+                  name="subject"
+                  className={`kontakt-input cursor-pointer ${e.subject ? 'kontakt-input--error' : ''}`}
+                  defaultValue={SUBJECTS[0]}
+                >
+                  {SUBJECTS.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+              </Field>
+            </div>
+
+            <Field label="Wiadomość" required error={e.message}>
+              <textarea
+                key={`message-${shakeKey}`}
+                name="message"
+                className={`kontakt-input resize-y min-h-32.5 ${e.message ? 'kontakt-input--error' : ''}`}
+                placeholder="Napisz, w czym możemy pomóc..."
+                rows={5}
+                required
+              />
+            </Field>
+
+            <Button
+              type="submit"
+              disabled={isPending}
+              variant="default"
+              size="lg"
+              className={`w-full mt-2 font-bold transition-transform active:scale-[0.98] ${
+                isPending ? 'kontakt-submit--pending' : ''
+              }`}
+              style={{ borderRadius: '10px', height: 'auto', padding: '14px 24px' }}
+            >
+              {isPending ? (
+                <>
+                  Wysyłanie
+                  <span className="kontakt-form__dots" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                  </span>
+                </>
+              ) : (
+                'Wyślij wiadomość →'
+              )}
+            </Button>
+          </form>
         )}
-      </button>
-    </form>
+      </div>
+    </div>
+  )
+}
+
+function Field({
+  label,
+  required,
+  error,
+  children,
+}: {
+  label: string
+  required?: boolean
+  error?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="kontakt-field">
+      <label className="kontakt-label">
+        {label}{required && <span className="kontakt-label__required">*</span>}
+      </label>
+      {children}
+      {error && <p className="kontakt-field__error">{error}</p>}
+    </div>
   )
 }

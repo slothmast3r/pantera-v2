@@ -1,143 +1,94 @@
+@reference "../../variables.css";
+
 /* ==========================================
    INSTRUCTOR DETAIL PAGE
    ========================================== */
 
+/* ── Breadcrumb ── */
+.instr-breadcrumb {
+  @apply bg-white border-b border-[#eef0f5] px-6 py-3.5;
+}
+
+.instr-breadcrumb__inner {
+  @apply max-w-215 mx-auto text-[0.82rem] flex gap-1.5 items-center text-text-faint;
+}
+
+.instr-breadcrumb__inner a {
+  @apply font-medium no-underline hover:underline text-navy;
+}
+
 /* ── Hero ── */
 .instr-hero {
+  @apply relative overflow-hidden px-6 pt-20 pb-18;
   background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 60%, var(--color-navy) 100%);
-  padding: 80px 24px 72px;
-  position: relative;
-  overflow: hidden;
 }
 
 .instr-hero::after {
   content: '';
-  position: absolute;
-  right: -80px;
-  top: -80px;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: rgba(var(--color-primary-rgb), 0.07);
-  pointer-events: none;
+  @apply absolute -right-20 -top-20 w-105 h-105 rounded-full pointer-events-none;
+  background: rgba(245, 124, 40, 0.07);
 }
 
 .instr-hero__inner {
-  max-width: 860px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 48px;
+  @apply max-w-215 mx-auto relative z-10 flex items-center gap-12;
 }
 
 .instr-hero__photo {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 4px solid rgba(var(--color-primary-rgb), 0.6);
+  @apply w-35 h-35 rounded-full object-cover shrink-0 border-4;
+  border-color: rgba(245, 124, 40, 0.6);
 }
 
 .instr-hero__photo--placeholder {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  flex-shrink: 0;
+  @apply w-35 h-35 rounded-full shrink-0 flex items-center justify-center text-[3.5rem] border-4;
   background: linear-gradient(135deg, var(--color-navy-mid), var(--color-navy));
-  border: 4px solid rgba(var(--color-primary-rgb), 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3.5rem;
+  border-color: rgba(245, 124, 40, 0.4);
 }
 
 .instr-hero__eyebrow {
-  font-size: 11px;
-  font-weight: 700;
+  @apply text-[11px] font-bold uppercase mb-2.5 text-primary;
   letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 10px;
 }
 
 .instr-hero__name {
+  @apply font-extrabold text-white mb-2 leading-[1.15];
   font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 8px;
-  line-height: 1.15;
 }
 
 .instr-hero__spec {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  display: block;
+  @apply block text-[0.8rem] font-bold uppercase tracking-[0.12em] text-primary;
 }
 
 /* ── Body ── */
 .instr-body {
-  background: var(--color-bg-section);
-  padding: 64px 24px 80px;
+  @apply px-6 pt-16 pb-20 bg-bg-section;
 }
 
 .instr-container {
-  max-width: 860px;
-  margin: 0 auto;
-  display: grid;
+  @apply max-w-215 mx-auto grid gap-12 items-start;
   grid-template-columns: 1fr 300px;
-  gap: 48px;
-  align-items: start;
 }
 
 /* ── Main column ── */
-.instr-main {}
-
 .instr-section {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 28px 32px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  @apply bg-white rounded-lg px-8 py-7 mb-6 shadow-sm;
 }
 
 .instr-section__title {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 14px;
+  @apply text-[0.72rem] font-bold tracking-[0.15em] uppercase mb-3.5 text-primary;
 }
 
 .instr-bio {
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--color-text-secondary);
+  @apply text-base leading-[1.75] text-text-secondary;
 }
 
 /* ── Classes ── */
 .instr-classes__grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  @apply flex flex-col gap-3;
 }
 
 .instr-class-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 14px 18px;
-  border-radius: var(--radius-md);
-  background: var(--color-bg-section);
+  @apply flex items-center gap-4 no-underline rounded-md px-4.5 py-3.5 transition-[background,transform] duration-150 bg-bg-section;
   border-left: 4px solid var(--class-color, var(--color-navy));
-  text-decoration: none;
-  transition: background 0.15s, transform 0.15s;
 }
 
 .instr-class-card:hover {
@@ -146,63 +97,37 @@
 }
 
 .instr-class-card__info {
-  flex: 1;
+  @apply flex-1;
 }
 
 .instr-class-card__title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 2px;
+  @apply text-[0.95rem] font-bold mb-0.5 text-text;
 }
 
 .instr-class-card__age {
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
+  @apply text-[0.78rem] text-text-muted;
 }
 
 .instr-class-card__arrow {
-  font-size: 1rem;
+  @apply text-base shrink-0;
   color: #aaa;
-  flex-shrink: 0;
 }
 
 /* ── Sidebar ── */
-.instr-sidebar {}
-
 .instr-achievements {
-  background: #fff;
-  border-radius: var(--radius-lg);
-  padding: 28px 28px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 24px;
+  @apply bg-white rounded-lg p-7 mb-6 shadow-sm;
 }
 
 .instr-achievements__title {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 16px;
+  @apply text-[0.72rem] font-bold tracking-[0.15em] uppercase mb-4 text-primary;
 }
 
 .instr-achievements__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  @apply list-none p-0 m-0 flex flex-col gap-3;
 }
 
 .instr-achievements__list li {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  font-size: 0.88rem;
-  color: var(--color-text-secondary);
-  line-height: 1.55;
+  @apply flex gap-3 items-start text-[0.88rem] leading-[1.55] text-text-secondary;
 }
 
 .instr-achievements__list li::before {
@@ -214,80 +139,35 @@
 
 /* ── CTA sidebar card ── */
 .instr-cta {
+  @apply rounded-lg p-7 text-center;
   background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy) 100%);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  text-align: center;
 }
 
 .instr-cta__title {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 8px;
+  @apply text-[1.05rem] font-bold text-white mb-2;
 }
 
 .instr-cta__text {
-  font-size: 0.85rem;
+  @apply text-[0.85rem] leading-[1.55] mb-5;
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 20px;
-  line-height: 1.55;
 }
 
 .instr-cta__btn {
-  display: block;
-  background: var(--color-primary);
-  color: #fff;
-  font-weight: 700;
-  font-size: 0.9rem;
-  padding: 12px 20px;
-  border-radius: var(--radius-md);
-  text-decoration: none;
-  transition: background 0.15s;
+  @apply block text-white font-bold text-[0.9rem] no-underline rounded-md px-5 py-3 transition-[background] duration-150 bg-primary;
 }
 
 .instr-cta__btn:hover {
   background: var(--color-primary-hover);
 }
 
-/* ── Breadcrumb ── */
-.instr-breadcrumb {
-  background: #fff;
-  border-bottom: 1px solid #eef0f5;
-  padding: 14px 24px;
-}
-
-.instr-breadcrumb__inner {
-  max-width: 860px;
-  margin: 0 auto;
-  font-size: 0.82rem;
-  color: var(--color-text-faint);
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-
-.instr-breadcrumb__inner a {
-  color: var(--color-navy);
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.instr-breadcrumb__inner a:hover {
-  text-decoration: underline;
-}
-
 /* ── Responsive ── */
 @media (max-width: 720px) {
   .instr-hero__inner {
-    flex-direction: column;
-    text-align: center;
-    gap: 28px;
+    @apply flex-col text-center gap-7;
   }
 
   .instr-container {
-    grid-template-columns: 1fr;
-    gap: 24px;
+    @apply grid-cols-1 gap-6;
   }
 
   .instr-sidebar {
@@ -297,10 +177,10 @@
 
 @media (max-width: 480px) {
   .instr-hero {
-    padding: 60px 20px 56px;
+    @apply px-5 pt-15 pb-14;
   }
 
   .instr-section {
-    padding: 22px 20px;
+    @apply px-5 py-5.5;
   }
 }

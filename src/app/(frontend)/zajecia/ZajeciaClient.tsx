@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import type { Class, Media } from '@/payload-types'
+import { Button } from '@/components/ui/Button'
 
 const typeLabels: Record<string, string> = {
   'krav-maga': 'Krav Maga',
@@ -55,15 +56,16 @@ export default function ZajeciaClient({ items }: { items: Partial<Class>[] }) {
 
   return (
     <>
-      <div className="zajecia-filters">
+      <div className="zajecia-filters flex flex-wrap gap-2.5 mb-10">
         {(['all', 'adults', 'children'] as Filter[]).map((f) => (
-          <button
+          <Button
             key={f}
-            className={`zajecia-filter-btn${filter === f ? ' zajecia-filter-btn--active' : ''}`}
+            variant={filter === f ? 'default' : 'outline'}
             onClick={() => setFilter(f)}
+            className="rounded-full px-6"
           >
             {f === 'all' ? 'Wszyscy' : f === 'adults' ? 'Dorośli' : 'Dzieci'}
-          </button>
+          </Button>
         ))}
       </div>
 

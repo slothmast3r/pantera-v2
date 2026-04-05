@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Navigation } from '@/payload-types'
 import Icon from '@/components/ui/Icon'
+import { Button } from '@/components/ui/Button'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const staticLinks = [
   {
@@ -92,9 +94,17 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
 
   return (
     <>
-      {menuOpen && (
-        <div className="navbar__overlay" onClick={() => { setMenuOpen(false); setOpenDropdown(null) }} />
-      )}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="navbar__overlay"
+            onClick={() => { setMenuOpen(false); setOpenDropdown(null) }}
+          />
+        )}
+      </AnimatePresence>
       <nav className="navbar">
       <div className="navbar__container">
         <Link href="/" className="navbar__logo">
@@ -114,7 +124,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
               return (
                 <li
                   key={link.href}
-                  className={`${subs.length ? 'navbar__dropdown' : ''} ${isOpen ? 'navbar__dropdown--open' : ''}`}
+                  className={`${subs.length ? 'navbar__dropdown' : ''} ${isOpen ? 'navbar__dropdown--open' : ''} relative`}
                 >
                   <Link
                     href={link.href}
@@ -132,6 +142,13 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                   >
                     {link.label}{subs.length ? <Icon name="keyboard_arrow_down" className="navbar__chevron" /> : ''}
                   </Link>
+                  {isActive && !menuOpen && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-accent rounded hidden lg:block"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
                   {subs.length ? (
                     useGrouped ? (
                       <GroupedDropdown subLinks={subs} pathname={pathname} onLinkClick={() => setMenuOpen(false)} />
@@ -149,17 +166,22 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
               )
             })}
             <li className="navbar__mobile-cta">
-              <Link href={cta.href ?? '/kontakt'} className="navbar__cta">
-                {cta.text ?? 'Zapisz się na zajęcia'}
-              </Link>
+              <Button asChild className="w-full">
+                <Link href={cta.href ?? '/kontakt'}>
+                  {cta.text ?? 'Zapisz się na zajęcia'}
+                </Link>
+              </Button>
             </li>
           </ul>
-          <Link href={cta.href ?? '/kontakt'} className="navbar__cta navbar__cta--desktop">
-            {cta.text ?? 'Zapisz się na zajęcia'}
-          </Link>
+          <Button asChild className="navbar__cta--desktop">
+            <Link href={cta.href ?? '/kontakt'}>
+              {cta.text ?? 'Zapisz się na zajęcia'}
+            </Link>
+          </Button>
         </div>
-        <button
-          className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''}`}
+        <Button
+          variant="ghost"
+          className={`navbar__hamburger${menuOpen ? ' navbar__hamburger--open' : ''} p-0 h-10 w-10 flex flex-col gap-1.5 hover:bg-bg-hover`}
           onClick={() => {
             setMenuOpen(!menuOpen)
             setOpenDropdown(null)
@@ -169,7 +191,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
           <span className="navbar__hamburger-bar" />
           <span className="navbar__hamburger-bar" />
           <span className="navbar__hamburger-bar" />
-        </button>
+        </Button>
       </div>
     </nav>
     </>

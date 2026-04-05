@@ -6,38 +6,45 @@ import type { Navigation, Footer as FooterType, ContactInfo } from '@/payload-ty
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import KontaktForm from './KontaktForm'
+import FaqItem from './FaqItem'
 import './kontakt.css'
 
 const staticFaq = [
   {
     id: 1,
     question: 'Jak zapisać się na zajęcia?',
-    answer: 'Wyślij wiadomość przez formularz kontaktowy, zadzwoń lub napisz na e-mail. Odpiszemy w ciągu 24 godzin i umówimy termin pierwszych bezpłatnych zajęć próbnych.',
+    answer:
+      'Wyślij wiadomość przez formularz kontaktowy, zadzwoń lub napisz na e-mail. Odpiszemy w ciągu 24 godzin i umówimy termin pierwszych bezpłatnych zajęć próbnych.',
   },
   {
     id: 2,
     question: 'Czy pierwsze zajęcia są bezpłatne?',
-    answer: 'Tak! Pierwsze zajęcia próbne są całkowicie bezpłatne i do niczego nie zobowiązują. To najlepszy sposób, żeby sprawdzić, czy dana dyscyplina jest dla Ciebie.',
+    answer:
+      'Tak! Pierwsze zajęcia próbne są całkowicie bezpłatne i do niczego nie zobowiązują. To najlepszy sposób, żeby sprawdzić, czy dana dyscyplina jest dla Ciebie.',
   },
   {
     id: 3,
     question: 'Od jakiego wieku można uczęszczać na zajęcia?',
-    answer: 'Prowadzimy zajęcia dla dzieci już od 4. roku życia (Karate Kids). Dla starszych dzieci (7–14 lat) polecamy Krav Maga Kids lub Karate Dzieci. Dorośli mogą wybrać spośród wszystkich oferowanych przez nas dyscyplin.',
+    answer:
+      'Prowadzimy zajęcia dla dzieci już od 4. roku życia (Karate Kids). Dla starszych dzieci (7–14 lat) polecamy Krav Maga Kids lub Karate Dzieci. Dorośli mogą wybrać spośród wszystkich oferowanych przez nas dyscyplin.',
   },
   {
     id: 4,
     question: 'Czy potrzebuję specjalnego stroju lub sprzętu?',
-    answer: 'Na pierwszych zajęciach wystarczy wygodny strój sportowy i zmienne obuwie. Wszelki sprzęt (ochraniacze, rękawice) możesz przetestować u nas przed zakupem.',
+    answer:
+      'Na pierwszych zajęciach wystarczy wygodny strój sportowy i zmienne obuwie. Wszelki sprzęt (ochraniacze, rękawice) możesz przetestować u nas przed zakupem.',
   },
   {
     id: 5,
     question: 'Jak wygląda system płatności?',
-    answer: 'Oferujemy karnety miesięczne na wybrane zajęcia. Płatności można dokonać gotówką na miejscu lub przelewem online przez naszą stronę w zakładce Płatność.',
+    answer:
+      'Oferujemy karnety miesięczne na wybrane zajęcia. Płatności można dokonać gotówką na miejscu lub przelewem online przez naszą stronę v zakładce Płatność.',
   },
   {
     id: 6,
     question: 'Czy organizujecie zajęcia dla firm i grup?',
-    answer: 'Tak, prowadzimy warsztaty i treningi firmowe — samoobrona, Krav Maga, integracja przez sport. Napisz do nas, a przygotujemy indywidualną ofertę.',
+    answer:
+      'Tak, prowadzimy warsztaty i treningi firmowe — samoobrona, Krav Maga, integracja przez sport. Napisz do nas, a przygotujemy indywidualną ofertę.',
   },
 ]
 
@@ -67,7 +74,7 @@ export default async function KontaktPage() {
     ])
     nav = navRes
     footer = footerRes
-    if (faqRes.docs.length > 0) faqItems = faqRes.docs as typeof staticFaq
+    if (faqRes.docs.length > 0) faqItems = faqRes.docs as any[]
     if (contactRes) contactInfo = contactRes
   } catch {
     // DB unavailable — fall back to static data
@@ -79,77 +86,88 @@ export default async function KontaktPage() {
 
       {/* HERO */}
       <section className="kontakt-hero">
+        <div className="kontakt-hero__blob" />
         <div className="kontakt-hero__inner">
-          <div className="kontakt-hero__label">KONTAKT</div>
-          <h1>Masz pytania?<br /><span>Chętnie odpowiemy.</span></h1>
-          <p>Napisz, zadzwoń lub wpadnij do nas. Pierwsze zajęcia są bezpłatne.</p>
+          <p className="kontakt-hero__eyebrow">KONTAKT</p>
+          <h1 className="kontakt-hero__title">
+            Masz pytania?
+            <br />
+            <span style={{ color: 'var(--color-primary)' }}>Chętnie odpowiemy.</span>
+          </h1>
+          <p className="kontakt-hero__subtitle">
+            Napisz, zadzwoń lub wpadnij do nas. Pierwsze zajęcia są bezpłatne.
+          </p>
         </div>
       </section>
 
       {/* MAIN GRID: form + info */}
-      <section className="kontakt-section">
-        <div className="kontakt-container">
-
+      <section className="kontakt-main">
+        <div className="kontakt-grid">
           {/* FORM */}
-          <div className="kontakt-form-wrap">
-            <h2 className="kontakt-section-title">Wyślij wiadomość</h2>
+          <div className="kontakt-form-card">
+            <h2 className="kontakt-form-card__title">Wyślij wiadomość</h2>
             <KontaktForm />
           </div>
 
           {/* INFO */}
           <aside className="kontakt-info">
             {contactInfo.address && (
-              <div className="kontakt-info__card">
-                <div className="kontakt-info__icon"><Icon name="location_on" /></div>
-                <div>
-                  <div className="kontakt-info__label">Adres</div>
-                  {contactInfo.addressLink
-                    ? <a href={contactInfo.addressLink} target="_blank" rel="noopener noreferrer" className="kontakt-info__value kontakt-info__link">{contactInfo.address}</a>
-                    : <div className="kontakt-info__value">{contactInfo.address}</div>
-                  }
-                </div>
-              </div>
+              <InfoCard icon="location_on" label="Adres">
+                {contactInfo.addressLink ? (
+                  <a
+                    href={contactInfo.addressLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold hover:underline"
+                    style={{ color: 'var(--color-navy)' }}
+                  >
+                    {contactInfo.address}
+                  </a>
+                ) : (
+                  <span>{contactInfo.address}</span>
+                )}
+              </InfoCard>
             )}
             {contactInfo.phone && (
-              <div className="kontakt-info__card">
-                <div className="kontakt-info__icon"><Icon name="phone" /></div>
-                <div>
-                  <div className="kontakt-info__label">Telefon</div>
-                  <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="kontakt-info__value kontakt-info__link">{contactInfo.phone}</a>
-                </div>
-              </div>
+              <InfoCard icon="phone" label="Telefon">
+                <a
+                  href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
+                  className="font-semibold hover:underline"
+                  style={{ color: 'var(--color-navy)' }}
+                >
+                  {contactInfo.phone}
+                </a>
+              </InfoCard>
             )}
             {contactInfo.email && (
-              <div className="kontakt-info__card">
-                <div className="kontakt-info__icon"><Icon name="mail" /></div>
-                <div>
-                  <div className="kontakt-info__label">E-mail</div>
-                  <a href={`mailto:${contactInfo.email}`} className="kontakt-info__value kontakt-info__link">{contactInfo.email}</a>
-                </div>
-              </div>
+              <InfoCard icon="mail" label="E-mail">
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="font-semibold hover:underline"
+                  style={{ color: 'var(--color-navy)' }}
+                >
+                  {contactInfo.email}
+                </a>
+              </InfoCard>
             )}
             {contactInfo.hours && (
-              <div className="kontakt-info__card">
-                <div className="kontakt-info__icon"><Icon name="schedule" /></div>
-                <div>
-                  <div className="kontakt-info__label">Godziny otwarcia</div>
-                  <div className="kontakt-info__value" style={{ whiteSpace: 'pre-line' }}>{contactInfo.hours}</div>
-                </div>
-              </div>
+              <InfoCard icon="schedule" label="Godziny otwarcia">
+                <span style={{ whiteSpace: 'pre-line' }}>{contactInfo.hours}</span>
+              </InfoCard>
             )}
             {contactInfo.mapEmbedUrl && (
-              <div className="kontakt-info__map">
+              <div className="kontakt-map sm:col-span-2 lg:col-span-1">
                 <iframe
                   src={contactInfo.mapEmbedUrl}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="Lokalizacja Pantera"
+                  className="w-full h-50 border-0 block"
                 />
               </div>
             )}
           </aside>
-
         </div>
       </section>
 
@@ -157,16 +175,15 @@ export default async function KontaktPage() {
       <section className="kontakt-faq">
         <div className="kontakt-faq__inner">
           <div className="kontakt-faq__header">
-            <div className="kontakt-faq__label">FAQ</div>
-            <h2>Najczęstsze pytania</h2>
-            <p>Nie znalazłeś odpowiedzi? Napisz do nas — odpiszemy w ciągu 24h.</p>
+            <p className="kontakt-faq__eyebrow">FAQ</p>
+            <h2 className="kontakt-faq__title">Najczęstsze pytania</h2>
+            <p className="kontakt-faq__subtitle">
+              Nie znalazłeś odpowiedzi? Napisz do nas — odpiszemy w ciągu 24h.
+            </p>
           </div>
           <div className="kontakt-faq__list">
             {faqItems.map((item) => (
-              <details key={item.id} className="faq-item">
-                <summary className="faq-item__question">{item.question}</summary>
-                <div className="faq-item__answer">{item.answer}</div>
-              </details>
+              <FaqItem key={item.id} question={item.question} answer={item.answer} />
             ))}
           </div>
         </div>
@@ -174,5 +191,27 @@ export default async function KontaktPage() {
 
       <Footer data={footer} />
     </>
+  )
+}
+
+function InfoCard({
+  icon,
+  label,
+  children,
+}: {
+  icon: string
+  label: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="kontakt-info-card">
+      <div className="kontakt-info-card__icon">
+        <Icon name={icon} />
+      </div>
+      <div>
+        <p className="kontakt-info-card__label">{label}</p>
+        <div className="kontakt-info-card__value">{children}</div>
+      </div>
+    </div>
   )
 }

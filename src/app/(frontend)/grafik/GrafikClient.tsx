@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
+import { Button } from '@/components/ui/Button'
+import { cn } from '@/components/ui/utils'
 
 const DAYS = [
   { value: 'monday', short: 'Pon', label: 'Poniedziałek' },
@@ -62,10 +64,7 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
 
   const visibleDays = selectedDays.size === 0 ? DAYS : DAYS.filter((d) => selectedDays.has(d.value))
 
-  const filteredEntries = entries.filter((e) => {
-    if (activeType !== 'all' && e.cls.type !== activeType) return false
-    return true
-  })
+  const filteredEntries = entries.filter((e) => activeType === 'all' || e.cls.type === activeType)
 
   const entriesByDay = Object.fromEntries(
     DAYS.map((d) => [
@@ -80,69 +79,81 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
 
   return (
     <>
-      {/* ── Filters ── */}
+      {/* FILTERS */}
       <div className="grafik-filters">
-        <div className="grafik-container">
-          <div className="grafik-filters__row">
-            {/* Day filter */}
-            <div className="grafik-filters__group">
-              <span className="grafik-filters__label">Dzień</span>
-              <div className="grafik-filters__pills">
-                <button
-                  className={`grafik-pill${selectedDays.size === 0 ? ' grafik-pill--active' : ''}`}
-                  onClick={() => setSelectedDays(new Set())}
+        <div className="grafik-filters__inner">
+          {/* Day filter */}
+          <div className="grafik-filter-group">
+            <span className="grafik-filter-label">Dzień</span>
+            <div className="grafik-pill-group flex flex-wrap gap-2">
+              <Button
+                variant={selectedDays.size === 0 ? 'default' : 'outline'}
+                size="sm"
+                className="rounded-full px-5"
+                onClick={() => setSelectedDays(new Set())}
+              >
+                Wszystkie
+              </Button>
+              {DAYS.map((d) => (
+                <Button
+                  key={d.value}
+                  variant={selectedDays.has(d.value) ? 'default' : 'outline'}
+                  size="sm"
+                  className="rounded-full px-4"
+                  onClick={() => toggleDay(d.value)}
+                >
+                  {d.short}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {/* Type filter */}
+          {presentTypes.length > 1 && (
+            <div className="grafik-filter-group">
+              <span className="grafik-filter-label">Zajęcia</span>
+              <div className="grafik-pill-group flex flex-wrap gap-2">
+                <Button
+                  variant={activeType === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  className="rounded-full px-5"
+                  onClick={() => setActiveType('all')}
                 >
                   Wszystkie
-                </button>
-                {DAYS.map((d) => (
-                  <button
-                    key={d.value}
-                    className={`grafik-pill${selectedDays.has(d.value) ? ' grafik-pill--active' : ''}`}
-                    onClick={() => toggleDay(d.value)}
-                  >
-                    {d.short}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Type filter */}
-            {presentTypes.length > 1 && (
-              <div className="grafik-filters__group">
-                <span className="grafik-filters__label">Zajęcia</span>
-                <div className="grafik-filters__pills">
-                  <button
-                    className={`grafik-pill${activeType === 'all' ? ' grafik-pill--active' : ''}`}
-                    onClick={() => setActiveType('all')}
-                  >
-                    Wszystkie
-                  </button>
-                  {presentTypes.map((type) => (
-                    <button
+                </Button>
+                {presentTypes.map((type) => {
+                  const isActive = activeType === type
+                  return (
+                    <Button
                       key={type}
-                      className={`grafik-pill grafik-pill--type${activeType === type ? ' grafik-pill--active' : ''}`}
+                      variant="outline"
+                      size="sm"
+                      className={cn(
+                        "rounded-full px-4 transition-all duration-200",
+                        isActive && "text-white"
+                      )}
                       style={
-                        activeType === type
+                        isActive
                           ? { background: TYPE_COLORS[type], borderColor: TYPE_COLORS[type] }
                           : { borderColor: TYPE_COLORS[type], color: TYPE_COLORS[type] }
                       }
                       onClick={() => setActiveType(activeType === type ? 'all' : type)}
                     >
                       {TYPE_LABELS[type] ?? type}
-                    </button>
-                  ))}
-                </div>
+                    </Button>
+                  )
+                })}
               </div>
-            )}
-          </div>
-
-          {totalVisible === 0 && (
-            <p className="grafik-filters__empty">Brak zajęć dla wybranych filtrów.</p>
+            </div>
           )}
         </div>
+
+        {totalVisible === 0 && (
+          <p className="grafik-filters__empty">Brak zajęć dla wybranych filtrów.</p>
+        )}
       </div>
 
-      {/* ── Grid ── */}
+      {/* GRID */}
       <section className="grafik-section">
         <div className="grafik-container">
           <p className="grafik-scroll-hint">← Przesuń, aby zobaczyć wszystkie dni →</p>
@@ -164,14 +175,30 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
                           key={i}
                           href={`/zajecia/${entry.cls.slug}`}
                           className="grafik-card"
-                          style={{ '--card-color': TYPE_COLORS[entry.cls.type ?? ''] ?? '#ccc' } as React.CSSProperties}
+                          style={
+                            {
+                              '--card-color': TYPE_COLORS[entry.cls.type ?? ''] ?? '#ccc',
+                            } as React.CSSProperties
+                          }
                         >
                           <p className="grafik-card__time">
                             {entry.startTime} – {entry.endTime}
                           </p>
                           <h3 className="grafik-card__title">{entry.cls.title}</h3>
                           {entry.ageRange && (
-                            <span className="grafik-card__age"><span className="material-symbols-outlined" style={{fontSize:'13px',verticalAlign:'middle',marginRight:'3px'}}>child_care</span>{entry.ageRange}</span>
+                            <span className="grafik-card__age">
+                              <span
+                                className="material-symbols-outlined"
+                                style={{
+                                  fontSize: '13px',
+                                  verticalAlign: 'middle',
+                                  marginRight: '3px',
+                                }}
+                              >
+                                child_care
+                              </span>
+                              {entry.ageRange}
+                            </span>
                           )}
                           {entry.notes && <p className="grafik-card__notes">{entry.notes}</p>}
                         </a>
@@ -185,21 +212,24 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
         </div>
       </section>
 
-      {/* ── Legend ── */}
+      {/* LEGEND */}
       {presentTypes.length > 0 && (
-        <section className="grafik-legend">
+        <div className="grafik-legend">
           <div className="grafik-legend__inner">
-            <span className="grafik-legend__label">Legenda</span>
-            <div className="grafik-legend__list">
+            <span className="grafik-legend__title">Legenda</span>
+            <div className="grafik-legend__items">
               {presentTypes.map((type) => (
                 <div key={type} className="grafik-legend__item">
-                  <span className="grafik-legend__dot" style={{ background: TYPE_COLORS[type] }} />
+                  <span
+                    className="grafik-legend__dot"
+                    style={{ background: TYPE_COLORS[type] }}
+                  />
                   {TYPE_LABELS[type] ?? type}
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
       )}
     </>
   )

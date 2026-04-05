@@ -1,6 +1,8 @@
 'use client'
 
 import React, { useState } from 'react'
+import { z } from 'zod'
+import { Button } from '@/components/ui/Button'
 
 const QUICK_AMOUNTS = [50, 100, 150, 200, 300]
 
@@ -15,7 +17,14 @@ const PURPOSES = [
   'Inne',
 ]
 
-type FormState = 'idle' | 'loading' | 'error'
+const paymentSchema = z.object({
+  amount: z.number({ message: 'Podaj kwotę.' }).min(1, 'Minimalna kwota to 1 zł.'),
+  purpose: z.string().min(1, 'Wybierz lub opisz cel płatności.'),
+  email: z.string().email('Podaj prawidłowy adres e-mail.'),
+  name: z.string().optional(),
+})
+
+type FieldErrors = Partial<Record<keyof z.infer<typeof paymentSchema>, string>>
 
 export default function PlatnoscForm() {
   const [amount, setAmount] = useState('')
@@ -23,175 +32,166 @@ export default function PlatnoscForm() {
   const [customPurpose, setCustomPurpose] = useState('')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
-  const [state, setState] = useState<FormState>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({})
+  const [serverError, setServerError] = useState('')
 
   const effectivePurpose = purpose === 'Inne' ? customPurpose : purpose
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setErrorMsg('')
+    setServerError('')
 
     const amountNum = parseFloat(amount.replace(',', '.'))
-    if (!amountNum || amountNum < 1) {
-      setErrorMsg('Podaj prawidłową kwotę (minimum 1 zł).')
-      return
-    }
-    if (!effectivePurpose.trim()) {
-      setErrorMsg('Opisz za co jest płatność.')
-      return
-    }
-    if (!email.trim()) {
-      setErrorMsg('Podaj adres e-mail.')
+
+    const parsed = paymentSchema.safeParse({
+      amount: isNaN(amountNum) ? undefined : amountNum,
+      purpose: effectivePurpose.trim(),
+      email: email.trim(),
+      name: name.trim() || undefined,
+    })
+
+    if (!parsed.success) {
+      const errors: FieldErrors = {}
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0] as keyof FieldErrors
+        if (!errors[field]) errors[field] = issue.message
+      }
+      setFieldErrors(errors)
       return
     }
 
-    setState('loading')
+    setFieldErrors({})
+    setLoading(true)
 
     try {
       const res = await fetch('/api/platnosc', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: amountNum,
-          purpose: effectivePurpose.trim(),
-          email: email.trim(),
-          name: name.trim(),
-        }),
+        body: JSON.stringify(parsed.data),
       })
 
       const data = await res.json()
 
       if (!res.ok || !data.redirectUrl) {
-        setErrorMsg(data.error ?? 'Błąd podczas inicjowania płatności. Spróbuj ponownie.')
-        setState('error')
+        setServerError(data.error ?? 'Błąd podczas inicjowania płatności. Spróbuj ponownie.')
+        setLoading(false)
         return
       }
 
-      // Redirect to tpay
       window.location.href = data.redirectUrl
     } catch {
-      setErrorMsg('Nie można połączyć się z serwerem. Spróbuj ponownie.')
-      setState('error')
+      setServerError('Nie można połączyć się z serwerem. Spróbuj ponownie.')
+      setLoading(false)
     }
   }
 
   return (
-    <form className="pay-form" onSubmit={handleSubmit} noValidate>
-      <p className="pay-form__section-title">Kwota</p>
+    <form onSubmit={handleSubmit} noValidate className="platnosc-form">
+      <p className="platnosc-section-title">Kwota</p>
 
-      {/* Quick amount buttons */}
-      <div className="pay-quick">
+      <div className="platnosc-quick-amounts">
         {QUICK_AMOUNTS.map((q) => (
-          <button
+          <Button
             key={q}
             type="button"
-            className={`pay-quick__btn${amount === String(q) ? ' pay-quick__btn--active' : ''}`}
+            variant={amount === String(q) ? 'default' : 'outline'}
             onClick={() => setAmount(String(q))}
+            className="flex-1 h-11 text-base font-semibold"
           >
             {q} zł
-          </button>
+          </Button>
         ))}
       </div>
 
-      {/* Custom amount */}
-      <div className="pay-field pay-field--amount">
-        <label className="pay-field__label" htmlFor="amount">
-          Własna kwota
-        </label>
-        <div className="pay-field__input-wrap">
+      <PayField label="Własna kwota" htmlFor="amount" error={fieldErrors.amount}>
+        <div className="platnosc-amount-wrap">
           <input
             id="amount"
             type="number"
             min="1"
             step="0.01"
             placeholder="np. 120"
-            className="pay-field__input pay-field__input--number"
+            className="platnosc-input platnosc-input-amount"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
           />
-          <span className="pay-field__suffix">PLN</span>
+          <span className="platnosc-amount-currency">PLN</span>
         </div>
-      </div>
+      </PayField>
 
-      <p className="pay-form__section-title">Za co płacisz?</p>
+      <p className="platnosc-section-title">Za co płacisz?</p>
 
-      {/* Purpose select */}
-      <div className="pay-field">
-        <label className="pay-field__label" htmlFor="purpose">Cel płatności</label>
+      <PayField label="Cel płatności" htmlFor="purpose" error={fieldErrors.purpose}>
         <select
           id="purpose"
-          className="pay-field__input pay-field__select"
+          className="platnosc-input platnosc-input-select"
           value={purpose}
           onChange={(e) => setPurpose(e.target.value)}
         >
           <option value="">— wybierz —</option>
           {PURPOSES.map((p) => (
-            <option key={p} value={p}>{p}</option>
+            <option key={p} value={p}>
+              {p}
+            </option>
           ))}
         </select>
-      </div>
+      </PayField>
 
       {purpose === 'Inne' && (
-        <div className="pay-field">
-          <label className="pay-field__label" htmlFor="customPurpose">Opisz cel płatności</label>
+        <PayField label="Opisz cel płatności" htmlFor="customPurpose">
           <input
             id="customPurpose"
             type="text"
             placeholder="np. Warsztaty samoobrony 15.03"
-            className="pay-field__input"
+            className="platnosc-input"
             value={customPurpose}
             onChange={(e) => setCustomPurpose(e.target.value)}
             maxLength={120}
           />
-        </div>
+        </PayField>
       )}
 
-      <p className="pay-form__section-title">Twoje dane</p>
+      <p className="platnosc-section-title">Twoje dane</p>
 
-      <div className="pay-field">
-        <label className="pay-field__label" htmlFor="name">Imię i nazwisko</label>
+      <PayField label="Imię i nazwisko" htmlFor="name">
         <input
           id="name"
           type="text"
           placeholder="Jan Kowalski"
-          className="pay-field__input"
+          className="platnosc-input"
           value={name}
           onChange={(e) => setName(e.target.value)}
           maxLength={80}
         />
-      </div>
+      </PayField>
 
-      <div className="pay-field">
-        <label className="pay-field__label" htmlFor="email">
-          E-mail <span className="pay-field__required">*</span>
-        </label>
+      <PayField
+        label="E-mail"
+        htmlFor="email"
+        required
+        hint="Na ten adres wyślemy potwierdzenie płatności."
+        error={fieldErrors.email}
+      >
         <input
           id="email"
           type="email"
           placeholder="jan@kowalski.pl"
-          className="pay-field__input"
+          className="platnosc-input"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <p className="pay-field__hint">Na ten adres wyślemy potwierdzenie płatności.</p>
-      </div>
+      </PayField>
 
-      {errorMsg && (
-        <div className="pay-error" role="alert">
-          {errorMsg}
-        </div>
+      {serverError && (
+        <p className="platnosc-field__error platnosc-field__error--server">{serverError}</p>
       )}
 
-      <button
-        type="submit"
-        className="pay-submit"
-        disabled={state === 'loading'}
-      >
-        {state === 'loading' ? (
+      <Button type="submit" disabled={loading} size="lg" className="w-full h-14 text-[1.1rem] font-bold mt-4">
+        {loading ? (
           <>
-            <span className="pay-submit__spinner" />
+            <span className="pay-spinner" />
             Przekierowuję do płatności…
           </>
         ) : (
@@ -203,12 +203,40 @@ export default function PlatnoscForm() {
             &nbsp;→
           </>
         )}
-      </button>
+      </Button>
 
-      <p className="pay-form__disclaimer">
-        Klikając „Zapłać" zostaniesz przekierowany do bezpiecznej bramki płatniczej tpay.com.
-        Twoje dane są chronione protokołem SSL.
+      <p className="platnosc-disclaimer">
+        Klikając „Zapłać" zostaniesz przekierowany do bezpiecznej bramki płatniczej tpay.com. Twoje
+        dane są chronione protokołem SSL.
       </p>
     </form>
+  )
+}
+
+function PayField({
+  label,
+  htmlFor,
+  required,
+  hint,
+  error,
+  children,
+}: {
+  label: string
+  htmlFor: string
+  required?: boolean
+  hint?: string
+  error?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="platnosc-field">
+      <label htmlFor={htmlFor} className="platnosc-label">
+        {label}
+        {required && <span className="platnosc-label__required">*</span>}
+      </label>
+      {children}
+      {error && <p className="platnosc-field__error">{error}</p>}
+      {hint && <p className="platnosc-field__hint">{hint}</p>}
+    </div>
   )
 }

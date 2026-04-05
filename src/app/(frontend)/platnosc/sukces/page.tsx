@@ -22,13 +22,17 @@ export default async function PlatnoscSukcesPage() {
     <>
       <Navbar data={navData} />
       <main>
-        <section className="pay-result pay-result--success">
-          <div className="pay-result__icon"><span className="material-symbols-outlined">check_circle</span></div>
-          <h1 className="pay-result__title">Płatność zakończona sukcesem!</h1>
-          <p className="pay-result__text">
+        <section className="platnosc-status">
+          <div className="platnosc-status__icon platnosc-status__icon--success">
+            <span className="material-symbols-outlined">check_circle</span>
+          </div>
+          <h1 className="platnosc-status__title">Płatność zakończona sukcesem!</h1>
+          <p className="platnosc-status__text">
             Dziękujemy za wpłatę. Potwierdzenie zostało wysłane na podany adres e-mail.
           </p>
-          <Link href="/" className="pay-result__btn">Wróć na stronę główną</Link>
+          <Link href="/" className="platnosc-status__btn">
+            Wróć na stronę główną
+          </Link>
         </section>
       </main>
       <Footer data={footerData} />

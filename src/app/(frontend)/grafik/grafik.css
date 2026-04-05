@@ -1,94 +1,119 @@
+@reference "../variables.css";
+
 /* ==========================================
-   GRAFIK (SCHEDULE) PAGE
+   GRAFIK — CSS for things Tailwind can't handle:
+   dynamic grid columns, scroll-snap, CSS var per card,
+   pill hover/active states, day header show/hide
    ========================================== */
 
 /* --- Hero --- */
 .grafik-hero {
+  @apply px-6 pt-18 pb-15 text-center text-white;
   background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
-  color: #fff;
-  padding: 72px 24px 60px;
-  text-align: center;
 }
 
 .grafik-hero__eyebrow {
-  font-size: 12px;
-  font-weight: 700;
+  @apply text-[12px] font-bold uppercase mb-4 text-white/55;
   letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 16px;
 }
 
 .grafik-hero__title {
+  @apply font-extrabold leading-[1.1] mb-4;
   font-size: clamp(30px, 5vw, 52px);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 16px;
 }
 
 .grafik-hero__subtitle {
-  font-size: 17px;
-  color: rgba(255, 255, 255, 0.72);
-  max-width: 520px;
-  margin: 0 auto;
+  @apply text-[17px] max-w-130 mx-auto text-white/72;
 }
 
-/* --- Divider --- */
-.grafik-divider {
-  line-height: 0;
-  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
-  padding: 0;
-  margin-bottom: -1px;
-}
-.grafik-divider img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: brightness(0) invert(1);
-  opacity: 0.15;
-}
-
-/* --- Filters --- */
+/* --- Filters bar --- */
 .grafik-filters {
-  background: #fff;
-  border-bottom: 1px solid #eaecf0;
-  padding: 20px 24px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  @apply bg-white border-b px-6 py-5 sticky top-0 z-10;
+  border-color: #eaecf0;
 }
 
-.grafik-filters__row {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px 40px;
-  align-items: flex-start;
+.grafik-filters__inner {
+  @apply max-w-300 mx-auto flex flex-wrap items-start gap-y-3.5 gap-x-10;
 }
 
-.grafik-filters__group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+.grafik-filter-group {
+  @apply flex items-center flex-wrap gap-2.5;
 }
 
-.grafik-filters__label {
+.grafik-filter-label {
+  @apply font-bold uppercase whitespace-nowrap;
   font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 1.2px;
   color: #999;
-  white-space: nowrap;
 }
 
-.grafik-filters__pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+.grafik-pill-group {
+  @apply flex flex-wrap gap-1.5;
 }
 
+.grafik-filters__empty {
+  @apply max-w-300 mx-auto mt-4 text-[14px] text-center;
+  color: #999;
+}
+
+/* --- CTA section --- */
+.grafik-cta {
+  @apply px-6 py-18 text-center text-white;
+  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
+}
+
+.grafik-cta__title {
+  @apply font-extrabold mb-3.5 leading-[1.15];
+  font-size: clamp(24px, 3.5vw, 38px);
+}
+
+.grafik-cta__text {
+  @apply text-[17px] mb-9 max-w-120 mx-auto text-white/72;
+}
+
+.grafik-cta__btn {
+  @apply inline-block px-11 py-4 text-white text-[16px] font-bold rounded-lg no-underline tracking-[0.3px] transition-[background,transform] duration-200;
+  background: var(--color-error);
+}
+
+.grafik-cta__btn:hover {
+  background: var(--color-error-dark);
+  transform: translateY(-2px);
+}
+
+/* --- Legend --- */
+.grafik-legend {
+  @apply bg-white px-6 py-7 border-t;
+  border-color: #eee;
+}
+
+.grafik-legend__inner {
+  @apply max-w-300 mx-auto flex items-center flex-wrap gap-5;
+}
+
+.grafik-legend__title {
+  @apply font-bold uppercase shrink-0;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  color: #999;
+}
+
+.grafik-legend__items {
+  @apply flex flex-wrap gap-x-5 gap-y-3;
+}
+
+.grafik-legend__item {
+  @apply flex items-center text-[13px];
+  gap: 7px;
+  color: var(--color-text-secondary);
+}
+
+.grafik-legend__dot {
+  @apply w-2.5 h-2.5 shrink-0;
+  border-radius: 3px;
+}
+
+/* --- Filter pills --- */
 .grafik-pill {
   padding: 5px 14px;
   border-radius: 20px;
@@ -114,19 +139,9 @@
   color: #fff;
 }
 
-.grafik-pill--type.grafik-pill--active {
-  color: #fff;
-}
+.grafik-pill--type.grafik-pill--active { color: #fff; }
 
-.grafik-filters__empty {
-  max-width: 1200px;
-  margin: 16px auto 0;
-  font-size: 14px;
-  color: #999;
-  text-align: center;
-}
-
-/* --- Main Section --- */
+/* --- Main section --- */
 .grafik-section {
   background: #f2f4f7;
   padding: 36px 24px 64px;
@@ -137,7 +152,7 @@
   margin: 0 auto;
 }
 
-/* --- Scroll hint (mobile) --- */
+/* --- Scroll hint (mobile only) --- */
 .grafik-scroll-hint {
   display: none;
   text-align: center;
@@ -147,10 +162,9 @@
   letter-spacing: 0.5px;
 }
 
-/* --- Grid --- */
+/* --- Dynamic grid --- */
 .grafik-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
   gap: 10px;
   align-items: start;
 }
@@ -162,7 +176,7 @@
 .grafik-grid--cols-5 { grid-template-columns: repeat(5, 1fr); }
 .grafik-grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
 
-/* --- Day Column --- */
+/* --- Day column --- */
 .grafik-day__header {
   background: var(--color-navy);
   color: #fff;
@@ -171,7 +185,6 @@
   text-align: center;
 }
 
-.grafik-day__name,
 .grafik-day__short,
 .grafik-day__full {
   font-size: 11px;
@@ -183,7 +196,7 @@
 .grafik-day__full { display: none; }
 
 .grafik-grid--cols-1 .grafik-day__short { display: none; }
-.grafik-grid--cols-1 .grafik-day__full { display: block; font-size: 13px; }
+.grafik-grid--cols-1 .grafik-day__full  { display: block; font-size: 13px; }
 
 .grafik-day__cards {
   display: flex;
@@ -258,94 +271,6 @@
   line-height: 1.4;
 }
 
-/* --- Legend --- */
-.grafik-legend {
-  background: #fff;
-  padding: 28px 24px;
-  border-top: 1px solid #eee;
-}
-
-.grafik-legend__inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.grafik-legend__label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  flex-shrink: 0;
-}
-
-.grafik-legend__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 20px;
-}
-
-.grafik-legend__item {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-
-.grafik-legend__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
-
-/* --- CTA --- */
-.grafik-cta {
-  background: linear-gradient(135deg, var(--color-navy) 0%, #1a237e 100%);
-  color: #fff;
-  padding: 72px 24px;
-  text-align: center;
-}
-
-.grafik-cta__title {
-  font-size: clamp(24px, 3.5vw, 38px);
-  font-weight: 800;
-  margin-bottom: 14px;
-  line-height: 1.15;
-}
-
-.grafik-cta__subtitle {
-  font-size: 17px;
-  color: rgba(255, 255, 255, 0.72);
-  margin-bottom: 36px;
-  max-width: 480px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.grafik-cta__btn {
-  display: inline-block;
-  background: var(--color-error);
-  color: #fff;
-  padding: 16px 44px;
-  border-radius: var(--radius-md);
-  font-size: 16px;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  transition: background 0.2s, transform 0.15s;
-}
-
-.grafik-cta__btn:hover {
-  background: var(--color-error-dark);
-  transform: translateY(-2px);
-}
-
 /* ==========================================
    RESPONSIVE
    ========================================== */
@@ -357,21 +282,9 @@
 }
 
 @media (max-width: 700px) {
-  .grafik-filters__group {
-    gap: 8px;
-  }
+  .grafik-scroll-hint { display: block; }
 
-  .grafik-filters__row {
-    gap: 14px 24px;
-  }
-
-  .grafik-scroll-hint {
-    display: block;
-  }
-
-  .grafik-section {
-    padding: 32px 16px 48px;
-  }
+  .grafik-section { padding: 32px 16px 48px; }
 
   .grafik-grid--cols-2,
   .grafik-grid--cols-3,
@@ -391,9 +304,7 @@
   .grafik-grid--cols-3::-webkit-scrollbar,
   .grafik-grid--cols-4::-webkit-scrollbar,
   .grafik-grid--cols-5::-webkit-scrollbar,
-  .grafik-grid--cols-6::-webkit-scrollbar {
-    display: none;
-  }
+  .grafik-grid--cols-6::-webkit-scrollbar { display: none; }
 
   .grafik-grid--cols-2 .grafik-day,
   .grafik-grid--cols-3 .grafik-day,

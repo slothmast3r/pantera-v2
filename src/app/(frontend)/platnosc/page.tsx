@@ -4,6 +4,7 @@ import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import PlatnoscForm from './PlatnoscForm'
+import { Button } from '@/components/ui/Button'
 import './platnosc.css'
 
 export default async function PlatnoscPage() {
@@ -26,40 +27,59 @@ export default async function PlatnoscPage() {
     <>
       <Navbar data={navData} />
       <main>
-        <section className="pay-hero">
-          <p className="pay-hero__eyebrow">Pantera FSC</p>
-          <h1 className="pay-hero__title">Płatność online</h1>
-          <p className="pay-hero__subtitle">
-            Opłać karnet, zajęcia lub inne zobowiązanie wygodnie przez internet.
-          </p>
+        {/* HERO */}
+        <section className="platnosc-hero">
+          <div className="platnosc-hero__blob" />
+          <div className="platnosc-hero__inner">
+            <p className="platnosc-hero__eyebrow">Pantera FSC</p>
+            <h1 className="platnosc-hero__title">Płatność online</h1>
+            <p className="platnosc-hero__subtitle">
+              Opłać karnet, zajęcia lub inne zobowiązanie wygodnie przez internet.
+            </p>
+          </div>
         </section>
 
-        <section className="pay-section">
-          <div className="pay-container">
+        {/* MAIN */}
+        <section className="platnosc-main">
+          <div className="platnosc-grid">
             <PlatnoscForm />
 
-            <div className="pay-info">
-              <div className="pay-info__card">
-                <p className="pay-info__title">Jak to działa?</p>
-                <ol className="pay-info__steps">
-                  <li>Wpisz kwotę i opisz za co płacisz</li>
-                  <li>Podaj swoje dane kontaktowe</li>
-                  <li>Zostaniesz przekierowany do bezpiecznej bramki tpay</li>
-                  <li>Po płatności otrzymasz potwierdzenie na e-mail</li>
+            {/* SIDEBAR */}
+            <aside className="platnosc-sidebar">
+              <div className="platnosc-sidebar-card">
+                <p className="platnosc-sidebar-card__title">Jak to działa?</p>
+                <ol className="platnosc-sidebar-card__list">
+                  {[
+                    'Wpisz kwotę i opisz za co płacisz',
+                    'Podaj swoje dane kontaktowe',
+                    'Zostaniesz przekierowany do bezpiecznej bramki tpay',
+                    'Po płatności otrzymasz potwierdzenie na e-mail',
+                  ].map((step) => (
+                    <li key={step} className="platnosc-sidebar-card__step">{step}</li>
+                  ))}
                 </ol>
               </div>
-              <div className="pay-info__card">
-                <p className="pay-info__title">Masz pytania?</p>
-                <p className="pay-info__text">
+
+              <div className="platnosc-sidebar-card">
+                <p className="platnosc-sidebar-card__title">Masz pytania?</p>
+                <p className="platnosc-sidebar-card__step mb-2.5">
                   Zadzwoń lub napisz do nas, a chętnie pomożemy ustalić właściwą kwotę.
                 </p>
-                <Link href="/kontakt" className="pay-info__link">Skontaktuj się →</Link>
+                <Button asChild variant="outline" className="w-full text-primary border-primary/20 hover:bg-primary/5 hover:text-primary-hover">
+                  <Link href="/kontakt">
+                    Skontaktuj się →
+                  </Link>
+                </Button>
               </div>
-              <div className="pay-info__secure">
-                <span className="pay-info__secure-icon material-symbols-outlined">lock</span>
-                <span>Płatność obsługiwana przez <strong>tpay.com</strong> — certyfikowane centrum płatności</span>
+
+              <div className="platnosc-sidebar-secure">
+                <span className="material-symbols-outlined text-[1.2rem] shrink-0">lock</span>
+                <span>
+                  Płatność obsługiwana przez <strong>tpay.com</strong> — certyfikowane centrum
+                  płatności
+                </span>
               </div>
-            </div>
+            </aside>
           </div>
         </section>
       </main>

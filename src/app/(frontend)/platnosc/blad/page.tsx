@@ -22,15 +22,21 @@ export default async function PlatnoscBladPage() {
     <>
       <Navbar data={navData} />
       <main>
-        <section className="pay-result pay-result--error">
-          <div className="pay-result__icon"><span className="material-symbols-outlined">cancel</span></div>
-          <h1 className="pay-result__title">Płatność nieudana</h1>
-          <p className="pay-result__text">
+        <section className="platnosc-status">
+          <div className="platnosc-status__icon platnosc-status__icon--error">
+            <span className="material-symbols-outlined">cancel</span>
+          </div>
+          <h1 className="platnosc-status__title">Płatność nieudana</h1>
+          <p className="platnosc-status__text">
             Coś poszło nie tak. Możesz spróbować ponownie lub skontaktować się z nami.
           </p>
-          <div className="pay-result__actions">
-            <Link href="/platnosc" className="pay-result__btn">Spróbuj ponownie</Link>
-            <Link href="/kontakt" className="pay-result__btn pay-result__btn--outline">Kontakt</Link>
+          <div className="platnosc-status__actions">
+            <Link href="/platnosc" className="platnosc-status__btn">
+              Spróbuj ponownie
+            </Link>
+            <Link href="/kontakt" className="platnosc-status__btn platnosc-status__btn--outline">
+              Kontakt
+            </Link>
           </div>
         </section>
       </main>

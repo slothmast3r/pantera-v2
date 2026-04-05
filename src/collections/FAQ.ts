@@ -6,6 +6,7 @@ export const FAQ: CollectionConfig = {
   admin: {
     useAsTitle: 'question',
     defaultColumns: ['question', 'category', 'order', 'updatedAt'],
+    group: 'Treści',
   },
   access: {
     read: () => true,

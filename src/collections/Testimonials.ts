@@ -6,6 +6,7 @@ export const Testimonials: CollectionConfig = {
   admin: {
     useAsTitle: 'author',
     defaultColumns: ['author', 'rating', 'relatedClass', 'updatedAt'],
+    group: 'Treści',
   },
   access: {
     read: () => true,
@@ -36,6 +37,7 @@ export const Testimonials: CollectionConfig = {
       min: 1,
       max: 5,
       defaultValue: 5,
+      admin: { description: 'Liczba gwiazdek wyświetlanych przy opinii.' },
     },
     {
       name: 'relatedClass',
@@ -48,6 +50,7 @@ export const Testimonials: CollectionConfig = {
       label: 'Wyróżniona',
       type: 'checkbox',
       defaultValue: false,
+      admin: { description: 'Wyróżnione opinie pojawiają się na stronie głównej.' },
     },
   ],
 }

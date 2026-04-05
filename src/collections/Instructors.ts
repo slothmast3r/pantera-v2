@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { autoSlug } from '../hooks/autoSlug'
+import { seoFields } from '../fields/seo'
 
 export const Instructors: CollectionConfig = {
   slug: 'instructors',
@@ -6,6 +8,10 @@ export const Instructors: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'specialization', 'updatedAt'],
+    group: 'Treści',
+  },
+  hooks: {
+    beforeChange: [autoSlug('name')],
   },
   access: {
     read: () => true,
@@ -22,18 +28,20 @@ export const Instructors: CollectionConfig = {
       label: 'Slug URL',
       type: 'text',
       unique: true,
-      admin: { description: 'np. "michal-jaworski" — używany w URL /kadra/[slug]' },
+      admin: { description: 'Generowany automatycznie z imienia. Używany w URL /kadra/[slug].' },
     },
     {
       name: 'photo',
       label: 'Zdjęcie',
       type: 'upload',
       relationTo: 'media',
+      admin: { description: 'Kwadratowe zdjęcie profilowe. Zalecany rozmiar: min. 600×600px.' },
     },
     {
       name: 'specialization',
       label: 'Specjalizacja',
       type: 'text',
+      admin: { description: 'Wyświetlana pod imieniem, np. "KRAV MAGA / SAMOOBRONA".' },
     },
     {
       name: 'classes',
@@ -60,6 +68,12 @@ export const Instructors: CollectionConfig = {
       label: 'Kolejność wyświetlania',
       type: 'number',
       defaultValue: 0,
+      admin: {
+        description: 'Mniejsza liczba = wyżej na liście. 0 = domyślna kolejność.',
+      },
     },
+
+    // --- SEO ---
+    seoFields,
   ],
 }

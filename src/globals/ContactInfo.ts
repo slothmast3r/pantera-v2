@@ -3,6 +3,7 @@ import type { GlobalConfig } from 'payload'
 export const ContactInfo: GlobalConfig = {
   slug: 'contact-info',
   label: 'Dane kontaktowe',
+  admin: { group: 'Wygląd' },
   access: {
     read: () => true,
   },

@@ -3,6 +3,7 @@ import type { GlobalConfig } from 'payload'
 export const HomepageServices: GlobalConfig = {
   slug: 'homepage-services',
   label: 'Strona główna – Usługi dodatkowe',
+  admin: { group: 'Strona główna' },
   access: { read: () => true },
   fields: [
     {

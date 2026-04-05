@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { autoSlug } from '../hooks/autoSlug'
+import { seoFields } from '../fields/seo'
 
 export const Offers: CollectionConfig = {
   slug: 'offers',
@@ -6,6 +8,10 @@ export const Offers: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'updatedAt'],
+    group: 'Treści',
+  },
+  hooks: {
+    beforeChange: [autoSlug('title')],
   },
   access: { read: () => true },
   fields: [
@@ -16,7 +22,7 @@ export const Offers: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      admin: { description: 'np. "dla-firm", "urodziny", "warsztaty-samoobrona-kobiet"' },
+      admin: { description: 'Generowany automatycznie z nazwy. Możesz nadpisać ręcznie.' },
     },
     {
       name: 'category',
@@ -119,5 +125,8 @@ export const Offers: CollectionConfig = {
         { name: 'buttonLink', label: 'Link przycisku', type: 'text' },
       ],
     },
+
+    // --- SEO ---
+    seoFields,
   ],
 }

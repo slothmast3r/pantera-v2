@@ -3,6 +3,7 @@ import type { GlobalConfig } from 'payload'
 export const Footer: GlobalConfig = {
   slug: 'footer',
   label: 'Stopka',
+  admin: { group: 'Wygląd' },
   access: {
     read: () => true,
   },

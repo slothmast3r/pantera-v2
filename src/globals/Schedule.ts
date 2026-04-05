@@ -8,6 +8,7 @@ function validateTime(value: unknown) {
 export const Schedule: GlobalConfig = {
   slug: 'schedule',
   label: 'Grafik zajęć',
+  admin: { group: 'Strona główna' },
   access: {
     read: () => true,
   },

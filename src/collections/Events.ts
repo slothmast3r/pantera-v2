@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { autoSlug } from '../hooks/autoSlug'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -7,6 +8,10 @@ export const Events: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'startDate', 'status', 'updatedAt'],
+    group: 'Treści',
+  },
+  hooks: {
+    beforeChange: [autoSlug('title')],
   },
   access: {
     read: () => true,
@@ -25,7 +30,7 @@ export const Events: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'Używany w URL, np. "turniej-karate-2025"',
+        description: 'Generowany automatycznie z tytułu. Możesz nadpisać ręcznie.',
       },
     },
     {
@@ -65,6 +70,7 @@ export const Events: CollectionConfig = {
       name: 'registrationLink',
       label: 'Link do zapisów',
       type: 'text',
+      admin: { description: 'URL do zewnętrznego formularza zapisów lub strony kontaktowej.' },
     },
     {
       name: 'status',

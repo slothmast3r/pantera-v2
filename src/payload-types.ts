@@ -188,6 +188,32 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -197,12 +223,24 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * np. "strona-glowna", "o-nas", "dla-firm", "kontakt", "grafik"
+   * Generowany automatycznie z tytułu. Możesz nadpisać ręcznie.
    */
   slug: string;
+  /**
+   * Ustawienia SEO dla tej strony. Zostaw puste aby użyć domyślnych wartości.
+   */
   seo?: {
+    /**
+     * Tytuł wyświetlany w wynikach Google (max ~60 znaków).
+     */
     metaTitle?: string | null;
+    /**
+     * Opis wyświetlany w wynikach Google (max ~160 znaków).
+     */
     metaDescription?: string | null;
+    /**
+     * Zdjęcie wyświetlane przy udostępnianiu na Facebooku, Twitterze itp.
+     */
     ogImage?: (number | null) | Media;
   };
   layout?:
@@ -271,46 +309,6 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'instructorsSection';
-          }
-        | {
-            heading?: string | null;
-            description?: string | null;
-            plans?:
-              | {
-                  name: string;
-                  price: string;
-                  period?: string | null;
-                  features?:
-                    | {
-                        text: string;
-                        id?: string | null;
-                      }[]
-                    | null;
-                  isFeatured?: boolean | null;
-                  ctaText?: string | null;
-                  ctaLink?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'pricing';
-          }
-        | {
-            heading?: string | null;
-            description?: string | null;
-            items?:
-              | {
-                  title: string;
-                  description?: string | null;
-                  icon?: string | null;
-                  link?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'services';
           }
         | {
             heading: string;
@@ -455,11 +453,14 @@ export interface Class {
   id: number;
   title: string;
   /**
-   * np. "krav-maga", "karate-dzieci"
+   * Generowany automatycznie z nazwy. Możesz nadpisać ręcznie.
    */
   slug: string;
   type: 'krav-maga' | 'karate' | 'tai-chi' | 'individual' | 'asg' | 'power-training' | 'other';
   ageGroup?: ('adults' | 'children' | 'all') | null;
+  /**
+   * Wyświetlane na liście zajęć i w nagłówku podstrony.
+   */
   coverImage?: (number | null) | Media;
   heading: {
     title: string;
@@ -528,6 +529,23 @@ export interface Class {
     buttonText?: string | null;
     buttonLink?: string | null;
   };
+  /**
+   * Ustawienia SEO dla tej strony. Zostaw puste aby użyć domyślnych wartości.
+   */
+  seo?: {
+    /**
+     * Tytuł wyświetlany w wynikach Google (max ~60 znaków).
+     */
+    metaTitle?: string | null;
+    /**
+     * Opis wyświetlany w wynikach Google (max ~160 znaków).
+     */
+    metaDescription?: string | null;
+    /**
+     * Zdjęcie wyświetlane przy udostępnianiu na Facebooku, Twitterze itp.
+     */
+    ogImage?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -539,10 +557,16 @@ export interface Instructor {
   id: number;
   name: string;
   /**
-   * np. "michal-jaworski" — używany w URL /kadra/[slug]
+   * Generowany automatycznie z imienia. Używany w URL /kadra/[slug].
    */
   slug?: string | null;
+  /**
+   * Kwadratowe zdjęcie profilowe. Zalecany rozmiar: min. 600×600px.
+   */
   photo?: (number | null) | Media;
+  /**
+   * Wyświetlana pod imieniem, np. "KRAV MAGA / SAMOOBRONA".
+   */
   specialization?: string | null;
   classes?: (number | Class)[] | null;
   bio?: string | null;
@@ -552,7 +576,27 @@ export interface Instructor {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Mniejsza liczba = wyżej na liście. 0 = domyślna kolejność.
+   */
   order?: number | null;
+  /**
+   * Ustawienia SEO dla tej strony. Zostaw puste aby użyć domyślnych wartości.
+   */
+  seo?: {
+    /**
+     * Tytuł wyświetlany w wynikach Google (max ~60 znaków).
+     */
+    metaTitle?: string | null;
+    /**
+     * Opis wyświetlany w wynikach Google (max ~160 znaków).
+     */
+    metaDescription?: string | null;
+    /**
+     * Zdjęcie wyświetlane przy udostępnianiu na Facebooku, Twitterze itp.
+     */
+    ogImage?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -565,8 +609,14 @@ export interface Testimonial {
   author: string;
   avatar?: (number | null) | Media;
   content: string;
+  /**
+   * Liczba gwiazdek wyświetlanych przy opinii.
+   */
   rating?: number | null;
   relatedClass?: (number | null) | Class;
+  /**
+   * Wyróżnione opinie pojawiają się na stronie głównej.
+   */
   isFeatured?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -592,7 +642,7 @@ export interface Event {
   id: number;
   title: string;
   /**
-   * Używany w URL, np. "turniej-karate-2025"
+   * Generowany automatycznie z tytułu. Możesz nadpisać ręcznie.
    */
   slug: string;
   coverImage?: (number | null) | Media;
@@ -615,6 +665,9 @@ export interface Event {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * URL do zewnętrznego formularza zapisów lub strony kontaktowej.
+   */
   registrationLink?: string | null;
   status?: ('upcoming' | 'ongoing' | 'past' | 'cancelled') | null;
   relatedClasses?: (number | Class)[] | null;
@@ -629,7 +682,7 @@ export interface Offer {
   id: number;
   title: string;
   /**
-   * np. "dla-firm", "urodziny", "warsztaty-samoobrona-kobiet"
+   * Generowany automatycznie z nazwy. Możesz nadpisać ręcznie.
    */
   slug: string;
   category?: ('company' | 'schools' | 'workshop' | 'birthday' | 'other') | null;
@@ -678,6 +731,23 @@ export interface Offer {
     description?: string | null;
     buttonText?: string | null;
     buttonLink?: string | null;
+  };
+  /**
+   * Ustawienia SEO dla tej strony. Zostaw puste aby użyć domyślnych wartości.
+   */
+  seo?: {
+    /**
+     * Tytuł wyświetlany w wynikach Google (max ~60 znaków).
+     */
+    metaTitle?: string | null;
+    /**
+     * Opis wyświetlany w wynikach Google (max ~160 znaków).
+     */
+    metaDescription?: string | null;
+    /**
+     * Zdjęcie wyświetlane przy udostępnianiu na Facebooku, Twitterze itp.
+     */
+    ogImage?: (number | null) | Media;
   };
   updatedAt: string;
   createdAt: string;
@@ -823,6 +893,40 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -914,48 +1018,6 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               description?: T;
               instructors?: T;
-              id?: T;
-              blockName?: T;
-            };
-        pricing?:
-          | T
-          | {
-              heading?: T;
-              description?: T;
-              plans?:
-                | T
-                | {
-                    name?: T;
-                    price?: T;
-                    period?: T;
-                    features?:
-                      | T
-                      | {
-                          text?: T;
-                          id?: T;
-                        };
-                    isFeatured?: T;
-                    ctaText?: T;
-                    ctaLink?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        services?:
-          | T
-          | {
-              heading?: T;
-              description?: T;
-              items?:
-                | T
-                | {
-                    title?: T;
-                    description?: T;
-                    icon?: T;
-                    link?: T;
-                    id?: T;
-                  };
               id?: T;
               blockName?: T;
             };
@@ -1165,6 +1227,13 @@ export interface ClassesSelect<T extends boolean = true> {
         buttonText?: T;
         buttonLink?: T;
       };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1186,6 +1255,13 @@ export interface InstructorsSelect<T extends boolean = true> {
         id?: T;
       };
   order?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1297,6 +1373,13 @@ export interface OffersSelect<T extends boolean = true> {
         description?: T;
         buttonText?: T;
         buttonLink?: T;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
       };
   updatedAt?: T;
   createdAt?: T;

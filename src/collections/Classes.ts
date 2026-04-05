@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { autoSlug } from '../hooks/autoSlug'
+import { seoFields } from '../fields/seo'
 
 export const Classes: CollectionConfig = {
   slug: 'classes',
@@ -7,6 +9,10 @@ export const Classes: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'type', 'ageGroup', 'updatedAt'],
+    group: 'Treści',
+  },
+  hooks: {
+    beforeChange: [autoSlug('title')],
   },
   access: {
     read: () => true,
@@ -25,7 +31,7 @@ export const Classes: CollectionConfig = {
       type: 'text',
       required: true,
       unique: true,
-      admin: { description: 'np. "krav-maga", "karate-dzieci"' },
+      admin: { description: 'Generowany automatycznie z nazwy. Możesz nadpisać ręcznie.' },
     },
     {
       name: 'type',
@@ -58,6 +64,7 @@ export const Classes: CollectionConfig = {
       label: 'Zdjęcie główne',
       type: 'upload',
       relationTo: 'media',
+      admin: { description: 'Wyświetlane na liście zajęć i w nagłówku podstrony.' },
     },
 
     // --- Nagłówek ---
@@ -204,5 +211,8 @@ export const Classes: CollectionConfig = {
         { name: 'buttonLink', label: 'Link przycisku', type: 'text' },
       ],
     },
+
+    // --- SEO ---
+    seoFields,
   ],
 }

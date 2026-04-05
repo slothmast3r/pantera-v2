@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload'
+import { autoSlug } from '../hooks/autoSlug'
+import { seoFields } from '../fields/seo'
 
 import { HeroBlock } from '../blocks/Hero'
 import { BenefitsBlock } from '../blocks/Benefits'
@@ -7,8 +9,6 @@ import { StatsBlock } from '../blocks/Stats'
 import { RichTextBlock } from '../blocks/RichText'
 import { TestimonialsBlock } from '../blocks/TestimonialsBlock'
 import { InstructorsBlock } from '../blocks/InstructorsBlock'
-import { PricingBlock } from '../blocks/Pricing'
-import { ServicesBlock } from '../blocks/Services'
 import { ContactInfoBlock } from '../blocks/ContactInfo'
 import { ContactFormBlock } from '../blocks/ContactForm'
 import { MapBlock } from '../blocks/Map'
@@ -24,6 +24,10 @@ export const Pages: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: 'Strony',
+  },
+  hooks: {
+    beforeChange: [autoSlug('title')],
   },
   access: {
     read: () => true,
@@ -42,24 +46,10 @@ export const Pages: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'np. "strona-glowna", "o-nas", "dla-firm", "kontakt", "grafik"',
+        description: 'Generowany automatycznie z tytułu. Możesz nadpisać ręcznie.',
       },
     },
-    {
-      name: 'seo',
-      label: 'SEO',
-      type: 'group',
-      fields: [
-        { name: 'metaTitle', label: 'Meta tytuł', type: 'text' },
-        { name: 'metaDescription', label: 'Meta opis', type: 'textarea' },
-        {
-          name: 'ogImage',
-          label: 'OG Image',
-          type: 'upload',
-          relationTo: 'media',
-        },
-      ],
-    },
+    seoFields,
     {
       name: 'layout',
       label: 'Sekcje strony',
@@ -70,8 +60,6 @@ export const Pages: CollectionConfig = {
         BenefitsBlock,
         TestimonialsBlock,
         InstructorsBlock,
-        PricingBlock,
-        ServicesBlock,
         CTABlock,
         StatsBlock,
         LogoListBlock,

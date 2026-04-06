@@ -128,7 +128,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
                   {classes.map((cls) => (
                     <Link
                       key={cls.id}
-                      href={`/zajecia/${cls.slug}`}
+                      href={`/zajecia/${cls.slug}` as any}
                       className="instr-class-card"
                       style={{ '--class-color': CLASS_COLORS[cls.type] ?? '#0f3460' } as React.CSSProperties}
                     >

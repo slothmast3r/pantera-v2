@@ -7,9 +7,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    typedRoutes: true,
-  },
+  experimental: {},
   async redirects() {
     return [
       // --- STRONY GŁÓWNE I SYSTEMOWE ---

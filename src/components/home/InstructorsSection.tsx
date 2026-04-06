@@ -61,7 +61,7 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
                   <span className="instructors__spec">{i.specialization}</span>
                   <p>{i.bio}</p>
                   {i.slug && (
-                    <Link href={`/kadra/${i.slug}`} className="instructors__more">
+                    <Link href={`/kadra/${i.slug}` as any} className="instructors__more">
                       Dowiedz się więcej →
                     </Link>
                   )}

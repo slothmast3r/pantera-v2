@@ -127,7 +127,7 @@ export default async function Footer({ data }: { data?: FooterType | null }) {
             <ul>
               {col.links?.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href as any}>{link.label}</Link>
                 </li>
               ))}
             </ul>

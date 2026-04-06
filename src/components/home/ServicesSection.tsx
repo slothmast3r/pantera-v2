@@ -64,7 +64,7 @@ export default function ServicesSection({ data }: { data?: HomepageService | nul
                 <div className="services__content">
                   <h3>{s.title}</h3>
                   <p>{'description' in s ? (s as { description?: string | null }).description : null}</p>
-                  <Link href={s.ctaUrl ?? '#'} className="btn btn--orange">
+                  <Link href={(s.ctaUrl ?? '#') as any} className="btn btn--orange">
                     {s.ctaText ?? 'Sprawdź ofertę'} →
                   </Link>
                 </div>

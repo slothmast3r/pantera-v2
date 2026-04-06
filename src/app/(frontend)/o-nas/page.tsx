@@ -259,7 +259,7 @@ export default async function AboutPage() {
                 </>
               )
               return slug ? (
-                <Link key={instructor.id} href={`/kadra/${slug}`} className="team-card team-card--link">
+                <Link key={instructor.id} href={`/kadra/${slug}` as any} className="team-card team-card--link">
                   {cardInner}
                 </Link>
               ) : (

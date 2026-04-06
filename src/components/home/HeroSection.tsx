@@ -43,7 +43,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
         </div>
         <h1 className="hero__title">{title}</h1>
         <p className="hero__desc">{description}</p>
-        <Link href={ctaLink} className="btn btn--orange">{ctaText}</Link>
+        <Link href={ctaLink as any} className="btn btn--orange">{ctaText}</Link>
         <div className="hero__partners" aria-label="Partnerzy">
           <span className="hero__partners-label">Zrzeszeni w:</span>
           <div className="hero__partners-logos">

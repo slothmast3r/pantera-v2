@@ -97,7 +97,7 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
           {offer.heading?.subtitle && (
             <p className="offer-header__lead">{offer.heading.subtitle}</p>
           )}
-          <Link href={(offer.heading as any)?.ctaLink ?? '/kontakt'} className="btn btn--orange">
+          <Link href={((offer.heading as any)?.ctaLink ?? '/kontakt') as any} className="btn btn--orange">
             {(offer.heading as any)?.ctaText ?? 'Zapytaj o ofertę'}
           </Link>
         </div>

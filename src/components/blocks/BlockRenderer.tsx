@@ -108,12 +108,12 @@ function CTABlockRenderer({ block }: { block: Extract<LayoutBlock, { blockType: 
         {block.description && <p>{block.description}</p>}
         <div className="offer-cta__buttons">
           {block.primaryButton?.text && (
-            <Link href={block.primaryButton.link ?? '/kontakt'} className="btn btn--orange">
+            <Link href={(block.primaryButton.link ?? '/kontakt') as any} className="btn btn--orange">
               {block.primaryButton.text}
             </Link>
           )}
           {block.secondaryButton?.text && (
-            <Link href={block.secondaryButton.link ?? '#'} className="btn btn--outline-white">
+            <Link href={(block.secondaryButton.link ?? '#') as any} className="btn btn--outline-white">
               {block.secondaryButton.text}
             </Link>
           )}

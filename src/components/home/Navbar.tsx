@@ -62,7 +62,7 @@ function GroupedDropdown({ subLinks, pathname, onLinkClick }: { subLinks: { labe
         <div className="navbar__dropdown-group">
           <span className="navbar__dropdown-group-label"><Icon name="person" /> Dorośli</span>
           {adults.map((sub) => (
-            <Link key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
+            <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
           ))}
         </div>
       )}
@@ -70,7 +70,7 @@ function GroupedDropdown({ subLinks, pathname, onLinkClick }: { subLinks: { labe
         <div className="navbar__dropdown-group">
           <span className="navbar__dropdown-group-label"><Icon name="child_care" /> Dzieci</span>
           {children.map((sub) => (
-            <Link key={sub.href} href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
+            <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
           ))}
         </div>
       )}
@@ -127,7 +127,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                     className={`${subs.length ? 'navbar__dropdown' : ''} ${isOpen ? 'navbar__dropdown--open' : ''} relative`}
                   >
                     <Link
-                      href={link.href}
+                      href={link.href as any}
                       className={isActive ? 'navbar__link--active' : undefined}
                       onClick={
                         subs.length && menuOpen
@@ -154,7 +154,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                         <ul className="navbar__dropdown-menu">
                           {subs.map((sub) => (
                             <li key={sub.href}>
-                              <Link href={sub.href} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={() => setMenuOpen(false)}>{sub.label}</Link>
+                              <Link href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={() => setMenuOpen(false)}>{sub.label}</Link>
                             </li>
                           ))}
                         </ul>
@@ -165,12 +165,12 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
               })}
               <li className="navbar__mobile-cta">
                 <Button asChild className="w-full">
-                  <Link href={cta.href ?? '/kontakt'}>{cta.text ?? 'Zapisz się na zajęcia'}</Link>
+                  <Link href={(cta.href ?? '/kontakt') as any}>{cta.text ?? 'Zapisz się na zajęcia'}</Link>
                 </Button>
               </li>
             </ul>
             <Button asChild className="navbar__cta--desktop">
-              <Link href={cta.href ?? '/kontakt'}>{cta.text ?? 'Zapisz się na zajęcia'}</Link>
+              <Link href={(cta.href ?? '/kontakt') as any}>{cta.text ?? 'Zapisz się na zajęcia'}</Link>
             </Button>
           </div>
           <Button

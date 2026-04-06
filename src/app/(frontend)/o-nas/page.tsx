@@ -3,9 +3,10 @@ import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Instructor, Media, Navigation, Footer as FooterType } from '@/payload-types'
+import type { Instructor, Media, Navigation, Footer as FooterType, Page } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
+import GalleryBlock from '@/components/blocks/GalleryBlock'
 import './about.css'
 
 function getPhotoUrl(photo: Instructor['photo']): string | null {
@@ -23,22 +24,35 @@ export default async function AboutPage() {
   let instructors: Instructor[] | null = null
   let nav: Navigation | null = null
   let footer: FooterType | null = null
+  let pageData: Page | null = null
+  let aboutGallery: any = null
 
   try {
     const payload = await getPayload({ config })
-    const [instructorsRes, navRes, footerRes] = await Promise.all([
+    const [instructorsRes, navRes, footerRes, pageRes, aboutGalleryRes] = await Promise.all([
       payload.find({ collection: 'instructors', limit: 10, sort: 'order' }),
       payload.findGlobal({ slug: 'navigation' }),
       payload.findGlobal({ slug: 'footer' }),
+      payload.find({
+        collection: 'pages',
+        where: { slug: { equals: 'o-nas' } },
+        limit: 1,
+      }),
+      payload.findGlobal({ slug: 'about-gallery' }),
     ])
     instructors = instructorsRes.docs
     nav = navRes
     footer = footerRes
+    pageData = pageRes.docs[0] ?? null
+    aboutGallery = aboutGalleryRes
   } catch {
     // DB unavailable — fall back to static data
   }
 
   const teamItems = instructors?.length ? instructors : staticInstructors
+
+  // We now use the global aboutGallery instead of filtering blocks
+  // but we still keep the galleryBlocks logic if we want to allow BOTH or just use global
 
   return (
     <>
@@ -46,8 +60,8 @@ export default async function AboutPage() {
 
       {/* HEADER */}
       <section className="about-header">
-        {/* PLACEHOLDER: zamień na <img src="/about/header-bg.jpg" className="about-header__photo" alt="" /> */}
-        <div className="about-header__photo photo-placeholder">ZDJĘCIE TŁO</div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/about/cover.jpg" className="about-header__photo" alt="" />
         <div className="container">
           <div className="label label--white">O PANTERZE</div>
           <h1>
@@ -96,8 +110,10 @@ export default async function AboutPage() {
                 </div>
               </div>
             </div>
-            {/* PLACEHOLDER: zamień na <div className="about-who__photo"><img src="/about/sala.jpg" alt="Sala treningowa" /></div> */}
-            <div className="about-who__photo photo-placeholder">ZDJĘCIE SALI</div>
+            <div className="about-who__photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/about/sala.jpeg" alt="Sala treningowa Pantera" />
+            </div>
           </div>
         </div>
       </section>
@@ -137,10 +153,14 @@ export default async function AboutPage() {
 
       {/* MISJA */}
       <section className="about-mission">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/claw.svg" alt="" className="about-mission__claw" />
         <div className="container">
           <div className="about-mission__inner">
-            {/* PLACEHOLDER: zamień na <div className="about-mission__photo"><img src="/about/trening.jpg" alt="Trening" /></div> */}
-            <div className="about-mission__photo photo-placeholder">ZDJĘCIE TRENINGU</div>
+            <div className="about-mission__photo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/about/trening.jpg" alt="Trening Pantera" />
+            </div>
             <div>
               <div className="label label--white">NASZA MISJA</div>
               <h2>Budujemy pewnych siebie, odpowiedzialnych ludzi</h2>
@@ -251,6 +271,11 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* GALLERY BLOCK (Global) */}
+      {aboutGallery && (
+        <GalleryBlock block={{ ...aboutGallery, blockType: 'gallery' }} />
+      )}
 
       <Footer data={footer} />
     </>

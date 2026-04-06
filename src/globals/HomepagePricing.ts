@@ -3,7 +3,7 @@ import type { GlobalConfig } from 'payload'
 export const HomepagePricing: GlobalConfig = {
   slug: 'homepage-pricing',
   label: 'Strona główna – Cennik',
-  admin: { group: 'Strona główna' },
+  admin: { group: 'Komponenty' },
   access: { read: () => true },
   fields: [
     {

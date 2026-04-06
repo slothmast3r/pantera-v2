@@ -1,6 +1,9 @@
 import { getPayload } from 'payload'
 
-export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>>) {
+type OfferImages = { imgFirmy: number | null; imgUrodziny: number | null; imgSamoobrona: number | null }
+
+export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>>, offerImages?: OfferImages) {
+  const { imgFirmy = null, imgUrodziny = null, imgSamoobrona = null } = offerImages ?? {}
   // ===== NAVIGATION =====
   console.log('Seeding navigation global...')
   await payload.updateGlobal({
@@ -37,6 +40,7 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
           subLinks: [
             { label: 'Dla Firm', href: '/oferta/dla-firm' },
             { label: 'Dla Szkół', href: '/oferta/dla-szkol' },
+            { label: 'Samoobrona dla kobiet', href: '/oferta/samoobrona-dla-kobiet' },
             { label: 'Warsztaty Rodzinne', href: '/oferta/warsztaty-rodzinne' },
             { label: 'Urodziny na Sportowo', href: '/oferta/urodziny' },
           ],
@@ -76,6 +80,7 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
           links: [
             { label: 'O nas', href: '/o-nas' },
             { label: 'Dla Firm', href: '/oferta/dla-firm' },
+            { label: 'Samoobrona dla kobiet', href: '/oferta/samoobrona-dla-kobiet' },
             { label: 'Grafik', href: '/grafik' },
             { label: 'Płatność online', href: '/platnosc' },
             { label: 'Kontakt', href: '/kontakt' },
@@ -102,10 +107,119 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
       phone: '508 689 718',
       email: 'kontakt@pantera.waw.pl',
       hours: 'Pon–Pt: 15:00–21:00 | Sob: 9:00–14:00',
-      mapEmbedUrl: 'https://maps.google.com/maps?q=Powsi%C5%84ska+25+Warszawa&output=embed&hl=pl&z=16',
+      mapEmbedUrl:
+        'https://maps.google.com/maps?q=Powsi%C5%84ska+25+Warszawa&output=embed&hl=pl&z=16',
     },
   })
   console.log('Updated contact-info global')
+
+  // ===== HOMEPAGE PRICING =====
+  console.log('Seeding homepage-pricing global...')
+  await payload.updateGlobal({
+    slug: 'homepage-pricing',
+    data: {
+      sectionLabel: 'CENNIK',
+      sectionTitle: 'Wybierz plan dla siebie',
+      note: '* 10% zniżki dla rodziny.',
+      plans: [
+        {
+          name: 'Treningi Indywidualne',
+          price: 'Zapytaj o cenę',
+          features: [
+            {
+              text: '100% uwagi trenera: Osiągaj wyniki szybciej dzięki pracy „jeden na jeden”.  ',
+            },
+          ],
+          ctaText: 'Skontaktuj się',
+          ctaUrl: '/kontakt',
+          featured: false,
+        },
+        {
+          name: 'Pakiet „Solidny Fundament”',
+          price: '250 zł',
+          period: '/ mies. *',
+          features: [
+            {
+              text: 'Wybór jednej dyscypliny: Krav Maga lub Karate.  ',
+            },
+          ],
+          ctaText: 'Zapisz się',
+          ctaUrl: '/kontakt',
+          featured: true,
+        },
+        {
+          name: 'Pakiet „Wszechstronny Rozwój”',
+          price: '300 zł ',
+          period: '/ mo. *',
+          features: [
+            {
+              text: 'Łączymy techniki: ucz się skutecznej samoobrony Krav Maga oraz tradycyjnej dyscypliny Karate jednocześnie.  ',
+            },
+          ],
+          ctaText: 'Umów trening',
+          ctaUrl: '/kontakt',
+          featured: false,
+        },
+      ],
+    },
+  })
+  console.log('Updated homepage-pricing global')
+
+  // ===== HOMEPAGE SERVICES =====
+  console.log('Seeding homepage-services global...')
+  await payload.updateGlobal({
+    slug: 'homepage-services',
+    data: {
+      sectionLabel: 'USŁUGI DODATKOWE',
+      sectionTitle: 'Pantera to także:',
+      columns: '3',
+      cards: [
+        {
+          tag: 'DLA FIRM',
+          title: 'Zajęcia dla firm',
+          description:
+            'Buduj zespół poprzez sport i naukę samoobrony. Programy dopasowane do potrzeb Twojej firmy.',
+          ctaText: 'Sprawdź ofertę',
+          ctaUrl: '/oferta/dla-firm',
+          color: '#1e3a8a',
+          ...(imgFirmy ? { image: imgFirmy } : {}),
+        },
+        {
+          tag: 'KOBIETY',
+          title: 'Samoobrona dla kobiet',
+          description:
+            'Specjalistyczne kursy zwiększające poczucie bezpieczeństwa i pewność siebie w każdej sytuacji.',
+          ctaText: 'Sprawdź ofertę',
+          ctaUrl: '/oferta/samoobrona-dla-kobiet',
+          color: '#8b0000',
+          ...(imgSamoobrona ? { image: imgSamoobrona } : {}),
+        },
+        {
+          tag: 'DZIECI',
+          title: 'Urodziny na sportowo',
+          description:
+            'Niezapomniane przyjęcia urodzinowe dla dzieci pełne ruchu, zabawy i wyzwań sportowych.',
+          ctaText: 'Sprawdź ofertę',
+          ctaUrl: '/oferta/urodziny',
+          color: '#d97706',
+          ...(imgUrodziny ? { image: imgUrodziny } : {}),
+        },
+      ],
+    },
+  })
+  console.log('Updated homepage-services global')
+
+  // ===== ABOUT GALLERY =====
+  console.log('Seeding about-gallery global...')
+  await payload.updateGlobal({
+    slug: 'about-gallery',
+    data: {
+      title: 'Nasza Galeria',
+      columns: 3,
+      images: [],
+    },
+  })
+  console.log('Updated about-gallery global')
 
   // ===== HOME PAGE =====
   console.log('Seeding home page...')
@@ -132,4 +246,17 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
     },
   })
   console.log('Created home page')
+
+  // ===== O-NAS PAGE =====
+  console.log('Seeding o-nas page...')
+  await payload.create({
+    collection: 'pages',
+    data: {
+      title: 'O nas',
+      slug: 'o-nas',
+      _status: 'published',
+      layout: [],
+    },
+  })
+  console.log('Created o-nas page')
 }

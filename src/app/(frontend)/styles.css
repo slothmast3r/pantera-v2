@@ -44,7 +44,7 @@ ul { @apply list-none; }
 
 /* ===== NAVBAR ===== */
 .navbar {
-  @apply sticky top-0 z-100 bg-white;
+  @apply bg-white;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
 }
 

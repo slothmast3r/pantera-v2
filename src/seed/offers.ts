@@ -1,8 +1,37 @@
 import { getPayload } from 'payload'
+import fs from 'fs'
+import path from 'path'
 import { richText } from './helpers'
+
+async function uploadImage(
+  payload: Awaited<ReturnType<typeof getPayload>>,
+  filePath: string,
+  alt: string,
+) {
+  const resolved = path.resolve(filePath)
+  if (!fs.existsSync(resolved)) {
+    console.warn(`  Image not found, skipping: ${resolved}`)
+    return null
+  }
+  const data = fs.readFileSync(resolved)
+  const ext = path.extname(resolved).toLowerCase()
+  const mimetype = ext === '.jpg' || ext === '.jpeg' ? 'image/jpeg' : 'image/png'
+  const media = await payload.create({
+    collection: 'media',
+    data: { alt },
+    file: { data, mimetype, name: path.basename(resolved), size: data.length },
+  })
+  return media.id as number
+}
 
 export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>) {
   console.log('Seeding offers...')
+
+  const [imgFirmy, imgUrodziny, imgSamoobrona] = await Promise.all([
+    uploadImage(payload, 'src/seed/images/zajecia-dla-firm.jpeg', 'Zajęcia dla firm – Pantera'),
+    uploadImage(payload, 'src/seed/images/urodziny-na-sportowo.jpg', 'Urodziny na sportowo – Pantera'),
+    uploadImage(payload, 'src/seed/images/samoobrona-dla-kobiet.jpg', 'Samoobrona dla kobiet – Pantera'),
+  ])
 
   await Promise.all([
     // ---- Dla Firm ----
@@ -12,8 +41,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Dla Firm i Korporacji',
         slug: 'dla-firm',
         category: 'company',
+        ...(imgFirmy ? { coverImage: imgFirmy } : {}),
         heading: {
           title: 'Bezpieczeństwo i Integracja – Warsztaty dla Firm',
+          ...(imgFirmy ? { backgroundImage: imgFirmy } : {}),
           subtitle: 'Oferujemy zajęcia i warsztaty ruchowe, które wspierają cele HR w Twojej organizacji. Nasze programy to doskonały sposób na integrację zespołu, redukcję stresu biurowego oraz budowanie postaw liderskich.',
           ctaText: 'Zapytaj o ofertę',
           ctaLink: '/kontakt',
@@ -34,15 +65,6 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
               { icon: '🛡️', title: 'Samoobrona / Krav Maga', description: 'Warsztaty budujące pewność siebie i uczące reakcji w sytuacjach stresowych.' },
               { icon: '☯️', title: 'Tai Chi / Zdrowy Kręgosłup', description: 'Zajęcia relaksacyjne, idealne jako przerywnik w pracy siedzącej (wellbeing).' },
               { icon: '🤝', title: 'Integracja Teamowa', description: 'Wspólny trening, który uczy współpracy i zaufania w zespole.' },
-            ],
-          },
-          {
-            blockType: 'offerCards' as const,
-            heading: 'Forma współpracy',
-            items: [
-              { icon: '📅', title: 'Event jednorazowy', description: 'Idealne na Dzień Pracownika, team-building lub firmowy piknik sportowy.' },
-              { icon: '🔄', title: 'Cykliczne benefity', description: 'Zajęcia tygodniowe lub miesięczne w siedzibie firmy lub u nas.' },
-              { icon: '🎯', title: 'Program na miarę', description: 'Konsultacja + projekt programu dostosowany do profilu Twojej organizacji.' },
             ],
           },
           {
@@ -94,19 +116,6 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             ],
           },
           {
-            blockType: 'forWho' as const,
-            label: 'UCZESTNICY',
-            title: 'Dla kogo?',
-            content: 'Warsztaty dla dzieci i młodzieży w wieku szkolnym i przedszkolnym.',
-            variant: 'dark' as const,
-            bullets: [
-              { text: 'Przedszkola i szkoły podstawowe' },
-              { text: 'Grupy od 10 do 30 osób' },
-              { text: 'Dostosowane do grupy wiekowej' },
-              { text: 'Możliwość realizacji w placówce lub u nas' },
-            ],
-          },
-          {
             blockType: 'contactCard' as const,
             heading: 'Kontakt w sprawie warsztatów szkolnych',
             email: 'kontakt@pantera.waw.pl',
@@ -131,8 +140,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Urodziny na Sportowo',
         slug: 'urodziny',
         category: 'birthday',
+        ...(imgUrodziny ? { coverImage: imgUrodziny } : {}),
         heading: {
           title: 'Urodziny na Sportowo – Aktywna impreza dla dzieci',
+          ...(imgUrodziny ? { backgroundImage: imgUrodziny } : {}),
           subtitle: 'Zorganizuj aktywne urodziny dla swojego dziecka w naszym klubie! Gwarantujemy bezpieczną zabawę i niezapomniane emocje.',
           ctaText: 'Zarezerwuj termin',
           ctaLink: '/kontakt',
@@ -156,19 +167,6 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             ],
           },
           {
-            blockType: 'forWho' as const,
-            label: 'UCZESTNICY',
-            title: 'Dla kogo?',
-            content: 'Urodziny dla dzieci w różnym wieku — dostosowujemy program do grupy.',
-            variant: 'dark' as const,
-            bullets: [
-              { text: 'Dzieci 5–14 lat' },
-              { text: 'Grupy do 20 osób' },
-              { text: 'Czas trwania: ~2 godziny' },
-              { text: 'Rezerwacja z wyprzedzeniem minimum 2 tygodnie' },
-            ],
-          },
-          {
             blockType: 'contactCard' as const,
             heading: 'Rezerwacja urodzin',
             email: 'kontakt@pantera.waw.pl',
@@ -187,7 +185,82 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
       },
     }),
 
-    // ---- Warsztaty Rodzinne ----
+    // ---- Samoobrona dla Kobiet (New Detailed Page) ----
+    payload.create({
+      collection: 'offers',
+      data: {
+        title: 'Samoobrona dla kobiet',
+        slug: 'samoobrona-dla-kobiet',
+        category: 'workshop',
+        ...(imgSamoobrona ? { coverImage: imgSamoobrona } : {}),
+        heading: {
+          title: '„Bezpieczna i pewna siebie” – Warsztaty na Mokotowie',
+          ...(imgSamoobrona ? { backgroundImage: imgSamoobrona } : {}),
+          subtitle: 'Zyskaj pewność siebie i naucz się skutecznych technik reagowania w sytuacjach zagrożenia. Warsztaty oparte na systemie Krav Maga, dostosowane do wyzwań współczesnych kobiet.',
+          ctaText: 'Zapisz się na warsztat',
+          ctaLink: '/kontakt',
+        },
+        layout: [
+          {
+            blockType: 'richText' as const,
+            content: richText(
+              'Jesteśmy częścią społeczności Sadyby i Mokotowa. W Pantera Family & Sport Club stawiamy na relacje, bezpieczeństwo i realne umiejętności. Nasze warsztaty to nie tylko nauka ciosów i kopnięć – to trening uważności, asertywności i rozpoznawania zagrożeń.',
+            ),
+          },
+          {
+            blockType: 'offerCards' as const,
+            label: 'DLACZEGO NASZE WARSZTATY?',
+            heading: 'Kluczowe umiejętności',
+            items: [
+              { icon: '🧘', title: 'Opanowanie stresu', description: 'Techniki oddechowe pozwalające zachować zimną krew w sytuacjach kryzysowych.' },
+              { icon: '🗣️', title: 'Asertywność i głos', description: 'Twoje pierwsze i najważniejsze narzędzie obrony przed agresorem.' },
+              { icon: '⚡', title: 'Skuteczne techniki', description: 'Uwolnienia z chwytów, obrona przed uderzeniami i wykorzystanie punktów witalnych.' },
+            ],
+          },
+          {
+            blockType: 'forWho' as const,
+            label: 'DLA KOGO',
+            title: 'Zapraszamy mieszkanki Mokotowa',
+            content: 'Zapraszamy kobiety od 15. roku życia. Nie wymagamy wcześniejszego przygotowania kondycyjnego. Ćwiczymy w bezpiecznej, kameralnej grupie.',
+            bullets: [
+              { text: 'Kobiety od 15 lat' },
+              { text: 'Brak wymagań kondycyjnych' },
+              { text: 'Wygodny strój sportowy, woda' },
+              { text: 'Lokalizacja: Sadyba (ul. Powsińska 25)' },
+            ],
+          },
+          {
+            blockType: 'richText' as const,
+            content: richText(
+              'Zajęcia prowadzi Michał Jaworski – licencjonowany trener z ponad 30-letnim doświadczeniem, ekspert United Krav Maga i tata trzech córek.',
+            ),
+          },
+          {
+            blockType: 'cta' as const,
+            heading: 'Może zainteresują Cię również Warsztaty Rodzinne?',
+            description: 'Spędź czas z dzieckiem na wspólnej nauce bezpieczeństwa i zabawie.',
+            variant: 'dark' as const,
+            primaryButton: { text: 'Zobacz Warsztaty Rodzinne', link: '/oferta/warsztaty-rodzinne' },
+          },
+          {
+            blockType: 'contactCard' as const,
+            heading: 'Zapisz się na najbliższy termin',
+            email: 'kontakt@pantera.waw.pl',
+            phone: '508 689 718',
+          },
+          {
+            blockType: 'cta' as const,
+            heading: 'Zadbaj o swoje bezpieczeństwo',
+            description: 'Zapisz się już dziś i poczuj różnicę w swojej pewności siebie.',
+            variant: 'dark' as const,
+            primaryButton: { text: 'Zarezerwuj miejsce', link: '/kontakt' },
+            secondaryButton: { text: '← Wszystkie oferty', link: '/oferta' },
+          },
+        ],
+      },
+    }),
+
+    // ---- Warsztaty Rodzinne (Updated Detailed Page) ----
     payload.create({
       collection: 'offers',
       data: {
@@ -195,52 +268,62 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         slug: 'warsztaty-rodzinne',
         category: 'workshop',
         heading: {
-          title: 'Warsztaty Rodzinne – Rodzic + Dziecko',
-          subtitle: 'Wspólna sportowa przygoda! Zapraszamy rodziców z dziećmi (od 7 lat) na zajęcia, które budują więź i uczą współpracy.',
-          ctaText: 'Zapytaj o termin',
+          title: 'Wspólna przygoda, zabawa i nauka bezpieczeństwa',
+          subtitle: 'Mamy z Mokotowa, to propozycja dla Was! Spędźcie sobotnie południe z dzieckiem na sportowej zabawie, która uczy pożytecznych rzeczy.',
+          ctaText: 'Zarezerwuj miejsce',
           ctaLink: '/kontakt',
         },
         layout: [
           {
             blockType: 'richText' as const,
             content: richText(
-              'W programie: podstawy samoobrony, bezpieczne przewroty, asekuracja oraz mnóstwo zabaw ruchowych. To świetna okazja, by stworzyć domowe rytuały treningowe i spędzić czas razem.',
+              'Wspólna sportowa przygoda dla Matek i Dzieci. Zamiast siedzieć na ławce, aktywnie trenujesz razem z dzieckiem. To Wasz nowy, wspólny rytuał, który buduje relację i uczy wzajemnego wsparcia.',
             ),
           },
           {
             blockType: 'offerCards' as const,
-            label: 'PROGRAM',
-            heading: 'Co czeka na uczestników',
+            label: 'CO ZYSKACIE?',
+            heading: 'Program warsztatów',
             items: [
-              { icon: '🛡️', title: 'Podstawy samoobrony', description: 'Proste techniki, które rodzic i dziecko ćwiczą razem.' },
-              { icon: '🤸', title: 'Bezpieczne przewroty', description: 'Nauka padów i asekuracji — bezpieczeństwo na co dzień.' },
-              { icon: '🎯', title: 'Zabawy ruchowe', description: 'Gry i ćwiczenia wzmacniające więź rodzic-dziecko.' },
+              { icon: '👩‍👦', title: 'Wspólny czas', description: 'Aktywny trening razem z dzieckiem zamiast czekania na korytarzu.' },
+              { icon: '🛡️', title: 'Praktyczna wiedza', description: 'Obrony przed uderzeniami, chwytami oraz bezpieczne upadanie.' },
+              { icon: '⭐', title: 'Wychowanie przez sport', description: 'Zabawy, które pomagają dzieciom stać się dzielnymi i pewnymi siebie.' },
             ],
           },
           {
             blockType: 'forWho' as const,
-            label: 'UCZESTNICY',
-            title: 'Dla kogo?',
-            content: 'Dla rodziców z dziećmi od 7. roku życia. Brak wymagań co do wcześniejszego doświadczenia.',
+            label: 'SZCZEGÓŁY',
+            title: 'Informacje organizacyjne',
+            content: 'Spotykamy się co miesiąc w naszej sali na Sadybie wyposażonej w profesjonalne maty i sprzęt.',
             variant: 'dark' as const,
             bullets: [
-              { text: 'Dzieci od 7 lat z rodzicem lub opiekunem' },
-              { text: 'Bez wcześniejszego doświadczenia' },
-              { text: 'Cykliczne spotkania — sprawdź aktualny grafik' },
+              { text: 'Dla kogo: Matki z dziećmi w wieku 7–12 lat' },
+              { text: 'Czas: Sobotnie południa (cyklicznie co miesiąc)' },
+              { text: 'Strój: Wygodny dres, t-shirt, ćwiczymy boso' },
+              { text: 'Miejsce: ul. Powsińska 25, Sadyba' },
+              { text: 'Zachęcamy do zabrania notatnika' },
             ],
           },
           {
+            blockType: 'cta' as const,
+            heading: 'Szukasz samoobrony tylko dla siebie?',
+            description: 'Sprawdź nasze warsztaty "Bezpieczna i pewna siebie" dedykowane wyłącznie kobietom.',
+            variant: 'dark' as const,
+            primaryButton: { text: 'Samoobrona dla Kobiet', link: '/oferta/samoobrona-dla-kobiet' },
+          },
+          {
             blockType: 'contactCard' as const,
-            heading: 'Kontakt',
+            heading: 'Zarezerwuj miejsce dla Was',
             email: 'kontakt@pantera.waw.pl',
             phone: '508 689 718',
+            note: 'Trochę ruchu w sobotę przyda się każdemu!',
           },
           {
             blockType: 'cta' as const,
-            heading: 'Dołącz do warsztatów rodzinnych',
-            description: 'Sprawdź najbliższy termin i zapisz się razem z dzieckiem.',
+            heading: 'Spędźcie aktywnie sobotę',
+            description: 'Zapisz się na najbliższe warsztaty rodzinne i buduj relację przez sport.',
             variant: 'dark' as const,
-            primaryButton: { text: 'Zapytaj o termin', link: '/kontakt' },
+            primaryButton: { text: 'Zapisz nas', link: '/kontakt' },
             secondaryButton: { text: '← Wszystkie oferty', link: '/oferta' },
           },
         ],
@@ -248,5 +331,6 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
     }),
   ])
 
-  console.log('Created 4 offers')
+  console.log('Created 5 offers')
+  return { imgFirmy, imgUrodziny, imgSamoobrona }
 }

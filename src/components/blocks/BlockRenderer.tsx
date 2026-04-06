@@ -2,7 +2,9 @@ import React from 'react'
 import Link from 'next/link'
 import type { Offer } from '@/payload-types'
 
-type LayoutBlock = NonNullable<Offer['layout']>[number]
+import GalleryBlock, { GalleryBlockProps } from './GalleryBlock'
+
+type LayoutBlock = NonNullable<Offer['layout']>[number] | GalleryBlockProps
 
 // ---- RichText ----
 function RichTextBlockRenderer({ block }: { block: Extract<LayoutBlock, { blockType: 'richText' }> }) {
@@ -156,6 +158,7 @@ export default function BlockRenderer({ layout }: { layout: Offer['layout'] }) {
           case 'contactCard':   return <ContactCardBlockRenderer key={i} block={block} />
           case 'cta':           return <CTABlockRenderer key={i} block={block} />
           case 'faqSection':    return <FAQBlockRenderer key={i} block={block} />
+          case 'gallery':       return <GalleryBlock key={i} block={block as GalleryBlockProps} />
           default:              return null
         }
       })}

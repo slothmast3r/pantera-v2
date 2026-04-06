@@ -115,7 +115,12 @@ export default async function OfertaPage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     {coverUrl ? (
                       <img src={coverUrl} alt={offer.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.3 }} />
-                    ) : null}
+                    ) : (
+                      <div className="oferta-card__fallback">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src="/logo-icon.svg" alt="" />
+                      </div>
+                    )}
                     <span className="oferta-card__icon">{icon}</span>
                     <span className="oferta-card__badge">{badge}</span>
                   </div>

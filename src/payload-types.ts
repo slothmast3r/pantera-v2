@@ -109,6 +109,7 @@ export interface Config {
     'homepage-pricing': HomepagePricing;
     'contact-info': ContactInfo;
     'analytics-settings': AnalyticsSetting;
+    'about-gallery': AboutGallery;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
@@ -118,6 +119,7 @@ export interface Config {
     'homepage-pricing': HomepagePricingSelect<false> | HomepagePricingSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     'analytics-settings': AnalyticsSettingsSelect<false> | AnalyticsSettingsSelect<true>;
+    'about-gallery': AboutGallerySelect<false> | AboutGallerySelect<true>;
   };
   locale: null;
   widgets: {
@@ -441,6 +443,20 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'richText';
+          }
+        | {
+            title?: string | null;
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            columns?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery';
           }
       )[]
     | null;
@@ -794,6 +810,20 @@ export interface Offer {
             id?: string | null;
             blockName?: string | null;
             blockType: 'faqSection';
+          }
+        | {
+            title?: string | null;
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            columns?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'gallery';
           }
       )[]
     | null;
@@ -1217,6 +1247,21 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
+        gallery?:
+          | T
+          | {
+              title?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              columns?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1475,6 +1520,21 @@ export interface OffersSelect<T extends boolean = true> {
           | {
               heading?: T;
               faqs?: T;
+              id?: T;
+              blockName?: T;
+            };
+        gallery?:
+          | T
+          | {
+              title?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              columns?: T;
               id?: T;
               blockName?: T;
             };
@@ -1749,6 +1809,24 @@ export interface AnalyticsSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-gallery".
+ */
+export interface AboutGallery {
+  id: number;
+  title?: string | null;
+  images?:
+    | {
+        image: number | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  columns?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
 export interface NavigationSelect<T extends boolean = true> {
@@ -1910,6 +1988,24 @@ export interface AnalyticsSettingsSelect<T extends boolean = true> {
   propertyId?: T;
   serviceAccountEmail?: T;
   privateKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-gallery_select".
+ */
+export interface AboutGallerySelect<T extends boolean = true> {
+  title?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  columns?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

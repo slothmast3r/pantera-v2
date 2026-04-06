@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\IMG_8963.JPG\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\o-nas-cover.jpg\")",
+      "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\IMG_1062.jpeg\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\sala.jpeg\")",
+      "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\20240219_203239 \\(1\\).jpg\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\trening.jpg\")"
+    ]
+  }
+}

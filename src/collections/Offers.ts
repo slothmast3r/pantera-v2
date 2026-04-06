@@ -8,6 +8,8 @@ import { OfferCardsBlock } from '../blocks/OfferCards'
 import { ForWhoBlock } from '../blocks/ForWho'
 import { ContactCardBlock } from '../blocks/ContactCard'
 
+import { GalleryBlock } from '../blocks/Gallery'
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export const Offers: CollectionConfig = {
@@ -113,6 +115,7 @@ export const Offers: CollectionConfig = {
         ContactCardBlock,
         CTABlock,
         FAQBlock,
+        GalleryBlock,
       ],
     },
 

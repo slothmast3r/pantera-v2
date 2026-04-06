@@ -48,11 +48,17 @@ export default function ServicesSection({ data }: { data?: HomepageService | nul
               <div key={i} className="services__card">
                 <div
                   className="services__image"
-                  style={{
-                    background: s.color ?? '#2a5298',
-                    ...(imgUrl ? { backgroundImage: `url(${imgUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}),
-                  }}
+                  style={imgUrl
+                    ? { backgroundImage: `url(${imgUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                    : { background: '#e8e9ec' }
+                  }
                 >
+                  {!imgUrl && (
+                    <div style={{ position: 'absolute', inset: '64px 0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src="/logo-icon.svg" alt="" style={{ width: 'auto', height: '100%', opacity: 0.15, filter: 'grayscale(1)' }} />
+                    </div>
+                  )}
                   <span className="services__tag">{s.tag}</span>
                 </div>
                 <div className="services__content">

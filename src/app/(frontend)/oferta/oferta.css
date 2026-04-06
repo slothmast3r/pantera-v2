@@ -73,6 +73,24 @@
   border-radius: 50%;
   background: rgba(var(--color-primary-rgb), 0.15);
 }
+.oferta-card__fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8e9ec;
+}
+.oferta-card__fallback img {
+  position: absolute;
+  inset: 64px 0;
+  width: auto;
+  height: calc(100% - 128px);
+  margin: 0 auto;
+  object-fit: contain;
+  opacity: 0.18;
+  filter: grayscale(1);
+}
 .oferta-card__icon { font-size: 2.2rem; display: block; margin-bottom: 10px; position: relative; z-index: 1; }
 .oferta-card__badge {
   font-size: 0.65rem;
@@ -399,3 +417,86 @@
 .offer-for-who--light p { color: #555; }
 .offer-for-who--light .offer-bullets li { color: var(--color-text-secondary); }
 .offer-for-who--light .offer-bullets li::before { background: var(--color-primary); }
+
+/* ===== GALLERY BLOCK ===== */
+.about-gallery {
+  padding: 90px 20px;
+  background: #fff;
+}
+
+.about-gallery h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.gallery-grid--cols-1 { grid-template-columns: 1fr; }
+.gallery-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.gallery-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.gallery-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  background: var(--color-bg-section);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-cover: cover;
+  transition: transform 0.5s;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery-item__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.gallery-item:hover .gallery-item__overlay {
+  opacity: 1;
+}
+
+.gallery-item__caption {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+@media (max-width: 900px) {
+  .gallery-grid--cols-3,
+  .gallery-grid--cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-grid--cols-2,
+  .gallery-grid--cols-3,
+  .gallery-grid--cols-4 {
+    grid-template-columns: 1fr;
+  }
+}

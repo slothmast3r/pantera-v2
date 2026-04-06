@@ -18,6 +18,8 @@ import { ScheduleBlock } from '../blocks/Schedule'
 import { ClassesOverviewBlock } from '../blocks/ClassesOverview'
 import { EventsListBlock } from '../blocks/EventsList'
 
+import { GalleryBlock } from '../blocks/Gallery'
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export const Pages: CollectionConfig = {
@@ -85,6 +87,7 @@ export const Pages: CollectionConfig = {
         ScheduleBlock,
         EventsListBlock,
         RichTextBlock,
+        GalleryBlock,
       ],
     },
   ],

@@ -23,8 +23,8 @@ export async function seed() {
   const instructors = await seedInstructors(payload)
   await seedTestimonials(payload)
   await seedClasses(payload, instructors)
-  await seedOffers(payload)
-  await seedGlobals(payload)
+  const offerImages = await seedOffers(payload)
+  await seedGlobals(payload, offerImages)
   await seedSchedule(payload)
 
   console.log('\nSeed complete!')

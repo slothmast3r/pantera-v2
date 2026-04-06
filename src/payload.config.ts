@@ -22,6 +22,7 @@ import { HomepageServices } from './globals/HomepageServices'
 import { HomepagePricing } from './globals/HomepagePricing'
 import { ContactInfo } from './globals/ContactInfo'
 import { AnalyticsSettings } from './globals/AnalyticsSettings'
+import { AboutGallery } from './globals/AboutGallery'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,7 +56,16 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Pages, Classes, Instructors, Testimonials, Events, FAQ, Offers],
-  globals: [Navigation, Footer, Schedule, HomepageServices, HomepagePricing, ContactInfo, AnalyticsSettings],
+  globals: [
+    Navigation,
+    Footer,
+    Schedule,
+    HomepageServices,
+    HomepagePricing,
+    ContactInfo,
+    AnalyticsSettings,
+    AboutGallery,
+  ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

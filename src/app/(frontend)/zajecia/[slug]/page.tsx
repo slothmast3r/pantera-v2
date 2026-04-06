@@ -137,7 +137,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
             <p className="class-header__lead">{cls.heading.subtitle}</p>
           )}
           <Link
-            href={cls.cta?.buttonLink ?? '/kontakt'}
+            href={(cls.cta?.buttonLink ?? '/kontakt') as string}
             className="btn btn--orange"
           >
             {cls.cta?.buttonText ?? 'Zapisz się na zajęcia'}

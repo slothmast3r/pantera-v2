@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload'
+import { revalidateTestimonials, revalidateTestimonialsOnDelete } from '../hooks/revalidate'
 
 export const Testimonials: CollectionConfig = {
   slug: 'testimonials',
@@ -7,6 +8,10 @@ export const Testimonials: CollectionConfig = {
     useAsTitle: 'author',
     defaultColumns: ['author', 'rating', 'relatedClass', 'updatedAt'],
     group: 'Treści',
+  },
+  hooks: {
+    afterChange: [revalidateTestimonials],
+    afterDelete: [revalidateTestimonialsOnDelete],
   },
   access: {
     read: () => true,

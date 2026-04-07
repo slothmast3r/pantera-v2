@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { autoSlug } from '../hooks/autoSlug'
+import { revalidateOffers, revalidateOffersOnDelete } from '../hooks/revalidate'
 import { seoFields } from '../fields/seo'
 import { RichTextBlock } from '../blocks/RichText'
 import { CTABlock } from '../blocks/CTA'
@@ -31,6 +32,8 @@ export const Offers: CollectionConfig = {
   },
   hooks: {
     beforeChange: [autoSlug('title')],
+    afterChange: [revalidateOffers],
+    afterDelete: [revalidateOffersOnDelete],
   },
   access: { read: () => true },
   fields: [

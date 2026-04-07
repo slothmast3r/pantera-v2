@@ -1,3 +1,4 @@
+import { revalidateGlobalAll } from '../hooks/revalidate'
 import type { GlobalConfig } from 'payload'
 
 export const Footer: GlobalConfig = {

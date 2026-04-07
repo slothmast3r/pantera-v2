@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { autoSlug } from '../hooks/autoSlug'
 import { seoFields } from '../fields/seo'
+import { revalidateClasses, revalidateClassesOnDelete } from '../hooks/revalidate'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
@@ -22,6 +23,8 @@ export const Classes: CollectionConfig = {
   },
   hooks: {
     beforeChange: [autoSlug('title')],
+    afterChange: [revalidateClasses],
+    afterDelete: [revalidateClassesOnDelete],
   },
   access: {
     read: () => true,

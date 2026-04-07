@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { autoSlug } from '../hooks/autoSlug'
+import { revalidateEvents, revalidateEventsOnDelete } from '../hooks/revalidate'
 
 export const Events: CollectionConfig = {
   slug: 'events',
@@ -12,6 +13,8 @@ export const Events: CollectionConfig = {
   },
   hooks: {
     beforeChange: [autoSlug('title')],
+    afterChange: [revalidateEvents],
+    afterDelete: [revalidateEventsOnDelete],
   },
   access: {
     read: () => true,

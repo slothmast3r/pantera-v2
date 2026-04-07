@@ -1,9 +1,11 @@
+import { revalidateHomepage } from '../hooks/revalidate'
 import type { GlobalConfig } from 'payload'
 
 export const HomepageServices: GlobalConfig = {
   slug: 'homepage-services',
   label: 'Strona główna – Usługi dodatkowe',
   admin: { group: 'Komponenty' },
+  hooks: { afterChange: [revalidateHomepage] },
   access: { read: () => true },
   fields: [
     {

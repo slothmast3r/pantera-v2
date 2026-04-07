@@ -1,3 +1,4 @@
+import { revalidateContact } from '../hooks/revalidate'
 import type { GlobalConfig } from 'payload'
 
 export const ContactInfo: GlobalConfig = {

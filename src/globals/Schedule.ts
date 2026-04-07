@@ -1,3 +1,4 @@
+import { revalidateSchedule } from '../hooks/revalidate'
 import type { GlobalConfig } from 'payload'
 
 function validateTime(value: unknown) {

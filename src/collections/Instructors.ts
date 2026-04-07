@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { autoSlug } from '../hooks/autoSlug'
 import { seoFields } from '../fields/seo'
+import { revalidateInstructors, revalidateInstructorsOnDelete } from '../hooks/revalidate'
 
 export const Instructors: CollectionConfig = {
   slug: 'instructors',
@@ -12,6 +13,8 @@ export const Instructors: CollectionConfig = {
   },
   hooks: {
     beforeChange: [autoSlug('name')],
+    afterChange: [revalidateInstructors],
+    afterDelete: [revalidateInstructorsOnDelete],
   },
   access: {
     read: () => true,

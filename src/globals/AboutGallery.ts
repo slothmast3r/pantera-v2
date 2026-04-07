@@ -1,3 +1,4 @@
+import { revalidateAbout } from '../hooks/revalidate'
 import type { GlobalConfig } from 'payload'
 
 export const AboutGallery: GlobalConfig = {

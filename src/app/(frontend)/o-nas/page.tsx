@@ -1,7 +1,7 @@
 export const revalidate = 300
 
 import React from 'react'
-import Image from 'next/image'
+import NextImage from 'next/image'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
@@ -64,7 +64,7 @@ export default async function AboutPage() {
       {/* HEADER */}
       <section className="about-header">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <Image src="/about/cover.jpg" className="about-header__photo" alt="" fill sizes="100vw" priority />
+        <NextImage src="/about/cover.jpg" className="about-header__photo" alt="" width={1920} height={1080} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} priority />
         <div className="container">
           <div className="label label--white">O PANTERZE</div>
           <h1>
@@ -115,7 +115,7 @@ export default async function AboutPage() {
             </div>
             <div className="about-who__photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <Image src="/about/sala.jpeg" alt="Sala treningowa Pantera" fill sizes="(max-width: 768px) 100vw, 50vw" />
+              <NextImage src="/about/sala.jpeg" alt="Sala treningowa Pantera" width={800} height={600} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default async function AboutPage() {
           <div className="about-mission__inner">
             <div className="about-mission__photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <Image src="/about/trening.jpg" alt="Trening Pantera" fill sizes="(max-width: 768px) 100vw, 50vw" />
+              <NextImage src="/about/trening.jpg" alt="Trening Pantera" width={800} height={600} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
             </div>
             <div>
               <div className="label label--white">NASZA MISJA</div>

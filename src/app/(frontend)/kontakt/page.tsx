@@ -1,3 +1,5 @@
+export const revalidate = 300
+
 import React from 'react'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'

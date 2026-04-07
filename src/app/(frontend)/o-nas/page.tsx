@@ -1,3 +1,5 @@
+export const revalidate = 300
+
 import React from 'react'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'

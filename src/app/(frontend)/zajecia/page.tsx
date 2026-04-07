@@ -1,3 +1,5 @@
+export const revalidate = 300
+
 import React, { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'

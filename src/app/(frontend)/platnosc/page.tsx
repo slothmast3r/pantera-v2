@@ -1,3 +1,5 @@
+export const revalidate = 300
+
 import Link from 'next/link'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'

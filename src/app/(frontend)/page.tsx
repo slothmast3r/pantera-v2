@@ -22,6 +22,8 @@ import CTASection from '@/components/home/CTASection'
 import Footer from '@/components/home/Footer'
 import './homepage.css'
 
+export const revalidate = 300
+
 type HeroBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'hero' }>
 
 export default async function HomePage() {

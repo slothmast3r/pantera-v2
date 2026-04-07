@@ -1,3 +1,5 @@
+export const revalidate = 300
+
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'

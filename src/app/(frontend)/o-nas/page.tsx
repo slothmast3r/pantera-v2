@@ -1,19 +1,20 @@
 export const revalidate = 300
 
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Instructor, Media, Navigation, Footer as FooterType, Page } from '@/payload-types'
+import { getImageUrl } from '@/lib/media'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import GalleryBlock from '@/components/blocks/GalleryBlock'
 import './about.css'
 
 function getPhotoUrl(photo: Instructor['photo']): string | null {
-  if (!photo || typeof photo === 'number') return null
-  return (photo as Media).url ?? null
+  return getImageUrl(photo, 'thumbnail')
 }
 
 const staticInstructors = [
@@ -63,7 +64,7 @@ export default async function AboutPage() {
       {/* HEADER */}
       <section className="about-header">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/about/cover.jpg" className="about-header__photo" alt="" />
+        <Image src="/about/cover.jpg" className="about-header__photo" alt="" fill sizes="100vw" priority />
         <div className="container">
           <div className="label label--white">O PANTERZE</div>
           <h1>
@@ -114,7 +115,7 @@ export default async function AboutPage() {
             </div>
             <div className="about-who__photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/about/sala.jpeg" alt="Sala treningowa Pantera" />
+              <Image src="/about/sala.jpeg" alt="Sala treningowa Pantera" fill sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
           </div>
         </div>
@@ -161,7 +162,7 @@ export default async function AboutPage() {
           <div className="about-mission__inner">
             <div className="about-mission__photo">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/about/trening.jpg" alt="Trening Pantera" />
+              <Image src="/about/trening.jpg" alt="Trening Pantera" fill sizes="(max-width: 768px) 100vw, 50vw" />
             </div>
             <div>
               <div className="label label--white">NASZA MISJA</div>

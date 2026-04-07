@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import type { HomepageService, Media } from '@/payload-types'
+import { getImageUrl as getMediaUrl } from '@/lib/media'
 
 const staticCards = [
   {
@@ -25,11 +26,6 @@ const staticCards = [
 
 type CardImage = NonNullable<HomepageService['cards']>[number]['image']
 
-function getImageUrl(img: CardImage): string | null {
-  if (!img || typeof img === 'number') return null
-  return (img as Media).url ?? null
-}
-
 export default function ServicesSection({ data }: { data?: HomepageService | null }) {
   const label = data?.sectionLabel ?? 'USŁUGI DODATKOWE'
   const title = data?.sectionTitle ?? 'Pantera to także:'
@@ -43,7 +39,7 @@ export default function ServicesSection({ data }: { data?: HomepageService | nul
         <h2 className="section-title">{title}</h2>
         <div className={`services__grid services__grid--cols-${cols}`}>
           {cards.map((s, i) => {
-            const imgUrl = 'image' in s ? getImageUrl(s.image) : null
+            const imgUrl = 'image' in s ? getMediaUrl(s.image as Media | number | null, 'card') : null
             return (
               <div key={i} className="services__card">
                 <div

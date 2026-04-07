@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import type { Instructor, Media } from '@/payload-types'
+import { getImageUrl } from '@/lib/media'
 
 const staticInstructors = [
   {
@@ -29,10 +30,6 @@ const staticInstructors = [
   },
 ]
 
-function getPhotoUrl(photo: Instructor['photo']): string | null {
-  if (!photo || typeof photo === 'number') return null
-  return (photo as Media).url ?? null
-}
 
 export default function InstructorsSection({ instructors }: { instructors?: Instructor[] | null }) {
   const items = instructors?.length ? instructors : staticInstructors
@@ -47,12 +44,12 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
         </p>
         <div className="instructors__grid">
           {items.map((i) => {
-            const photoUrl = getPhotoUrl(i.photo)
+            const photoUrl = getImageUrl(i.photo, 'card')
             return (
               <div key={i.id} className="instructors__card">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 {photoUrl ? (
-                  <img src={photoUrl} alt={i.name} className="instructors__photo" />
+                  <img src={photoUrl} alt={i.name} className="instructors__photo" loading="lazy" />
                 ) : (
                   <div className="instructors__photo" />
                 )}

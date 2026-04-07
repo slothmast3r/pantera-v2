@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import type { Media } from '@/payload-types'
+import { getImageUrl } from '@/lib/media'
 
 interface HeroData {
   title?: string | null
@@ -12,11 +13,6 @@ interface HeroData {
   socialProof?: { googleReviewsText?: string | null }
 }
 
-function getImageUrl(image: HeroData['backgroundImage']): string | null {
-  if (!image || typeof image === 'number') return null
-  return (image as Media).url ?? null
-}
-
 export default function HeroSection({ data }: { data?: HeroData | null }) {
   const title = data?.title ?? 'Sztuki walki i rozwój. Mądrze. Bezpiecznie. Lokalnie.'
   const description =
@@ -25,7 +21,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   const ctaText = data?.primaryCta?.text ?? 'Umówione zajęcia za darmo'
   const ctaLink = data?.primaryCta?.link ?? '/kontakt'
   const googleText = data?.socialProof?.googleReviewsText ?? 'Google Reviews'
-  const imageUrl = getImageUrl(data?.backgroundImage)
+  const imageUrl = getImageUrl(data?.backgroundImage, 'hero')
 
   const style = imageUrl
     ? ({ '--hero-bg': `url(${imageUrl})` } as React.CSSProperties)

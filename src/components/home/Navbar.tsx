@@ -58,24 +58,26 @@ function GroupedDropdown({ subLinks, pathname, onLinkClick }: { subLinks: { labe
 
   return (
     <div className="navbar__dropdown-menu navbar__dropdown-menu--grouped">
-      {adults.length > 0 && (
-        <div className="navbar__dropdown-group">
-          <span className="navbar__dropdown-group-label"><Icon name="person" /> Dorośli</span>
-          {adults.map((sub) => (
-            <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
-          ))}
+      <div>
+        {adults.length > 0 && (
+          <div className="navbar__dropdown-group">
+            <span className="navbar__dropdown-group-label"><Icon name="person" /> Dorośli</span>
+            {adults.map((sub) => (
+              <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
+            ))}
+          </div>
+        )}
+        {children.length > 0 && (
+          <div className="navbar__dropdown-group">
+            <span className="navbar__dropdown-group-label"><Icon name="child_care" /> Dzieci</span>
+            {children.map((sub) => (
+              <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
+            ))}
+          </div>
+        )}
+        <div className="navbar__dropdown-footer">
+          <Link href="/zajecia">Zobacz wszystkie zajęcia →</Link>
         </div>
-      )}
-      {children.length > 0 && (
-        <div className="navbar__dropdown-group">
-          <span className="navbar__dropdown-group-label"><Icon name="child_care" /> Dzieci</span>
-          {children.map((sub) => (
-            <Link key={sub.href} href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={onLinkClick}>{sub.label}</Link>
-          ))}
-        </div>
-      )}
-      <div className="navbar__dropdown-footer">
-        <Link href="/zajecia">Zobacz wszystkie zajęcia →</Link>
       </div>
     </div>
   )
@@ -152,11 +154,13 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
                         <GroupedDropdown subLinks={subs} pathname={pathname} onLinkClick={() => setMenuOpen(false)} />
                       ) : (
                         <ul className="navbar__dropdown-menu">
-                          {subs.map((sub) => (
-                            <li key={sub.href}>
-                              <Link href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={() => setMenuOpen(false)}>{sub.label}</Link>
-                            </li>
-                          ))}
+                          <div>
+                            {subs.map((sub) => (
+                              <li key={sub.href}>
+                                <Link href={sub.href as any} className={pathname === sub.href ? 'navbar__link--active' : undefined} onClick={() => setMenuOpen(false)}>{sub.label}</Link>
+                              </li>
+                            ))}
+                          </div>
                         </ul>
                       )
                     ) : null}

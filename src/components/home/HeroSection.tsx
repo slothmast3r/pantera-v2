@@ -18,7 +18,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
   const description =
     data?.description ??
     'Rodzinny klub sportowy na Mokotowie. Budujemy pewność siebie i formy ruchowe w bezpiecznym środowisku.'
-  const ctaText = data?.primaryCta?.text ?? 'Umówione zajęcia za darmo'
+  const ctaText = data?.primaryCta?.text ?? 'Pierwsze zajęcia gratis'
   const ctaLink = data?.primaryCta?.link ?? '/kontakt'
   const googleText = data?.socialProof?.googleReviewsText ?? 'Google Reviews'
   const imageUrl = getImageUrl(data?.backgroundImage, 'hero')

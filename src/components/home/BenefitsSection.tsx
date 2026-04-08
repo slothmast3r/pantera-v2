@@ -48,7 +48,7 @@ export default function BenefitsSection() {
               </li>
             ))}
           </ul>
-          <Link href="/zajecia" className="btn btn--orange">Wybierz zajęcia →</Link>
+          <Link href="/o-nas" className="btn btn--orange">Więcej o nas →</Link>
         </div>
       </div>
     </section>

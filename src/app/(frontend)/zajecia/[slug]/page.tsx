@@ -1,5 +1,34 @@
 export const revalidate = 300
 
+import type { Metadata } from 'next'
+import { getPayload as getPayloadInstance } from 'payload'
+import payloadConfig from '@payload-config'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  try {
+    const payload = await getPayloadInstance({ config: payloadConfig })
+    const res = await payload.find({ collection: 'classes', where: { slug: { equals: slug } }, limit: 1 })
+    const doc = res.docs[0]
+    if (doc?.seo?.metaTitle || doc?.seo?.metaDescription) {
+      return {
+        title: doc.seo.metaTitle ?? undefined,
+        description: doc.seo.metaDescription ?? undefined,
+        openGraph: doc.seo.ogImage ? {
+          images: [
+            {
+              url: (doc.seo.ogImage as any).url || '',
+            },
+          ],
+        } : undefined,
+      }
+    }
+  } catch {}
+  return {
+    title: 'Zajęcia – Pantera Family & Sport Club',
+  }
+}
+
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'

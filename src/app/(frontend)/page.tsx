@@ -1,4 +1,29 @@
 import React from 'react'
+import type { Metadata } from 'next'
+import { getPayload as getPayloadInstance } from 'payload'
+import payloadConfig from '@payload-config'
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const payload = await getPayloadInstance({ config: payloadConfig })
+    const res = await payload.find({ collection: 'pages', where: { slug: { equals: 'home' } }, limit: 1 })
+    const page = res.docs[0]
+    if (page?.seo?.metaTitle || page?.seo?.metaDescription) {
+      return {
+        title: page.seo.metaTitle ?? undefined,
+        description: page.seo.metaDescription ?? undefined,
+        openGraph: page.seo.ogImage ? {
+          images: [{ url: (page.seo.ogImage as any).url || '' }],
+        } : undefined,
+      }
+    }
+  } catch {}
+  return {
+    title: 'Pantera Family & Sport Club | Klub sportowy Mokotów',
+    description: 'Krav Maga, Karate, Tai Chi i Power Training w Warszawie na Mokotowie. Rodzinna atmosfera, certyfikowani instruktorzy, grupy dla dzieci i dorosłych.',
+  }
+}
+
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import type {

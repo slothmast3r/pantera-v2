@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Offer } from '@/payload-types'
 
 import GalleryBlock, { GalleryBlockProps } from './GalleryBlock'
@@ -100,9 +101,23 @@ function ContactCardBlockRenderer({ block }: { block: Extract<LayoutBlock, { blo
 
 // ---- CTA ----
 function CTABlockRenderer({ block }: { block: Extract<LayoutBlock, { blockType: 'cta' }> }) {
-  const variantClass = block.variant === 'dark' ? 'offer-cta offer-cta--block' : 'offer-cta offer-cta--block offer-cta--light'
+  const isDark = block.variant === 'dark'
+  const variantClass = isDark ? 'offer-cta offer-cta--block' : 'offer-cta offer-cta--block offer-cta--light'
   return (
     <section className={variantClass}>
+      {isDark && (
+        <>
+          <Image
+            src="/cta-sala.webp"
+            alt=""
+            fill
+            className="offer-cta__bg"
+            sizes="100vw"
+            loading="lazy"
+          />
+          <div className="offer-cta__overlay" />
+        </>
+      )}
       <div className="container">
         <h2>{block.heading}</h2>
         {block.description && <p>{block.description}</p>}

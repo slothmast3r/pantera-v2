@@ -335,10 +335,22 @@
 /* ===== SINGLE — CTA ===== */
 .offer-cta {
   padding: 100px 20px;
-  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 100%);
+  background: #111;
   text-align: center;
   position: relative;
   overflow: hidden;
+}
+
+.offer-cta__bg {
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.35;
+}
+
+.offer-cta__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.7) 100%);
 }
 .offer-cta::after {
   content: 'PANTERA';

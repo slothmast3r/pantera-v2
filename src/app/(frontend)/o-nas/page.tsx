@@ -1,5 +1,27 @@
 export const revalidate = 300
 
+import type { Metadata } from 'next'
+import { getPayload as getPayloadInstance } from 'payload'
+import payloadConfig from '@payload-config'
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const payload = await getPayloadInstance({ config: payloadConfig })
+    const res = await payload.find({ collection: 'pages', where: { slug: { equals: 'o-nas' } }, limit: 1 })
+    const page = res.docs[0]
+    if (page?.seo?.metaTitle || page?.seo?.metaDescription) {
+      return {
+        title: page.seo.metaTitle ?? undefined,
+        description: page.seo.metaDescription ?? undefined,
+      }
+    }
+  } catch {}
+  return {
+    title: 'O nas – Pantera Family & Sport Club | Klub sportowy Mokotów',
+    description: 'Poznaj historię i filozofię Pantery. Rodzinny klub sportowy na Mokotowie od 2011 roku. Certyfikowani instruktorzy, małe grupy, bezpieczna atmosfera.',
+  }
+}
+
 import React from 'react'
 import NextImage from 'next/image'
 import Link from 'next/link'

@@ -36,6 +36,10 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'michal-jaworski',
         ...(photo1 ? { photo: photo1 } : {}),
         specialization: 'KRAV MAGA / SAMOOBRONA',
+        seo: {
+          metaTitle: 'Michał Jaworski – Instruktor Krav Maga | Pantera Warszawa',
+          metaDescription: 'Michał Jaworski – certyfikowany instruktor Krav Maga i samoobrony z ponad 20-letnim doświadczeniem. Pantera Family & Sport Club, Mokotów.',
+        },
         bio: 'Instruktor z ponad 20-letnim doświadczeniem w Krav Maga i samoobronie. Certyfikat United Krav Maga. Prowadzi treningi z dziećmi od 2004 roku.',
         achievements: [
           { text: 'Certyfikat United Krav Maga – poziom instruktorski' },
@@ -52,6 +56,10 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'tomasz-lewkowicz',
         ...(photo2 ? { photo: photo2 } : {}),
         specialization: 'KARATE / POWER TRAINING',
+        seo: {
+          metaTitle: 'Tomasz Lewkowicz – Instruktor Karate | Pantera Warszawa',
+          metaDescription: 'Tomasz Lewkowicz – sędzia międzynarodowy i trener karate z 25+ letnim doświadczeniem. Pantera Family & Sport Club, Mokotów.',
+        },
         bio: 'Trener z 25+ letnim doświadczeniem w karate. Sędzia międzynarodowy. Pasja do kształtowania charakteru przez sport.',
         achievements: [
           { text: 'Sędzia międzynarodowy w karate' },
@@ -68,6 +76,10 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'janusz-zuchowski',
         ...(photo3 ? { photo: photo3 } : {}),
         specialization: 'TAI CHI / MASTER',
+        seo: {
+          metaTitle: 'Janusz Żuchowski – Instruktor Tai Chi | Pantera Warszawa',
+          metaDescription: 'Janusz Żuchowski – certyfikowany instruktor Tai Chi i Qigong z wieloletnim doświadczeniem w pracy z każdą grupą wiekową. Pantera, Mokotów.',
+        },
         bio: 'Mistrz Tai Chi z wieloletnim doświadczeniem w pracy z każdym wiekiem.',
         achievements: [
           { text: 'Wieloletnia praktyka Tai Chi i Qigong' },

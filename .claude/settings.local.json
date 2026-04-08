@@ -3,7 +3,10 @@
     "allow": [
       "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\IMG_8963.JPG\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\o-nas-cover.jpg\")",
       "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\IMG_1062.jpeg\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\sala.jpeg\")",
-      "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\20240219_203239 \\(1\\).jpg\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\trening.jpg\")"
+      "Bash(cp \"C:\\\\Users\\\\Oskar\\\\Downloads\\\\20240219_203239 \\(1\\).jpg\" \"C:\\\\Users\\\\Oskar\\\\Documents\\\\Programowanie\\\\pantera-v2\\\\src\\\\seed\\\\images\\\\trening.jpg\")",
+      "Bash(grep -n \"href={\\\\`/zajecia\" \"C:/Users/Oskar/Documents/Programowanie/pantera-v2/src/app/\\(frontend\\)/grafik/GrafikClient.tsx\" -B2)",
+      "Bash(grep -n \"href={\\\\`/zajecia\" \"C:/Users/Oskar/Documents/Programowanie/pantera-v2/src/app/\\(frontend\\)/kadra/[slug]/page.tsx\" -B2)",
+      "Bash(grep -rn \"href={\\\\`\" \"C:/Users/Oskar/Documents/Programowanie/pantera-v2/src/app\" \"C:/Users/Oskar/Documents/Programowanie/pantera-v2/src/components\" --include=\"*.tsx\")"
     ]
   }
 }

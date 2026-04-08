@@ -11,6 +11,7 @@ const DAYS = [
   { value: 'thursday', short: 'Czw', label: 'Czwartek' },
   { value: 'friday', short: 'Pt', label: 'Piątek' },
   { value: 'saturday', short: 'Sob', label: 'Sobota' },
+  { value: 'sunday', short: 'Nd', label: 'Niedziela' },
 ] as const
 
 type DayValue = (typeof DAYS)[number]['value']

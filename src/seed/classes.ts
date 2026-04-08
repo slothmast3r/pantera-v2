@@ -21,6 +21,10 @@ export async function seedClasses(
         slug: 'krav-maga',
         type: 'krav-maga',
         ageGroup: 'adults',
+        seo: {
+          metaTitle: 'Krav Maga dla dorosłych – Warszawa Mokotów | Pantera',
+          metaDescription: 'Skuteczna samoobrona i trening kondycyjny dla dorosłych na Mokotowie. Krav Maga w małych grupach. Pierwsze zajęcia bezpłatne!',
+        },
         heading: {
           title: 'Krav Maga – Skuteczna samoobrona i trening dla ciała',
           subtitle:
@@ -62,6 +66,10 @@ export async function seedClasses(
         slug: 'krav-maga-dzieci',
         type: 'krav-maga',
         ageGroup: 'children',
+        seo: {
+          metaTitle: 'Krav Maga dla dzieci – Warszawa Mokotów | Pantera',
+          metaDescription: 'Krav Maga i samoobrona dla dzieci w grupach 4–6, 7–10 i 11–14 lat. Pewność siebie i bezpieczeństwo w Panterze na Mokotowie. Pierwsze zajęcia gratis!',
+        },
         heading: {
           title: 'Krav Maga dla dzieci i młodzieży – Bezpieczeństwo i pewność siebie',
           subtitle:
@@ -106,6 +114,10 @@ export async function seedClasses(
         slug: 'karate-dzieci',
         type: 'karate',
         ageGroup: 'children',
+        seo: {
+          metaTitle: 'Karate dla dzieci – Warszawa Mokotów | Pantera',
+          metaDescription: 'Karate tradycyjne dla dzieci kształtujące charakter, dyscyplinę i koncentrację. Zajęcia na Mokotowie w małych grupach. Pierwsze zajęcia bezpłatne.',
+        },
         heading: {
           title: 'Karate dla Dzieci – Charakter kształtowany w ruchu',
           subtitle:
@@ -148,6 +160,10 @@ export async function seedClasses(
         slug: 'tai-chi',
         type: 'tai-chi',
         ageGroup: 'all',
+        seo: {
+          metaTitle: 'Tai Chi – Warszawa Mokotów | Pantera Family & Sport Club',
+          metaDescription: 'Tai Chi dla dorosłych i seniorów (35–65+). Redukcja stresu, poprawa postawy i mobilności stawów. Zajęcia w małych grupach na Mokotowie.',
+        },
         heading: {
           title: 'Tai Chi – Równowaga ciała i umysłu',
           subtitle:
@@ -189,6 +205,10 @@ export async function seedClasses(
         slug: 'indywidualne',
         type: 'individual',
         ageGroup: 'all',
+        seo: {
+          metaTitle: 'Treningi Indywidualne – Warszawa Mokotów | Pantera',
+          metaDescription: 'Trening personalny jeden na jeden: Krav Maga, boks, trening siłowy. Elastyczne godziny, również poranne i weekendowe. Mokotów, Warszawa.',
+        },
         heading: {
           title: 'Treningi Indywidualne – 100% uwagi trenera',
           subtitle:
@@ -232,6 +252,10 @@ export async function seedClasses(
         slug: 'asg',
         type: 'asg',
         ageGroup: 'all',
+        seo: {
+          metaTitle: 'Strzelectwo ASG – Warszawa Mokotów | Pantera',
+          metaDescription: 'Dynamiczne strzelectwo sportowe ASG w Warszawie. Bezpieczne zajęcia dla dzieci od 8 lat i dorosłych. Sprzęt i ochrona zapewnione.',
+        },
         heading: {
           title: 'Dynamiczne Strzelectwo ASG – Precyzja i adrenalina',
           subtitle:
@@ -272,6 +296,10 @@ export async function seedClasses(
         slug: 'karate',
         type: 'karate',
         ageGroup: 'adults',
+        seo: {
+          metaTitle: 'Karate dla dorosłych – Warszawa Mokotów | Pantera',
+          metaDescription: 'Karate tradycyjne dla dorosłych (16+) w Warszawie. Siła charakteru, kondycja i redukcja stresu. Małe grupy, doświadczeni instruktorzy. Pierwsze zajęcia gratis.',
+        },
         heading: {
           title: 'Karate Tradycyjne – Siła charakteru i kondycja',
           subtitle:
@@ -313,6 +341,10 @@ export async function seedClasses(
         slug: 'power-training',
         type: 'power-training',
         ageGroup: 'adults',
+        seo: {
+          metaTitle: 'Power Training – Trening siłowy Warszawa Mokotów | Pantera',
+          metaDescription: 'Kompleksowy trening siłowy i kondycyjny dla dorosłych na Mokotowie. Buduj siłę, poprawiaj motorykę i sylwetkę pod okiem doświadczonego instruktora.',
+        },
         heading: {
           title: 'Power Training – Trening siłowy i kondycyjny',
           subtitle:

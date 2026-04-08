@@ -41,6 +41,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Dla Firm i Korporacji',
         slug: 'dla-firm',
         category: 'company',
+        seo: {
+          metaTitle: 'Zajęcia dla Firm – Integracja i samoobrona Warszawa | Pantera',
+          metaDescription: 'Warsztaty samoobrony i integracji dla firm w Warszawie. Krav Maga, Tai Chi, team building. Dopasujemy program do potrzeb Twojej organizacji.',
+        },
         ...(imgFirmy ? { coverImage: imgFirmy } : {}),
         heading: {
           title: 'Bezpieczeństwo i Integracja – Warsztaty dla Firm',
@@ -92,6 +96,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Dla Szkół i Przedszkoli',
         slug: 'dla-szkol',
         category: 'schools',
+        seo: {
+          metaTitle: 'Zajęcia dla Szkół i Przedszkoli – Pantera Warszawa',
+          metaDescription: 'Warsztaty samoobrony i edukacji bezpieczeństwa dla dzieci i młodzieży w szkołach i przedszkolach. Pantera Family & Sport Club, Warszawa.',
+        },
         heading: {
           title: 'Edukacja poprzez Ruch',
           subtitle: 'Wspieramy placówki edukacyjne w promowaniu zdrowego stylu życia i bezpieczeństwa. Organizujemy warsztaty i pokazy samoobrony oraz sztuk walki, dostosowane do wieku uczniów.',
@@ -140,6 +148,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Urodziny na Sportowo',
         slug: 'urodziny',
         category: 'birthday',
+        seo: {
+          metaTitle: 'Urodziny na Sportowo – Aktywne urodziny dla dzieci | Pantera',
+          metaDescription: 'Niezapomniane urodziny dla dziecka w Panterze! Sala 115 m², tory przeszkód, elementy karate. Sadyba, Mokotów. Zarezerwuj termin!',
+        },
         ...(imgUrodziny ? { coverImage: imgUrodziny } : {}),
         heading: {
           title: 'Urodziny na Sportowo – Aktywna impreza dla dzieci',
@@ -192,6 +204,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Samoobrona dla kobiet',
         slug: 'samoobrona-dla-kobiet',
         category: 'workshop',
+        seo: {
+          metaTitle: 'Samoobrona dla kobiet – Warsztaty Warszawa Mokotów | Pantera',
+          metaDescription: 'Warsztaty samoobrony dla kobiet oparte na Krav Maga. Pewność siebie i skuteczne techniki reagowania w zagrożeniu. Sadyba, Mokotów. Zapisz się!',
+        },
         ...(imgSamoobrona ? { coverImage: imgSamoobrona } : {}),
         heading: {
           title: '„Bezpieczna i pewna siebie” – Warsztaty na Mokotowie',
@@ -267,6 +283,10 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Warsztaty Rodzinne',
         slug: 'warsztaty-rodzinne',
         category: 'workshop',
+        seo: {
+          metaTitle: 'Warsztaty Rodzinne – Matki i dzieci | Pantera Mokotów',
+          metaDescription: 'Aktywne warsztaty dla matek z dziećmi (7–12 lat) na Mokotowie. Wspólna nauka samoobrony i zabawa sportowa. Cyklicznie w sobotnie południa.',
+        },
         heading: {
           title: 'Wspólna przygoda, zabawa i nauka bezpieczeństwa',
           subtitle: 'Mamy z Mokotowa, to propozycja dla Was! Spędźcie sobotnie południe z dzieckiem na sportowej zabawie, która uczy pożytecznych rzeczy.',

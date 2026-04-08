@@ -7,7 +7,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
 }
 
 @media (min-width: 1600px) { html { font-size: 18px; } }
@@ -35,7 +35,7 @@ html {
 
 body {
   @apply text-text bg-white;
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
 }
 
 img { @apply max-w-full h-auto block; }
@@ -123,13 +123,19 @@ ul { @apply list-none; }
   @apply absolute top-full left-0 bg-white rounded-lg z-200 grid pointer-events-none;
   padding: 26px 20px 20px;
   min-width: 360px;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 24px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px);
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+
+@media (min-width: 769px) {
+  .navbar__dropdown-menu--grouped > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+  }
 }
 
 .navbar__dropdown:hover .navbar__dropdown-menu--grouped {

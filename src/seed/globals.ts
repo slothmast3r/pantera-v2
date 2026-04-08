@@ -228,6 +228,10 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
     data: {
       title: 'Strona główna',
       slug: 'home',
+      seo: {
+        metaTitle: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi Warszawa',
+        metaDescription: 'Rodzinny klub sportowy na Mokotowie. Krav Maga, Karate, Tai Chi i Power Training dla dzieci i dorosłych. Pierwsze zajęcia gratis!',
+      },
       layout: [
         {
           blockType: 'hero',
@@ -255,6 +259,10 @@ export async function seedGlobals(payload: Awaited<ReturnType<typeof getPayload>
       title: 'O nas',
       slug: 'o-nas',
       _status: 'published',
+      seo: {
+        metaTitle: 'O nas – Pantera Family & Sport Club | Klub sportowy Mokotów',
+        metaDescription: 'Poznaj historię i filozofię Pantery. Rodzinny klub sportowy na Mokotowie od 2011 roku. Certyfikowani instruktorzy, małe grupy, bezpieczna atmosfera.',
+      },
       layout: [],
     },
   })

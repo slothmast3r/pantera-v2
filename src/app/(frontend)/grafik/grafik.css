@@ -175,6 +175,7 @@
 .grafik-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
 .grafik-grid--cols-5 { grid-template-columns: repeat(5, 1fr); }
 .grafik-grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
+.grafik-grid--cols-7 { grid-template-columns: repeat(7, 1fr); }
 
 /* --- Day column --- */
 .grafik-day__header {
@@ -276,6 +277,7 @@
    ========================================== */
 
 @media (max-width: 1100px) {
+  .grafik-grid--cols-7 { grid-template-columns: repeat(4, 1fr); }
   .grafik-grid--cols-6 { grid-template-columns: repeat(3, 1fr); }
   .grafik-grid--cols-5 { grid-template-columns: repeat(3, 1fr); }
   .grafik-grid--cols-4 { grid-template-columns: repeat(2, 1fr); }
@@ -290,7 +292,8 @@
   .grafik-grid--cols-3,
   .grafik-grid--cols-4,
   .grafik-grid--cols-5,
-  .grafik-grid--cols-6 {
+  .grafik-grid--cols-6,
+  .grafik-grid--cols-7 {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -304,13 +307,15 @@
   .grafik-grid--cols-3::-webkit-scrollbar,
   .grafik-grid--cols-4::-webkit-scrollbar,
   .grafik-grid--cols-5::-webkit-scrollbar,
-  .grafik-grid--cols-6::-webkit-scrollbar { display: none; }
+  .grafik-grid--cols-6::-webkit-scrollbar,
+  .grafik-grid--cols-7::-webkit-scrollbar { display: none; }
 
   .grafik-grid--cols-2 .grafik-day,
   .grafik-grid--cols-3 .grafik-day,
   .grafik-grid--cols-4 .grafik-day,
   .grafik-grid--cols-5 .grafik-day,
-  .grafik-grid--cols-6 .grafik-day {
+  .grafik-grid--cols-6 .grafik-day,
+  .grafik-grid--cols-7 .grafik-day {
     flex: 0 0 220px;
     scroll-snap-align: start;
   }

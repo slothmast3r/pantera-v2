@@ -6,21 +6,21 @@ const classes = [
     desc: 'Budujemy pewność siebie i formy ruchowe u dzieci w bezpiecznym, rodzinnym środowisku.',
     href: '/zajecia?filter=children',
     color: '#2a5298',
-    image: '/classes-dzieci.png',
+    image: '/classes-dzieci.webp',
   },
   {
     title: 'Dla Dorosłych',
     desc: 'Krav Maga, Karate i sztuki walki dla dorosłych. Naucz się jak się bronić i ćwicz efektywnie.',
     href: '/zajecia?filter=adults',
     color: '#8b0000',
-    image: '/classes-dorosli.png',
+    image: '/classes-dorosli.webp',
   },
   {
     title: 'Tai Chi',
     desc: 'Tai Chi i zajęcia skupiające się na harmonii ciała i umysłu, dobre dla każdego wieku.',
     href: '/zajecia/tai-chi',
     color: '#1a6b3c',
-    image: '/classes-taichi.png',
+    image: '/classes-taichi.webp',
   },
 ]
 

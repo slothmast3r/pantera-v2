@@ -1,5 +1,10 @@
 export const revalidate = 300
 
+export const metadata = {
+  title: 'Kontakt – Pantera Family & Sport Club Warszawa',
+  description: 'Skontaktuj się z Panterą. Adres: ul. Powsińska 25, Mokotów, Warszawa. Tel: 508 689 718. Pierwsze zajęcia bezpłatne – umów się już dziś!',
+}
+
 import React from 'react'
 import Icon from '@/components/ui/Icon'
 import { getPayload } from 'payload'

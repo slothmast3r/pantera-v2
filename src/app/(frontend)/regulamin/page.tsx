@@ -1,4 +1,7 @@
-export const revalidate = 300
+export const metadata = {
+  title: 'Regulamin – Pantera Family & Sport Club',
+  description: 'Regulamin Pantera Family & Sport Club. Zasady uczestnictwa w zajęciach, polityka bezpieczeństwa i warunki korzystania z usług klubu.',
+}
 
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'

@@ -78,7 +78,7 @@ ul { list-style: none; }
 .hero::before {
   content: '';
   @apply absolute inset-0;
-  background: var(--hero-bg, url('/hero-pantera.png')) center/cover no-repeat;
+  background: var(--hero-bg, url('/hero-pantera.webp')) center/cover no-repeat;
   opacity: 0.9;
 }
 
@@ -317,7 +317,7 @@ ul { list-style: none; }
   @apply w-full rounded-lg;
   aspect-ratio: 4/5;
   background: linear-gradient(135deg, var(--color-text), #3a3a3a);
-  background-image: url('/gloves.png');
+  background-image: url('/gloves.webp');
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;

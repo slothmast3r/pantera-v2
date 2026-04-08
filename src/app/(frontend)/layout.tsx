@@ -2,24 +2,42 @@ import React from 'react'
 import './variables.css'
 import './styles.css'
 import { Toaster } from '@/components/ui/Toaster'
+import { Montserrat } from 'next/font/google'
+
+const montserrat = Montserrat({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['400', '500', '600', '700', '800'],
+  style: ['normal', 'italic'],
+  display: 'swap',
+  variable: '--font-montserrat',
+})
 
 export const metadata = {
   description: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi w Warszawie.',
   title: 'Pantera Family & Sport Club',
 }
 
+const iconFonts = [
+  'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css',
+]
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pl">
+    <html lang="pl" className={montserrat.variable}>
       <head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font, @next/next/google-font-display */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font, @next/next/google-font-display */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font, @next/next/google-font-display */}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/fontawesome.min.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/brands.min.css" />
+        {iconFonts.map((href) => (
+          <link key={href} rel="preload" as="style" href={href} />
+        ))}
+        {/* Load icon fonts non-blocking after page is interactive */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var f=${JSON.stringify(iconFonts)};f.forEach(function(h){var l=document.createElement('link');l.rel='stylesheet';l.href=h;document.head.appendChild(l);});})();`,
+          }}
+        />
       </head>
       <body>
         {children}

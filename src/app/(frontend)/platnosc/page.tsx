@@ -1,5 +1,10 @@
 export const revalidate = 300
 
+export const metadata = {
+  title: 'Płatność online – Pantera Family & Sport Club',
+  description: 'Opłać karnet lub zajęcia online w Pantera Family & Sport Club na Mokotowie. Szybka i bezpieczna płatność.',
+}
+
 import Link from 'next/link'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'

@@ -1,5 +1,15 @@
 export const revalidate = 300
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Nasze Zajęcia – Krav Maga, Karate, Tai Chi Warszawa | Pantera',
+  description: 'Sprawdź ofertę zajęć w Panterze. Krav Maga, Karate, Tai Chi dla dzieci i dorosłych na Mokotowie. Wybierz dyscyplinę i umów się na pierwszy bezpłatny trening!',
+  alternates: {
+    canonical: '/zajecia',
+  },
+}
+
 import React, { Suspense } from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'

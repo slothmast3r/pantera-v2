@@ -256,9 +256,9 @@ export default async function AboutPage() {
       </section>
 
       {/* TEAM */}
-      <section id="kadra" className="about-team">
+      <section id="instruktorzy" className="about-team">
         <div className="container">
-          <div className="label">KADRA</div>
+          <div className="label">INSTRUKTORZY</div>
           <h2>Poznaj naszych instruktorów</h2>
           <p className="about-team__subtitle">
             Eksperci w swoich dziedzinach, z pasją do przekazywania wiedzy.
@@ -284,7 +284,7 @@ export default async function AboutPage() {
                 </>
               )
               return slug ? (
-                <Link key={instructor.id} href={`/kadra/${slug}` as any} className="team-card team-card--link">
+                <Link key={instructor.id} href={`/instruktor/${slug}` as any} className="team-card team-card--link">
                   {cardInner}
                 </Link>
               ) : (

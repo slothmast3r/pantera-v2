@@ -227,10 +227,10 @@ ul { @apply list-none; }
   @apply shrink-0 text-accent;
 }
 
-.footer__logo { @apply mb-4; }
+.footer__logo { @apply mb-6; }
 
 .footer__logo-img {
-  @apply h-12 w-auto block;
+  @apply h-14 w-auto block;
   filter: brightness(0) invert(1);
   opacity: 0.95;
 }
@@ -251,7 +251,7 @@ ul { @apply list-none; }
 .footer__social a i { @apply text-[18px]; }
 .footer__social a:hover { @apply bg-accent; }
 
-.footer__col h4 {
+.footer__col h3 {
   @apply text-[0.85rem] font-bold text-white uppercase tracking-[0.1em] mb-5;
 }
 

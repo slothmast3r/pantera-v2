@@ -75,10 +75,12 @@ ul { list-style: none; }
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, var(--color-navy) 100%);
 }
 
-.hero::before {
-  content: '';
+.hero__image-container {
   @apply absolute inset-0;
-  background: var(--hero-bg, url('/hero-pantera.webp')) center/cover no-repeat;
+}
+
+.hero__bg-image {
+  @apply object-cover;
   opacity: 0.9;
 }
 
@@ -94,7 +96,7 @@ ul { list-style: none; }
 
 @media (max-width: 768px) {
   .hero__overlay { background: rgba(0,0,0,0.65); }
-  .hero::before { opacity: 0.4; }
+  .hero__bg-image { opacity: 0.4; }
 }
 
 .hero__container {

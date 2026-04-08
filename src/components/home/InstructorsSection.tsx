@@ -37,7 +37,7 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
   return (
     <section className="instructors">
       <div className="section-container">
-        <div className="section-label">KADRA</div>
+        <div className="section-label">INSTRUKTORZY</div>
         <h2 className="section-title">Twoi Mentorzy w sztuce walki</h2>
         <p className="section-subtitle">
           Poznaj naszych instruktorów – ekspertów w swoich dziedzinach, z pasją do przekazywania wiedzy.
@@ -58,7 +58,7 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
                   <span className="instructors__spec">{i.specialization}</span>
                   <p>{i.bio}</p>
                   {i.slug && (
-                    <Link href={`/kadra/${i.slug}` as any} className="instructors__more">
+                    <Link href={`/instruktor/${i.slug}` as any} className="instructors__more">
                       Dowiedz się więcej →
                     </Link>
                   )}

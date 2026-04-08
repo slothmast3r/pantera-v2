@@ -13,7 +13,7 @@ const staticLinks = [
     href: '/o-nas',
     subLinks: [
       { label: 'O nas', href: '/o-nas' },
-      { label: 'Kadra', href: '/o-nas#kadra' },
+      { label: 'Instruktorzy', href: '/o-nas#instruktorzy' },
       { label: 'Regulamin', href: '/regulamin' },
     ],
   },

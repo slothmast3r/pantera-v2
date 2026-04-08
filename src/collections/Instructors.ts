@@ -31,7 +31,7 @@ export const Instructors: CollectionConfig = {
       label: 'Slug URL',
       type: 'text',
       unique: true,
-      admin: { description: 'Generowany automatycznie z imienia. Używany w URL /kadra/[slug].' },
+      admin: { description: 'Generowany automatycznie z imienia. Używany w URL /instruktor/[slug].' },
     },
     {
       name: 'photo',

@@ -215,9 +215,9 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
               {cls.targetAudience.expectContent && (
                 <div>
                   <div className="label label--white">CZEGO OCZEKIWAĆ</div>
-                  <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.25 }}>
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.25 }}>
                     {cls.targetAudience.expectTitle ?? 'Czego możesz się spodziewać'}
-                  </h2>
+                  </h3>
                   <p>{cls.targetAudience.expectContent}</p>
                 </div>
               )}

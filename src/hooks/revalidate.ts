@@ -46,7 +46,7 @@ export const revalidateOffersOnDelete: CollectionAfterDeleteHook = ({ doc }) => 
 export const revalidateInstructors: CollectionAfterChangeHook = ({ doc }) => {
   safeRevalidate('/')
   safeRevalidate('/o-nas')
-  if (doc?.slug) safeRevalidate(`/kadra/${doc.slug}`)
+  if (doc?.slug) safeRevalidate(`/instruktor/${doc.slug}`)
   return doc
 }
 

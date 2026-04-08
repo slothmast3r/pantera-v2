@@ -135,7 +135,7 @@ src/
 │   │   ├── page.tsx         # Strona główna
 │   │   ├── grafik/          # Grafik zajęć (z filtrami)
 │   │   ├── oferta/          # Oferta zajęć
-│   │   ├── kadra/           # Profile instruktorów
+│   │   ├── instruktor/      # Profile instruktorów
 │   │   ├── kontakt/         # Kontakt + FAQ
 │   │   ├── platnosc/        # Płatności online (tpay)
 │   │   ├── o-nas/           # O nas

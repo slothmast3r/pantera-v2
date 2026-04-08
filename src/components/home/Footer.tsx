@@ -123,7 +123,7 @@ export default async function Footer({ data }: { data?: FooterType | null }) {
         </div>
         {columns.map((col) => (
           <div key={col.heading} className="footer__col">
-            <h4>{col.heading}</h4>
+            <h3>{col.heading}</h3>
             <ul>
               {col.links?.map((link) => (
                 <li key={link.href}>
@@ -134,7 +134,7 @@ export default async function Footer({ data }: { data?: FooterType | null }) {
           </div>
         ))}
         <div className="footer__col">
-          <h4>Kontakt</h4>
+          <h3>Kontakt</h3>
           <ul className="footer__contact-list">
             {contactItems.map((item, i) => {
               const content = (

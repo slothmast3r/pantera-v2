@@ -78,7 +78,7 @@ function ContactCardBlockRenderer({ block }: { block: Extract<LayoutBlock, { blo
     <section className="offer-contact-section">
       <div className="container">
         <div className="offer-contact-card">
-          <h4>{block.heading ?? 'Kontakt w sprawie oferty'}</h4>
+          <h3>{block.heading ?? 'Kontakt w sprawie oferty'}</h3>
           {block.email && (
             <div className="offer-contact-card__line">
               <span>📧</span>

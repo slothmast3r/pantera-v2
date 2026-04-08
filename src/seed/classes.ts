@@ -68,7 +68,7 @@ export async function seedClasses(
         ageGroup: 'children',
         seo: {
           metaTitle: 'Krav Maga dla dzieci – Warszawa Mokotów | Pantera',
-          metaDescription: 'Krav Maga i samoobrona dla dzieci w grupach 4–6, 7–10 i 11–14 lat. Pewność siebie i bezpieczeństwo w Panterze na Mokotowie. Pierwsze zajęcia gratis!',
+          metaDescription: 'Krav Maga i samoobrona dla dzieci w grupach 7–9, 10–13 i 14–16 lat. Pewność siebie i bezpieczeństwo w Panterze na Mokotowie. Pierwsze zajęcia gratis!',
         },
         heading: {
           title: 'Krav Maga dla dzieci i młodzieży – Bezpieczeństwo i pewność siebie',
@@ -79,7 +79,7 @@ export async function seedClasses(
           title: 'O zajęciach',
           content: richText(
             'To więcej niż sport. Nasz program przygotowuje dzieci na wyzwania współczesnego świata, łącząc dynamiczną zabawę z edukacją. Uczymy, jak rozpoznawać zagrożenia i jak na nie reagować.',
-            'Wszystko to w atmosferze wsparcia i akceptacji. Prowadzimy grupy wiekowe: 4–6, 7–10 oraz 11–14 lat.',
+            'Wszystko to w atmosferze wsparcia i akceptacji. Prowadzimy grupy wiekowe: 7–9, 10–13 oraz 14–16 lat.',
           ),
         },
         highlights: [
@@ -93,7 +93,7 @@ export async function seedClasses(
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
           forWhoContent:
-            'Zapraszamy dzieci i młodzież w grupach wiekowych: 4–6, 7–10 oraz 11–14 lat. To idealne miejsce zarówno dla dzieci nieśmiałych, które potrzebują wzmocnienia, jak i tych pełnych energii.',
+            'Zapraszamy dzieci i młodzież w grupach wiekowych: 7–9, 10–13 oraz 14–16 lat. To idealne miejsce zarówno dla dzieci nieśmiałych, które potrzebują wzmocnienia, jak i tych pełnych energii.',
         },
         logistics: { intensity: 'medium', whatToBring: 'Koszulka, długie spodnie sportowe, woda i pozytywne nastawienie' },
         instructor: instructor1.id,
@@ -116,7 +116,7 @@ export async function seedClasses(
         ageGroup: 'children',
         seo: {
           metaTitle: 'Karate dla dzieci – Warszawa Mokotów | Pantera',
-          metaDescription: 'Karate tradycyjne dla dzieci kształtujące charakter, dyscyplinę i koncentrację. Zajęcia na Mokotowie w małych grupach. Pierwsze zajęcia bezpłatne.',
+          metaDescription: 'Karate tradycyjne dla dzieci w grupach 6–7 oraz 8–14 lat. Kształtujemy charakter, dyscyplinę i koncentrację. Mokotów. Pierwsze zajęcia bezpłatne.',
         },
         heading: {
           title: 'Karate dla Dzieci – Charakter kształtowany w ruchu',
@@ -139,7 +139,7 @@ export async function seedClasses(
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
           forWhoContent:
-            'Zajęcia dla dzieci i młodzieży. Grupy dobierane wiekowo. Idealne dla dzieci szukających dyscypliny, jak i tych, którym brakuje ruchu.',
+            'Zajęcia dla dzieci i młodzieży w grupach wiekowych 6–7 oraz 8–14 lat. Idealne dla dzieci szukających dyscypliny, jak i tych, którym brakuje ruchu.',
         },
         logistics: { intensity: 'medium', whatToBring: 'Wygodny strój sportowy lub kimono' },
         instructor: instructor2.id,

@@ -1,5 +1,15 @@
 export const revalidate = 300
 
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Oferta specjalna – Warsztaty dla firm, szkół, urodziny | Pantera',
+  description: 'Organizujemy warsztaty samoobrony, eventy firmowe, urodziny na sportowo i zajęcia dla szkół w Warszawie. Poznaj naszą ofertę specjalną!',
+  alternates: {
+    canonical: '/oferta',
+  },
+}
+
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'

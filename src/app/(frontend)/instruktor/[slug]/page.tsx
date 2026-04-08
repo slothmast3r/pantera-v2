@@ -84,7 +84,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
         <div className="instr-breadcrumb__inner">
           <Link href="/o-nas">O nas</Link>
           <span>›</span>
-          <Link href="/o-nas#kadra">Kadra</Link>
+          <Link href="/o-nas#instruktorzy">Instruktorzy</Link>
           <span>›</span>
           <span>{instructor.name}</span>
         </div>
@@ -118,14 +118,14 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
 
             {instructor.bio && (
               <div className="instr-section">
-                <p className="instr-section__title">O instruktorze</p>
+                <h2 className="instr-section__title">O instruktorze</h2>
                 <p className="instr-bio">{instructor.bio}</p>
               </div>
             )}
 
             {classes.length > 0 && (
               <div className="instr-section">
-                <p className="instr-section__title">Prowadzone zajęcia</p>
+                <h2 className="instr-section__title">Prowadzone zajęcia</h2>
                 <div className="instr-classes__grid">
                   {classes.map((cls) => (
                     <Link
@@ -156,7 +156,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
 
             {instructor.achievements && instructor.achievements.length > 0 && (
               <div className="instr-achievements">
-                <p className="instr-achievements__title">Osiągnięcia</p>
+                <h2 className="instr-achievements__title">Osiągnięcia</h2>
                 <ul className="instr-achievements__list">
                   {instructor.achievements.map((a, i) => (
                     <li key={i}>{a.text}</li>
@@ -166,7 +166,7 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
             )}
 
             <div className="instr-cta">
-              <p className="instr-cta__title">Chcesz trenować?</p>
+              <h2 className="instr-cta__title">Chcesz trenować?</h2>
               <p className="instr-cta__text">
                 Pierwsze zajęcia są bezpłatne. Umów się już dziś.
               </p>

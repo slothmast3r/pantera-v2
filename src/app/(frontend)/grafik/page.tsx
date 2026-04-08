@@ -1,8 +1,13 @@
 export const revalidate = 300
 
-export const metadata = {
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
   title: 'Grafik zajęć – Pantera Family & Sport Club Warszawa',
   description: 'Sprawdź aktualny grafik zajęć Krav Maga, Karate, Tai Chi i Power Training w Panterze na Mokotowie. Znajdź termin dla siebie!',
+  alternates: {
+    canonical: '/grafik',
+  },
 }
 
 import Link from 'next/link'

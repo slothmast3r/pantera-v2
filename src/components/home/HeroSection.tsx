@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Icon from '@/components/ui/Icon'
 import type { Media } from '@/payload-types'
 import { getImageUrl } from '@/lib/media'
+import HeroVideo from './HeroVideo'
 
 interface HeroData {
   title?: string | null
@@ -35,6 +36,7 @@ export default function HeroSection({ data }: { data?: HeroData | null }) {
           className="hero__bg-image"
           fetchPriority="high"
         />
+        <HeroVideo />
       </div>
       <div className="hero__overlay" />
       <div className="hero__container">

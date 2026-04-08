@@ -577,7 +577,7 @@ export interface Instructor {
   id: number;
   name: string;
   /**
-   * Generowany automatycznie z imienia. Używany w URL /kadra/[slug].
+   * Generowany automatycznie z imienia. Używany w URL /instruktor/[slug].
    */
   slug?: string | null;
   /**

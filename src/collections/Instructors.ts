@@ -54,8 +54,16 @@ export const Instructors: CollectionConfig = {
       hasMany: true,
     },
     {
+      name: 'excerpt',
+      label: 'Krótki opis (strona główna)',
+      type: 'textarea',
+      admin: {
+        description: 'Jedno zdanie wyświetlane na karcie instruktora na stronie głównej. Zostaw puste, aby użyć bio.',
+      },
+    },
+    {
       name: 'bio',
-      label: 'Bio',
+      label: 'Bio (pełne)',
       type: 'textarea',
     },
     {

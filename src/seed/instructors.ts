@@ -40,6 +40,7 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'michal-jaworski',
         ...(photo1 ? { photo: photo1 } : {}),
         specialization: 'KRAV MAGA / AIKIDO / ZAŁOŻYCIEL',
+        excerpt: 'Założyciel Pantery, instruktor United Krav Maga i czarny pas Aikido (1997). Od 1991 roku uczy, jak bezpiecznie wrócić do domu – dla dorosłych, dzieci i rodzin.',
         seo: {
           metaTitle: 'Michał Jaworski – Założyciel Pantera, Instruktor Krav Maga | Warszawa',
           metaDescription:
@@ -63,6 +64,7 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'tomasz-lewkowicz',
         ...(photo2 ? { photo: photo2 } : {}),
         specialization: 'KARATE KYOKUSHIN / 3 DAN',
+        excerpt: 'Sensei 3 DAN, sędzia międzynarodowy i trener karate od 1999 roku. Wychowuje charaktery przez dyscyplinę, precyzję i uczciwą rywalizację.',
         seo: {
           metaTitle: 'Tomasz Lewkowicz – 3 DAN, Sędzia Międzynarodowy Karate | Pantera Warszawa',
           metaDescription:
@@ -87,6 +89,7 @@ export async function seedInstructors(payload: Awaited<ReturnType<typeof getPayl
         slug: 'janusz-zuchowski',
         ...(photo3 ? { photo: photo3 } : {}),
         specialization: 'TAI CHI CHUAN',
+        excerpt: 'Instruktor Tai Chi Chuan prowadzący zajęcia w małych grupach (do 8 osób). Łączy tradycję z pracą nad kręgosłupem, oddechem i redukcją stresu.',
         seo: {
           metaTitle: 'Janusz Żuchowski – Instruktor Tai Chi | Pantera Warszawa Mokotów',
           metaDescription:

@@ -56,7 +56,7 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
                 <div className="instructors__info">
                   <h3>{i.name}</h3>
                   <span className="instructors__spec">{i.specialization}</span>
-                  <p>{i.bio}</p>
+                  <p>{i.excerpt || i.bio}</p>
                   {i.slug && (
                     <Link href={`/instruktor/${i.slug}` as any} className="instructors__more">
                       Dowiedz się więcej →

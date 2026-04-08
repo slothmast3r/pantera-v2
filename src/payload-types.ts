@@ -589,6 +589,10 @@ export interface Instructor {
    */
   specialization?: string | null;
   classes?: (number | Class)[] | null;
+  /**
+   * Jedno zdanie wyświetlane na karcie instruktora na stronie głównej. Zostaw puste, aby użyć bio.
+   */
+  excerpt?: string | null;
   bio?: string | null;
   achievements?:
     | {
@@ -1360,6 +1364,7 @@ export interface InstructorsSelect<T extends boolean = true> {
   photo?: T;
   specialization?: T;
   classes?: T;
+  excerpt?: T;
   bio?: T;
   achievements?:
     | T

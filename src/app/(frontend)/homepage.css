@@ -232,16 +232,6 @@ ul {
   opacity: 1;
 }
 
-.hero__divider {
-  @apply absolute bottom-[-1px] w-full h-20 z-[2] pointer-events-none;
-  line-height: 0;
-}
-
-.hero__divider img {
-  @apply w-full h-full block;
-  transform: scaleX(1.01);
-}
-
 /* ===== PARTNERS ===== */
 .partners {
   @apply bg-bg-section border-b border-[#ebebeb] px-5 py-5;

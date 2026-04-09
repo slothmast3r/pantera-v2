@@ -30,10 +30,22 @@ export default function ClassesSection() {
       <div className="section-container">
         <div className="section-label">ZAJĘCIA</div>
         <h2 className="section-title">Wybierz swoją drogę</h2>
-        <p className="section-subtitle">Znajdź zajęcia idealne dla swojego wieku i celu treningowego</p>
+        <p className="section-subtitle">
+          Znajdź zajęcia idealne dla swojego wieku i celu treningowego
+        </p>
         <div className="classes__grid">
           {classes.map((cls) => (
-            <a key={cls.href} href={cls.href} className="classes__card" style={{ background: cls.color, backgroundImage: `url(${cls.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            <a
+              key={cls.href}
+              href={cls.href}
+              className="classes__card"
+              style={{
+                background: cls.color,
+                backgroundImage: `url(${cls.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
               <div className="classes__card-overlay" />
               <div className="classes__card-content">
                 <div className="classes__card-title-row">
@@ -49,10 +61,6 @@ export default function ClassesSection() {
             </a>
           ))}
         </div>
-      </div>
-      <div className="classes__divider" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/divider2.svg" alt="" />
       </div>
     </section>
   )

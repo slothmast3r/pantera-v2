@@ -287,17 +287,6 @@ ul {
   z-index: 0;
 }
 
-.classes__divider {
-  @apply absolute bottom-[-1px] left-0 w-full z-[2] pointer-events-none;
-  line-height: 0;
-}
-
-.classes__divider img {
-  @apply w-full block;
-  height: 50px;
-  filter: brightness(0) invert(1);
-}
-
 .classes__grid {
   @apply grid grid-cols-3 gap-6 mt-12;
 }

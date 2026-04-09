@@ -157,6 +157,12 @@ export default async function Footer({ data }: { data?: FooterType | null }) {
       </div>
       <div className="footer__bottom">
         <p>{bottomText}</p>
+        <p className="footer__credit">
+          Design by{' '}
+          <a href="https://ezytra.com" target="_blank" rel="noopener noreferrer">
+            Oskar Straszyński
+          </a>
+        </p>
       </div>
     </footer>
   )

@@ -230,7 +230,7 @@ ul { @apply list-none; }
 .footer__logo { @apply mb-6; }
 
 .footer__logo-img {
-  @apply h-14 w-auto block;
+  @apply w-[300px] h-auto block;
   filter: brightness(0) invert(1);
   opacity: 0.95;
 }
@@ -275,6 +275,22 @@ ul { @apply list-none; }
   @apply mt-12 px-5 py-5 text-center text-[0.8rem];
   border-top: 1px solid rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.4);
+}
+
+.footer__credit {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.2);
+}
+
+.footer__credit a {
+  color: rgba(255,255,255,0.25);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer__credit a:hover {
+  color: rgba(255,255,255,0.5);
 }
 
 /* ===== BUTTONS ===== */

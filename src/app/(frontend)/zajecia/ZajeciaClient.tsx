@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import type { Class, Media } from '@/payload-types'
 import { Button } from '@/components/ui/Button'
+import { offerIconMap, type OfferIconKey } from '@/components/icons/offerIcons'
 
 const typeLabels: Record<string, string> = {
   'krav-maga': 'Krav Maga',
@@ -20,14 +21,14 @@ const ageLabels: Record<string, string> = {
   all: 'Wszyscy',
 }
 
-const typeIcons: Record<string, string> = {
-  'krav-maga': '🥊',
-  karate: '🥋',
-  'tai-chi': '☯️',
-  individual: '👤',
-  asg: '🎯',
-  'power-training': '💪',
-  other: '⭐',
+const typeIcons: Record<string, OfferIconKey> = {
+  'krav-maga': 'shield',
+  karate: 'martial',
+  'tai-chi': 'lotus',
+  individual: 'users',
+  asg: 'target',
+  'power-training': 'dumbbell',
+  other: 'star',
 }
 
 type Filter = 'all' | 'adults' | 'children'
@@ -72,13 +73,19 @@ export default function ZajeciaClient({ items }: { items: Partial<Class>[] }) {
       <div className="zajecia-grid">
         {filtered.map((cls) => {
           const coverUrl = getCoverUrl(cls.coverImage)
-          const icon = typeIcons[cls.type ?? ''] ?? '⭐'
+          const iconKey = (typeIcons[cls.type ?? ''] ?? 'star') as OfferIconKey
+          const iconData = offerIconMap[iconKey] || offerIconMap.star
+
           return (
             <a key={cls.id} href={`/zajecia/${cls.slug}`} className="zajecia-card" style={{ textDecoration: 'none' }}>
               {coverUrl ? (
                 <img src={coverUrl} alt={cls.title} className="zajecia-card__image" />
               ) : (
-                <div className="zajecia-card__image--placeholder">{icon}</div>
+                <div className="zajecia-card__image--placeholder">
+                  <div style={{ width: '60px', height: '60px', color: 'rgba(255,255,255,0.4)' }}>
+                    {iconData.svg}
+                  </div>
+                </div>
               )}
               <div className="zajecia-card__body">
                 <div className="zajecia-card__badges">

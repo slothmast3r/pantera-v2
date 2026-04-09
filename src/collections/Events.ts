@@ -8,7 +8,7 @@ export const Events: CollectionConfig = {
   labels: { singular: 'Wydarzenie', plural: 'Wydarzenia' },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'startDate', 'status', 'updatedAt'],
+    defaultColumns: ['title', 'startDate', 'cancelled', 'updatedAt'],
     group: 'Treści',
   },
   hooks: {
@@ -52,6 +52,19 @@ export const Events: CollectionConfig = {
       name: 'endDate',
       label: 'Data zakończenia',
       type: 'date',
+      validate: (value: any, { data }: { data: Record<string, unknown> }) => {
+        if (!value || !data.startDate) return true
+        if (new Date(value) < new Date(data.startDate as string)) {
+          return 'Data zakończenia nie może być wcześniejsza niż data rozpoczęcia.'
+        }
+        return true
+      },
+    },
+    {
+      name: 'time',
+      label: 'Godzina',
+      type: 'text',
+      admin: { description: 'Np. „18:00" lub „18:00–20:00". Opcjonalne.' },
     },
     {
       name: 'location',
@@ -76,16 +89,11 @@ export const Events: CollectionConfig = {
       admin: { description: 'URL do zewnętrznego formularza zapisów lub strony kontaktowej.' },
     },
     {
-      name: 'status',
-      label: 'Status',
-      type: 'select',
-      defaultValue: 'upcoming',
-      options: [
-        { label: 'Nadchodzące', value: 'upcoming' },
-        { label: 'W trakcie', value: 'ongoing' },
-        { label: 'Zakończone', value: 'past' },
-        { label: 'Anulowane', value: 'cancelled' },
-      ],
+      name: 'cancelled',
+      label: 'Anulowane',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: { description: 'Zaznacz jeśli wydarzenie zostało odwołane.' },
     },
     {
       name: 'relatedClasses',

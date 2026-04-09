@@ -542,6 +542,10 @@ export interface Class {
   };
   instructor?: (number | null) | Instructor;
   testimonials?: (number | Testimonial)[] | null;
+  /**
+   * Wybierz inne zajęcia, które chcesz polecić na tej podstronie.
+   */
+  relatedClasses?: (number | Class)[] | null;
   cta?: {
     heading?: string | null;
     description?: string | null;
@@ -672,6 +676,10 @@ export interface Event {
   coverImage?: (number | null) | Media;
   startDate: string;
   endDate?: string | null;
+  /**
+   * Np. „18:00" lub „18:00–20:00". Opcjonalne.
+   */
+  time?: string | null;
   location?: string | null;
   shortDescription?: string | null;
   content?: {
@@ -693,7 +701,10 @@ export interface Event {
    * URL do zewnętrznego formularza zapisów lub strony kontaktowej.
    */
   registrationLink?: string | null;
-  status?: ('upcoming' | 'ongoing' | 'past' | 'cancelled') | null;
+  /**
+   * Zaznacz jeśli wydarzenie zostało odwołane.
+   */
+  cancelled?: boolean | null;
   relatedClasses?: (number | Class)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -710,6 +721,10 @@ export interface Offer {
    */
   slug: string;
   category?: ('company' | 'schools' | 'workshop' | 'birthday' | 'other') | null;
+  /**
+   * Ikona wyświetlana na karcie oferty.
+   */
+  icon?: string | null;
   /**
    * Wyświetlane na liście ofert i jako fallback tła nagłówka.
    */
@@ -828,6 +843,22 @@ export interface Offer {
             id?: string | null;
             blockName?: string | null;
             blockType: 'gallery';
+          }
+        | {
+            heading?: string | null;
+            offers: (number | Offer)[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'relatedOffers';
+          }
+        | {
+            heading?: string | null;
+            variant?: ('upcoming' | 'past' | 'all') | null;
+            limit?: number | null;
+            manualSelection?: (number | Event)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'eventsList';
           }
       )[]
     | null;
@@ -1335,6 +1366,7 @@ export interface ClassesSelect<T extends boolean = true> {
       };
   instructor?: T;
   testimonials?: T;
+  relatedClasses?: T;
   cta?:
     | T
     | {
@@ -1407,11 +1439,12 @@ export interface EventsSelect<T extends boolean = true> {
   coverImage?: T;
   startDate?: T;
   endDate?: T;
+  time?: T;
   location?: T;
   shortDescription?: T;
   content?: T;
   registrationLink?: T;
-  status?: T;
+  cancelled?: T;
   relatedClasses?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1436,6 +1469,7 @@ export interface OffersSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   category?: T;
+  icon?: T;
   coverImage?: T;
   heading?:
     | T
@@ -1540,6 +1574,24 @@ export interface OffersSelect<T extends boolean = true> {
                     id?: T;
                   };
               columns?: T;
+              id?: T;
+              blockName?: T;
+            };
+        relatedOffers?:
+          | T
+          | {
+              heading?: T;
+              offers?: T;
+              id?: T;
+              blockName?: T;
+            };
+        eventsList?:
+          | T
+          | {
+              heading?: T;
+              variant?: T;
+              limit?: T;
+              manualSelection?: T;
               id?: T;
               blockName?: T;
             };

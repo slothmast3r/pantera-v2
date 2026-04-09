@@ -2,8 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Offer } from '@/payload-types'
+import { offerIconMap } from '@/components/icons/offerIcons'
 
 import GalleryBlock, { GalleryBlockProps } from './GalleryBlock'
+import EventsListBlock from './EventsListBlock'
+import RelatedOffersBlock from './RelatedOffersBlock'
 
 type LayoutBlock = NonNullable<Offer['layout']>[number] | GalleryBlockProps
 
@@ -36,13 +39,20 @@ function OfferCardsBlockRenderer({ block }: { block: Extract<LayoutBlock, { bloc
         {block.heading && <h2>{block.heading}</h2>}
         {block.subheading && <p className="offer-offerings__subtitle">{block.subheading}</p>}
         <div className="offer-cards-grid">
-          {block.items?.map((item, i) => (
-            <div key={item.id ?? i} className="offer-card-item">
-              {item.icon && <span className="offer-card-item__icon">{item.icon}</span>}
-              <h3>{item.title}</h3>
-              {item.description && <p>{item.description}</p>}
-            </div>
-          ))}
+          {block.items?.map((item, i) => {
+            const iconEntry = item.icon ? (offerIconMap[item.icon as keyof typeof offerIconMap] ?? null) : null
+            return (
+              <div key={item.id ?? i} className="offer-card-item">
+                {iconEntry && (
+                  <span className="offer-card-item__icon" style={{ display: 'inline-flex', width: '2rem', height: '2rem' }}>
+                    {iconEntry.svg}
+                  </span>
+                )}
+                <h3>{item.title}</h3>
+                {item.description && <p>{item.description}</p>}
+              </div>
+            )
+          })}
         </div>
       </div>
     </section>
@@ -82,13 +92,13 @@ function ContactCardBlockRenderer({ block }: { block: Extract<LayoutBlock, { blo
           <h3>{block.heading ?? 'Kontakt w sprawie oferty'}</h3>
           {block.email && (
             <div className="offer-contact-card__line">
-              <span>📧</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>mail</span>
               <a href={`mailto:${block.email}`}>{block.email}</a>
             </div>
           )}
           {block.phone && (
             <div className="offer-contact-card__line">
-              <span>📞</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>phone</span>
               <a href={`tel:${block.phone.replace(/\s/g, '')}`}>{block.phone}</a>
             </div>
           )}
@@ -166,14 +176,16 @@ export default function BlockRenderer({ layout }: { layout: Offer['layout'] }) {
   return (
     <>
       {layout.map((block, i) => {
-        switch (block.blockType) {
-          case 'richText':      return <RichTextBlockRenderer key={i} block={block} />
-          case 'offerCards':    return <OfferCardsBlockRenderer key={i} block={block} />
-          case 'forWho':        return <ForWhoBlockRenderer key={i} block={block} />
-          case 'contactCard':   return <ContactCardBlockRenderer key={i} block={block} />
-          case 'cta':           return <CTABlockRenderer key={i} block={block} />
-          case 'faqSection':    return <FAQBlockRenderer key={i} block={block} />
+        switch ((block as any).blockType) {
+          case 'richText':      return <RichTextBlockRenderer key={i} block={block as any} />
+          case 'offerCards':    return <OfferCardsBlockRenderer key={i} block={block as any} />
+          case 'forWho':        return <ForWhoBlockRenderer key={i} block={block as any} />
+          case 'contactCard':   return <ContactCardBlockRenderer key={i} block={block as any} />
+          case 'cta':           return <CTABlockRenderer key={i} block={block as any} />
+          case 'faqSection':    return <FAQBlockRenderer key={i} block={block as any} />
           case 'gallery':       return <GalleryBlock key={i} block={block as GalleryBlockProps} />
+          case 'eventsList':     return <EventsListBlock key={i} heading={(block as any).heading} variant={(block as any).variant} limit={(block as any).limit} manualSelection={(block as any).manualSelection} />
+          case 'relatedOffers': return <RelatedOffersBlock key={i} heading={(block as any).heading} offers={(block as any).offers ?? []} />
           default:              return null
         }
       })}

@@ -33,7 +33,8 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
     uploadImage(payload, 'src/seed/images/samoobrona-dla-kobiet.jpg', 'Samoobrona dla kobiet – Pantera'),
   ])
 
-  await Promise.all([
+  // Create offers sequentially so we can reference IDs for relatedOffers
+  const [firmyOffer, szkolyOffer, urodzinyOffer, samoobOffer, rodzinneOffer] = await Promise.all([
     // ---- Dla Firm ----
     payload.create({
       collection: 'offers',
@@ -41,6 +42,7 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Dla Firm i Korporacji',
         slug: 'dla-firm',
         category: 'company',
+        icon: 'company',
         seo: {
           metaTitle: 'Zajęcia dla Firm – Integracja i samoobrona Warszawa | Pantera',
           metaDescription: 'Warsztaty samoobrony i integracji dla firm w Warszawie. Krav Maga, Tai Chi, team building. Dopasujemy program do potrzeb Twojej organizacji.',
@@ -66,9 +68,9 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             heading: 'W ramach tej oferty',
             subheading: 'Elastyczny program dostosowany do Twoich potrzeb.',
             items: [
-              { icon: '🛡️', title: 'Samoobrona / Krav Maga', description: 'Warsztaty budujące pewność siebie i uczące reakcji w sytuacjach stresowych.' },
-              { icon: '☯️', title: 'Tai Chi / Zdrowy Kręgosłup', description: 'Zajęcia relaksacyjne, idealne jako przerywnik w pracy siedzącej (wellbeing).' },
-              { icon: '🤝', title: 'Integracja Teamowa', description: 'Wspólny trening, który uczy współpracy i zaufania w zespole.' },
+              { icon: 'shield', title: 'Samoobrona / Krav Maga', description: 'Warsztaty budujące pewność siebie i uczące reakcji w sytuacjach stresowych.' },
+              { icon: 'lotus', title: 'Tai Chi / Zdrowy Kręgosłup', description: 'Zajęcia relaksacyjne, idealne jako przerywnik w pracy siedzącej (wellbeing).' },
+              { icon: 'handshake', title: 'Integracja Teamowa', description: 'Wspólny trening, który uczy współpracy i zaufania w zespole.' },
             ],
           },
           {
@@ -96,6 +98,7 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Dla Szkół i Przedszkoli',
         slug: 'dla-szkol',
         category: 'schools',
+        icon: 'schools',
         seo: {
           metaTitle: 'Zajęcia dla Szkół i Przedszkoli – Pantera Warszawa',
           metaDescription: 'Warsztaty samoobrony i edukacji bezpieczeństwa dla dzieci i młodzieży w szkołach i przedszkolach. Pantera Family & Sport Club, Warszawa.',
@@ -118,9 +121,9 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             label: 'CO OFERUJEMY',
             heading: 'Program warsztatów',
             items: [
-              { icon: '🏃', title: 'Aktywność fizyczna', description: 'Promocja zdrowego stylu życia i regularnego ruchu wśród dzieci i młodzieży.' },
-              { icon: '🛡️', title: 'Edukacja bezpieczeństwa', description: 'Jak unikać zagrożeń, asertywność i procedury bezpieczeństwa.' },
-              { icon: '💬', title: 'Pogadanki prozdrowotne', description: 'Możliwość połączenia zajęć ruchowych z prelekcjami o zdrowiu.' },
+              { icon: 'running', title: 'Aktywność fizyczna', description: 'Promocja zdrowego stylu życia i regularnego ruchu wśród dzieci i młodzieży.' },
+              { icon: 'shield-check', title: 'Edukacja bezpieczeństwa', description: 'Jak unikać zagrożeń, asertywność i procedury bezpieczeństwa.' },
+              { icon: 'speech', title: 'Pogadanki prozdrowotne', description: 'Możliwość połączenia zajęć ruchowych z prelekcjami o zdrowiu.' },
             ],
           },
           {
@@ -148,6 +151,7 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
         title: 'Urodziny na Sportowo',
         slug: 'urodziny',
         category: 'birthday',
+        icon: 'birthday',
         seo: {
           metaTitle: 'Urodziny na Sportowo – Aktywne urodziny dla dzieci | Pantera',
           metaDescription: 'Niezapomniane urodziny dla dziecka w Panterze! Sala 115 m², tory przeszkód, elementy karate. Sadyba, Mokotów. Zarezerwuj termin!',
@@ -173,9 +177,9 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             heading: 'Program urodzin',
             subheading: 'Każde urodziny to niepowtarzalna przygoda!',
             items: [
-              { icon: '🎮', title: 'Gry i zabawy ruchowe', description: 'Tory przeszkód, zawody i konkursy sportowe dla całej grupy.' },
-              { icon: '🥋', title: 'Elementy karate i samoobrony', description: 'Bezpieczna nauka ciosów i bloków — dzieci uwielbiają!' },
-              { icon: '🏟️', title: 'Sala 115 m²', description: 'Bezpieczne materace, sprzęt sportowy i odpowiednia przestrzeń do zabawy.' },
+              { icon: 'target', title: 'Gry i zabawy ruchowe', description: 'Tory przeszkód, zawody i konkursy sportowe dla całej grupy.' },
+              { icon: 'fist', title: 'Elementy karate i samoobrony', description: 'Bezpieczna nauka ciosów i bloków — dzieci uwielbiają!' },
+              { icon: 'gym', title: 'Sala 115 m²', description: 'Bezpieczne materace, sprzęt sportowy i odpowiednia przestrzeń do zabawy.' },
             ],
           },
           {
@@ -197,20 +201,21 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
       },
     }),
 
-    // ---- Samoobrona dla Kobiet (New Detailed Page) ----
+    // ---- Samoobrona dla Kobiet ----
     payload.create({
       collection: 'offers',
       data: {
         title: 'Samoobrona dla kobiet',
         slug: 'samoobrona-dla-kobiet',
         category: 'workshop',
+        icon: 'samoobrona',
         seo: {
           metaTitle: 'Samoobrona dla kobiet – Warsztaty Warszawa Mokotów | Pantera',
           metaDescription: 'Warsztaty samoobrony dla kobiet oparte na Krav Maga. Pewność siebie i skuteczne techniki reagowania w zagrożeniu. Sadyba, Mokotów. Zapisz się!',
         },
         ...(imgSamoobrona ? { coverImage: imgSamoobrona } : {}),
         heading: {
-          title: '„Bezpieczna i pewna siebie” – Warsztaty na Mokotowie',
+          title: '„Bezpieczna i pewna siebie" – Warsztaty na Mokotowie',
           ...(imgSamoobrona ? { backgroundImage: imgSamoobrona } : {}),
           subtitle: 'Zyskaj pewność siebie i naucz się skutecznych technik reagowania w sytuacjach zagrożenia. Warsztaty oparte na systemie Krav Maga, dostosowane do wyzwań współczesnych kobiet.',
           ctaText: 'Zapisz się na warsztat',
@@ -228,9 +233,9 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             label: 'DLACZEGO NASZE WARSZTATY?',
             heading: 'Kluczowe umiejętności',
             items: [
-              { icon: '🧘', title: 'Opanowanie stresu', description: 'Techniki oddechowe pozwalające zachować zimną krew w sytuacjach kryzysowych.' },
-              { icon: '🗣️', title: 'Asertywność i głos', description: 'Twoje pierwsze i najważniejsze narzędzie obrony przed agresorem.' },
-              { icon: '⚡', title: 'Skuteczne techniki', description: 'Uwolnienia z chwytów, obrona przed uderzeniami i wykorzystanie punktów witalnych.' },
+              { icon: 'wind', title: 'Opanowanie stresu', description: 'Techniki oddechowe pozwalające zachować zimną krew w sytuacjach kryzysowych.' },
+              { icon: 'megaphone', title: 'Asertywność i głos', description: 'Twoje pierwsze i najważniejsze narzędzie obrony przed agresorem.' },
+              { icon: 'lightning', title: 'Skuteczne techniki', description: 'Uwolnienia z chwytów, obrona przed uderzeniami i wykorzystanie punktów witalnych.' },
             ],
           },
           {
@@ -276,13 +281,14 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
       },
     }),
 
-    // ---- Warsztaty Rodzinne (Updated Detailed Page) ----
+    // ---- Warsztaty Rodzinne ----
     payload.create({
       collection: 'offers',
       data: {
         title: 'Warsztaty Rodzinne',
         slug: 'warsztaty-rodzinne',
         category: 'workshop',
+        icon: 'parent-child',
         seo: {
           metaTitle: 'Warsztaty Rodzinne – Matki i dzieci | Pantera Mokotów',
           metaDescription: 'Aktywne warsztaty dla matek z dziećmi (7–12 lat) na Mokotowie. Wspólna nauka samoobrony i zabawa sportowa. Cyklicznie w sobotnie południa.',
@@ -305,9 +311,9 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
             label: 'CO ZYSKACIE?',
             heading: 'Program warsztatów',
             items: [
-              { icon: '👩‍👦', title: 'Wspólny czas', description: 'Aktywny trening razem z dzieckiem zamiast czekania na korytarzu.' },
-              { icon: '🛡️', title: 'Praktyczna wiedza', description: 'Obrony przed uderzeniami, chwytami oraz bezpieczne upadanie.' },
-              { icon: '⭐', title: 'Wychowanie przez sport', description: 'Zabawy, które pomagają dzieciom stać się dzielnymi i pewnymi siebie.' },
+              { icon: 'parent-child', title: 'Wspólny czas', description: 'Aktywny trening razem z dzieckiem zamiast czekania na korytarzu.' },
+              { icon: 'shield', title: 'Praktyczna wiedza', description: 'Obrony przed uderzeniami, chwytami oraz bezpieczne upadanie.' },
+              { icon: 'trophy', title: 'Wychowanie przez sport', description: 'Zabawy, które pomagają dzieciom stać się dzielnymi i pewnymi siebie.' },
             ],
           },
           {
@@ -350,6 +356,33 @@ export async function seedOffers(payload: Awaited<ReturnType<typeof getPayload>>
       },
     }),
   ])
+
+  // Patch cross-references now that we have IDs
+  // Samoobrona → Warsztaty Rodzinne
+  await payload.update({
+    collection: 'offers',
+    id: samoobOffer.id,
+    data: {
+      layout: samoobOffer.layout?.map((block: any) =>
+        block.blockType === 'cta' && block.heading?.includes('Warsztaty Rodzinne')
+          ? { blockType: 'relatedOffers', heading: 'Może Cię zainteresować', offers: [rodzinneOffer.id] }
+          : block,
+      ),
+    },
+  })
+
+  // Warsztaty Rodzinne → Samoobrona dla kobiet
+  await payload.update({
+    collection: 'offers',
+    id: rodzinneOffer.id,
+    data: {
+      layout: rodzinneOffer.layout?.map((block: any) =>
+        block.blockType === 'cta' && block.heading?.includes('samoobrony tylko dla siebie')
+          ? { blockType: 'relatedOffers', heading: 'Może Cię zainteresować', offers: [samoobOffer.id] }
+          : block,
+      ),
+    },
+  })
 
   console.log('Created 5 offers')
   return { imgFirmy, imgUrodziny, imgSamoobrona }

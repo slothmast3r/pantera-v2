@@ -39,6 +39,7 @@ import type { Offer, Media, Navigation, Footer as FooterType } from '@/payload-t
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
+import CategoryIcon from '../CategoryIcon'
 import '../oferta.css'
 
 const categoryLabels: Record<string, string> = {
@@ -49,13 +50,6 @@ const categoryLabels: Record<string, string> = {
   other: 'Oferta specjalna',
 }
 
-const offerIcons: Record<string, string> = {
-  company: '🏢',
-  schools: '🏫',
-  workshop: '🥋',
-  birthday: '🎂',
-  other: '⭐',
-}
 
 function getBgUrl(img: Offer['coverImage'] | Offer['heading']['backgroundImage']): string | null {
   if (!img || typeof img === 'number') return null
@@ -93,7 +87,6 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
   if (!offer) notFound()
 
   const bgUrl = getBgUrl(offer.heading?.backgroundImage) ?? getBgUrl(offer.coverImage)
-  const icon = offerIcons[offer.category ?? ''] ?? '⭐'
   const categoryLabel = categoryLabels[offer.category ?? ''] ?? 'Oferta'
 
   return (
@@ -101,9 +94,9 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
       {isDraft && (
         <div style={{ background: '#F57C28', color: '#fff', textAlign: 'center', padding: '8px 16px', fontSize: '0.85rem', fontWeight: 600 }}>
           Tryb podglądu (wersja robocza) —{' '}
-          <a href="/api/disable-preview" style={{ color: '#fff', textDecoration: 'underline' }}>
+          <Link href="/api/disable-preview" style={{ color: '#fff', textDecoration: 'underline' }}>
             wyłącz
-          </a>
+          </Link>
         </div>
       )}
 
@@ -122,7 +115,10 @@ export default async function OfferPage({ params }: { params: Promise<{ slug: st
             <span style={{ color: 'rgba(255,255,255,0.8)' }}>{offer.title}</span>
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-            <div className="label label--white" style={{ margin: 0 }}>{icon} {categoryLabel.toUpperCase()}</div>
+            <div className="label label--white" style={{ margin: 0, display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                <CategoryIcon icon={(offer as any).icon} category={offer.category ?? 'other'} size={16} />
+                {categoryLabel.toUpperCase()}
+              </div>
           </div>
           <h1>{offer.heading?.title ?? offer.title}</h1>
           {offer.heading?.subtitle && (

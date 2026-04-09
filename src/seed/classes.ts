@@ -38,9 +38,9 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Realna samoobrona', description: 'Obrona przed uderzeniami, kopnięciami i chwytami.', icon: '🛡️' },
-          { title: 'Procedury bezpieczeństwa', description: 'Jak unikać zagrożeń i radzić sobie w stresie.', icon: '📋' },
-          { title: 'Lepsza forma', description: 'Poprawisz siłę, dynamikę i wydolność organizmu.', icon: '💪' },
+          { title: 'Realna samoobrona', description: 'Obrona przed uderzeniami, kopnięciami i chwytami.', icon: 'shield' },
+          { title: 'Procedury bezpieczeństwa', description: 'Jak unikać zagrożeń i radzić sobie w stresie.', icon: 'check' },
+          { title: 'Lepsza forma', description: 'Poprawisz siłę, dynamikę i wydolność organizmu.', icon: 'dumbbell' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -83,12 +83,12 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Pewność siebie', description: 'Budujemy odwagę i wiarę we własne możliwości.', icon: '⭐' },
-          { title: 'Odpowiedzialność', description: 'Uczymy szacunku i odpowiedzialności za kolegów z grupy.', icon: '🤝' },
-          { title: 'Sprawność fizyczna', description: 'Rozwijamy szybkość, koordynację i zwinność przez gry ruchowe.', icon: '🏃' },
-          { title: 'Motywacja i cele', description: 'Kilka razy w roku organizujemy egzaminy na pasy.', icon: '🎯' },
-          { title: 'Bezpieczne techniki', description: 'Nauka bezpiecznych padów, uwolnień z chwytów i prostych obron.', icon: '🛡️' },
-          { title: 'Elementy bokserskie', description: 'W starszych grupach: elementy bokserskie i kopnięcia.', icon: '🥊' },
+          { title: 'Pewność siebie', description: 'Budujemy odwagę i wiarę we własne możliwości.', icon: 'star' },
+          { title: 'Odpowiedzialność', description: 'Uczymy szacunku i odpowiedzialności za kolegów z grupy.', icon: 'handshake' },
+          { title: 'Sprawność fizyczna', description: 'Rozwijamy szybkość, koordynację i zwinność przez gry ruchowe.', icon: 'running' },
+          { title: 'Motywacja i cele', description: 'Kilka razy w roku organizujemy egzaminy na pasy.', icon: 'target' },
+          { title: 'Bezpieczne techniki', description: 'Nauka bezpiecznych padów, uwolnień z chwytów i prostych obron.', icon: 'shield' },
+          { title: 'Elementy bokserskie', description: 'W starszych grupach: elementy bokserskie i kopnięcia.', icon: 'fist' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -131,10 +131,10 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Samodyscyplina', description: 'Nauka etykiety dojo i systematyczności.', icon: '📐' },
-          { title: 'Koncentracja', description: 'Trening kata i technik wymaga skupienia uwagi.', icon: '🎯' },
-          { title: 'Sprawność ogólna', description: 'Wszechstronny rozwój motoryczny.', icon: '💪' },
-          { title: 'Ścieżka rozwoju', description: 'Zdobywanie kolejnych stopni (pasów) uczy dążenia do celu.', icon: '🏆' },
+          { title: 'Samodyscyplina', description: 'Nauka etykiety dojo i systematyczności.', icon: 'check' },
+          { title: 'Koncentracja', description: 'Trening kata i technik wymaga skupienia uwagi.', icon: 'target' },
+          { title: 'Sprawność ogólna', description: 'Wszechstronny rozwój motoryczny.', icon: 'dumbbell' },
+          { title: 'Ścieżka rozwoju', description: 'Zdobywanie kolejnych stopni (pasów) uczy dążenia do celu.', icon: 'trophy' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -177,9 +177,9 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Zdrowy kręgosłup', description: 'Poprawa postawy i mobilności stawów.', icon: '🌿' },
-          { title: 'Redukcja stresu', description: 'Wyciszenie umysłu i nauka świadomego oddechu.', icon: '☯️' },
-          { title: 'Dla każdego', description: 'Bez względu na wiek (35–65+) i kondycję.', icon: '👴' },
+          { title: 'Zdrowy kręgosłup', description: 'Poprawa postawy i mobilności stawów.', icon: 'lotus' },
+          { title: 'Redukcja stresu', description: 'Wyciszenie umysłu i nauka świadomego oddechu.', icon: 'wind' },
+          { title: 'Dla każdego', description: 'Bez względu na wiek (35–65+) i kondycję.', icon: 'brain' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -222,9 +222,9 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Krav Maga / Samoobrona', description: 'Nauka technik dopasowana do Twoich predyspozycji.', icon: '🛡️' },
-          { title: 'Boks / Kick-boxing', description: 'Trening techniczny i kondycyjny na workach (Boxing Cardio).', icon: '🥊' },
-          { title: 'Trening motoryczny', description: 'Budowanie siły i wytrzymałości.', icon: '💪' },
+          { title: 'Krav Maga / Samoobrona', description: 'Nauka technik dopasowana do Twoich predyspozycji.', icon: 'shield' },
+          { title: 'Boks / Kick-boxing', description: 'Trening techniczny i kondycyjny na workach (Boxing Cardio).', icon: 'fist' },
+          { title: 'Trening motoryczny', description: 'Budowanie siły i wytrzymałości.', icon: 'dumbbell' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -269,9 +269,9 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Zasady bezpieczeństwa', description: 'Odpowiedzialne posługiwanie się repliką.', icon: '🔒' },
-          { title: 'Technika strzelecka', description: 'Postawy strzeleckie, praca na zasłonach, celowanie.', icon: '🎯' },
-          { title: 'Dynamika', description: 'Strzelanie w ruchu i pod presją czasu do tarcz IPSC.', icon: '⚡' },
+          { title: 'Zasady bezpieczeństwa', description: 'Odpowiedzialne posługiwanie się repliką.', icon: 'shield-check' },
+          { title: 'Technika strzelecka', description: 'Postawy strzeleckie, praca na zasłonach, celowanie.', icon: 'target' },
+          { title: 'Dynamika', description: 'Strzelanie w ruchu i pod presją czasu do tarcz IPSC.', icon: 'lightning' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -313,9 +313,9 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Sprawność i technika', description: 'Poprawa koordynacji, siły i elastyczności.', icon: '🥋' },
-          { title: 'Redukcja stresu', description: 'Intensywny wysiłek pozwala „przewietrzyć głowę" po pracy.', icon: '🧘' },
-          { title: 'Konsekwencja', description: 'Nauka wytrwałości i dążenia do mistrzostwa w technice.', icon: '🎯' },
+          { title: 'Sprawność i technika', description: 'Poprawa koordynacji, siły i elastyczności.', icon: 'martial' },
+          { title: 'Redukcja stresu', description: 'Intensywny wysiłek pozwala „przewietrzyć głowę" po pracy.', icon: 'wind' },
+          { title: 'Konsekwencja', description: 'Nauka wytrwałości i dążenia do mistrzostwa w technice.', icon: 'target' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -358,10 +358,10 @@ export async function seedClasses(
           ),
         },
         highlights: [
-          { title: 'Wzmocnienie ciała', description: 'Praca nad siłą mięśniową i stabilizacją (core), co przekłada się na lepszą postawę na co dzień.', icon: '💪' },
-          { title: 'Poprawa motoryki', description: 'Zwiększenie dynamiki i wytrzymałości, przydatne w Karate czy Krav Maga.', icon: '⚡' },
-          { title: 'Bezpieczeństwo', description: 'Nauka poprawnej techniki wykonywania ćwiczeń siłowych, aby unikać kontuzji.', icon: '🛡️' },
-          { title: 'Redukcja stresu', description: 'Intensywny wysiłek to najlepszy sposób na rozładowanie napięcia.', icon: '🧘' },
+          { title: 'Wzmocnienie ciała', description: 'Praca nad siłą mięśniową i stabilizacją (core), co przekłada się na lepszą postawę na co dzień.', icon: 'dumbbell' },
+          { title: 'Poprawa motoryki', description: 'Zwiększenie dynamiki i wytrzymałości, przydatne w Karate czy Krav Maga.', icon: 'lightning' },
+          { title: 'Bezpieczeństwo', description: 'Nauka poprawnej techniki wykonywania ćwiczeń siłowych, aby unikać kontuzji.', icon: 'shield' },
+          { title: 'Redukcja stresu', description: 'Intensywny wysiłek to najlepszy sposób na rozładowanie napięcia.', icon: 'wind' },
         ],
         targetAudience: {
           forWhoTitle: 'Dla kogo?',
@@ -380,4 +380,49 @@ export async function seedClasses(
     }),
   ])
   console.log('Created 8 classes')
+
+  // --- Patch relationships (Może Cię zainteresować) ---
+  const allCls = await payload.find({ collection: 'classes', limit: 100 })
+  const findBySlug = (slug: string) => allCls.docs.find((d) => d.slug === slug)
+
+  const kravAdults = findBySlug('krav-maga')
+  const kravKids = findBySlug('krav-maga-dzieci')
+  const karateAdults = findBySlug('karate')
+  const karateKids = findBySlug('karate-dzieci')
+  const power = findBySlug('power-training')
+  const individual = findBySlug('indywidualne')
+
+  if (kravAdults && kravKids) {
+    await payload.update({
+      collection: 'classes',
+      id: kravAdults.id,
+      data: { relatedClasses: [kravKids.id, individual?.id].filter(Boolean) as number[] },
+    })
+    await payload.update({
+      collection: 'classes',
+      id: kravKids.id,
+      data: { relatedClasses: [kravAdults.id, karateKids?.id].filter(Boolean) as number[] },
+    })
+  }
+
+  if (karateAdults && karateKids) {
+    await payload.update({
+      collection: 'classes',
+      id: karateAdults.id,
+      data: { relatedClasses: [karateKids.id, power?.id].filter(Boolean) as number[] },
+    })
+    await payload.update({
+      collection: 'classes',
+      id: karateKids.id,
+      data: { relatedClasses: [karateAdults.id, kravKids?.id].filter(Boolean) as number[] },
+    })
+  }
+
+  if (power && individual) {
+    await payload.update({
+      collection: 'classes',
+      id: power.id,
+      data: { relatedClasses: [individual.id, kravAdults?.id].filter(Boolean) as number[] },
+    })
+  }
 }

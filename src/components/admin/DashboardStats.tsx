@@ -1,6 +1,7 @@
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { BetaAnalyticsDataClient } from '@google-analytics/data'
+import Link from 'next/link'
 
 type TopPage = { path: string; views: string }
 
@@ -142,9 +143,9 @@ export default async function DashboardStats() {
           <p style={{ margin: '0 0 8px', opacity: .7 }}>
             Integracja z Google Analytics nie jest skonfigurowana.
           </p>
-          <a href="/admin/globals/analytics-settings" style={{ color: 'var(--theme-text)', fontWeight: 600, textDecoration: 'underline' }}>
+          <Link href="/admin/globals/analytics-settings" style={{ color: 'var(--theme-text)', fontWeight: 600, textDecoration: 'underline' }}>
             → Skonfiguruj Google Analytics
-          </a>
+          </Link>
         </div>
       ) : analytics?.error ? (
         <div style={{ ...card, marginBottom: '24px', borderColor: 'var(--color-error-500)' }}>
@@ -195,9 +196,9 @@ export default async function DashboardStats() {
         <div style={{ ...card, flex: '2 1 300px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
             <div style={{ fontSize: '12px', opacity: .6, textTransform: 'uppercase', letterSpacing: '.05em' }}>Nadchodzące wydarzenia</div>
-            <a href="/admin/collections/events" style={{ fontSize: '12px', color: 'var(--theme-text)', opacity: .6, textDecoration: 'none' }}>
+            <Link href="/admin/collections/events" style={{ fontSize: '12px', color: 'var(--theme-text)', opacity: .6, textDecoration: 'none' }}>
               Wszystkie →
-            </a>
+            </Link>
           </div>
 
           {upcomingEvents.length === 0 ? (
@@ -205,7 +206,7 @@ export default async function DashboardStats() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {upcomingEvents.map((event) => (
-                <a
+                <Link
                   key={event.id}
                   href={`/admin/collections/events/${event.id}`}
                   style={{ display: 'flex', gap: '12px', alignItems: 'center', textDecoration: 'none', color: 'inherit', padding: '6px 0', borderBottom: '1px solid var(--theme-border-color)' }}
@@ -219,7 +220,7 @@ export default async function DashboardStats() {
                       {event.location as string}
                     </span>
                   )}
-                </a>
+                </Link>
               ))}
             </div>
           )}
@@ -234,7 +235,7 @@ export default async function DashboardStats() {
             { label: '+ Nowe zajęcia', href: '/admin/collections/classes/create' },
             { label: '+ Nowe opinie', href: '/admin/collections/testimonials/create' },
           ].map(({ label, href }) => (
-            <a
+            <Link
               key={href}
               href={href}
               style={{
@@ -250,7 +251,7 @@ export default async function DashboardStats() {
               }}
             >
               {label}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

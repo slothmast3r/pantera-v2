@@ -11,12 +11,102 @@ export const metadata: Metadata = {
 }
 
 import Link from 'next/link'
+import { Button } from '@/components/ui/Button'
 import './grafik.css'
+import '@/app/(frontend)/wydarzenia/wydarzenia.css'
+
+const statusLabels: Record<string, string> = {
+  upcoming: 'Nadchodzące',
+  ongoing: 'W trakcie',
+  past: 'Zakończone',
+  cancelled: 'Anulowane',
+}
+
+const statusColors: Record<string, string> = {
+  upcoming: '#16a34a',
+  ongoing: '#F57C28',
+  past: '#888',
+  cancelled: '#e63946',
+}
+
+const DAY_VALUES = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
+type DayValueLocal = typeof DAY_VALUES[number]
+
+function getWeekBounds() {
+  const now = new Date()
+  const weekStart = new Date(now)
+  weekStart.setHours(0, 0, 0, 0)
+  weekStart.setDate(now.getDate() - ((now.getDay() + 6) % 7))
+  const weekEnd = new Date(weekStart)
+  weekEnd.setDate(weekStart.getDate() + 6)
+  weekEnd.setHours(23, 59, 59, 999)
+  return { weekStart, weekEnd }
+}
+
+function isThisWeek(startStr: string, endStr?: string | null): boolean {
+  const { weekStart, weekEnd } = getWeekBounds()
+  const start = new Date(startStr)
+  const end = endStr ? new Date(endStr) : start
+  return start <= weekEnd && end >= weekStart
+}
+
+type WeekEvent = { title: string; time?: string | null; registrationLink?: string | null; cancelled: boolean }
+
+function buildEventsByDay(events: Event[]): Record<DayValueLocal, WeekEvent[]> {
+  const result = DAY_VALUES.reduce((acc, d) => {
+    acc[d] = []
+    return acc
+  }, {} as Record<DayValueLocal, WeekEvent[]>)
+  const { weekStart, weekEnd } = getWeekBounds()
+  for (const event of events) {
+    const start = new Date(event.startDate)
+    const end = event.endDate ? new Date(event.endDate) : new Date(event.startDate)
+    if (start > weekEnd || end < weekStart) continue
+    // iterate days of the week this event covers
+    for (let i = 0; i < 7; i++) {
+      const day = new Date(weekStart)
+      day.setDate(weekStart.getDate() + i)
+      const dayEnd = new Date(day)
+      dayEnd.setHours(23, 59, 59, 999)
+      if (start <= dayEnd && end >= day) {
+        result[DAY_VALUES[i]].push({
+          title: event.title,
+          time: (event as any).time ?? null,
+          registrationLink: event.registrationLink ?? null,
+          cancelled: !!(event as any).cancelled,
+        })
+      }
+    }
+  }
+  return result
+}
+
+function formatDateRange(startStr: string, endStr?: string | null) {
+  const start = new Date(startStr)
+  const end = endStr ? new Date(endStr) : null
+  const sameDay = end && start.toDateString() === end.toDateString()
+  if (!end || sameDay) {
+    return start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
+  }
+  const startFmt = start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' })
+  const endFmt = end.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
+  return `${startFmt} – ${endFmt}`
+}
+
+function computeStatus(event: Event): 'upcoming' | 'ongoing' | 'past' | 'cancelled' {
+  if ((event as any).cancelled) return 'cancelled'
+  const now = Date.now()
+  const start = new Date(event.startDate).getTime()
+  const end = event.endDate ? new Date(event.endDate).getTime() : null
+  if (now < start) return 'upcoming'
+  if (end !== null && now <= end) return 'ongoing'
+  return 'past'
+}
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import type { Class } from '@/payload-types'
+import type { Class, Event } from '@/payload-types'
 import GrafikClient, { type DisplayEntry } from './GrafikClient'
 
 type DayValue = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
@@ -259,16 +349,34 @@ export default async function GrafikPage() {
   let displayEntries: DisplayEntry[] = STATIC_FALLBACK
   let navData = null
   let footerData = null
+  let upcomingEvents: Event[] = []
 
   try {
     const payload = await getPayload({ config })
-    const [schedule, nav, footer] = await Promise.all([
+    const [schedule, nav, footer, eventsRes] = await Promise.all([
       payload.findGlobal({ slug: 'schedule', depth: 2 }),
       payload.findGlobal({ slug: 'navigation', depth: 1 }),
       payload.findGlobal({ slug: 'footer', depth: 1 }),
+      payload.find({
+        collection: 'events',
+        where: (() => {
+          const today = new Date()
+          today.setHours(0, 0, 0, 0)
+          const todayStr = today.toISOString()
+          return {
+            or: [
+              { startDate: { greater_than_equal: todayStr } },
+              { endDate: { greater_than_equal: todayStr } },
+            ],
+          } as any
+        })(),
+        sort: 'startDate',
+        limit: 5,
+      }),
     ])
     navData = nav
     footerData = footer
+    upcomingEvents = eventsRes.docs as Event[]
     if (schedule.title) title = schedule.title
     if (schedule.subtitle) subtitle = schedule.subtitle
     const populated = (schedule.entries ?? []).filter((e) => isClass(e.class))
@@ -301,7 +409,63 @@ export default async function GrafikPage() {
           <p className="grafik-hero__subtitle">{subtitle}</p>
         </section>
 
-        <GrafikClient entries={displayEntries} presentTypes={presentTypes} />
+        <GrafikClient entries={displayEntries} presentTypes={presentTypes} eventsByDay={buildEventsByDay(upcomingEvents)} />
+
+        {/* EVENTS */}
+        {upcomingEvents.length > 0 && (
+          <section className="events-list">
+            <div className="container">
+              <h2 className="events-list__heading">Nadchodzące wydarzenia</h2>
+              <div className="events-grid">
+                {upcomingEvents.map((event) => {
+                  const status = computeStatus(event)
+                  const isCancelled = status === 'cancelled'
+                  const thisWeek = !isCancelled && isThisWeek(event.startDate, event.endDate)
+                  return (
+                  <div key={event.id} className={`event-card${isCancelled ? ' event-card--cancelled' : ''}${thisWeek ? ' event-card--this-week' : ''}`}>
+                    <div className="event-card__date">
+                      <span className="event-card__day">{new Date(event.startDate).getDate()}</span>
+                      <span className="event-card__month">
+                        {new Date(event.startDate).toLocaleDateString('pl-PL', { month: 'short' })}
+                      </span>
+                    </div>
+                    <div className="event-card__body">
+                      <div className="event-card__meta">
+                        {thisWeek && (
+                          <span className="event-card__badge--week">W tym tygodniu</span>
+                        )}
+                        <span className="event-card__status" style={{ color: statusColors[status] }}>
+                          {statusLabels[status]}
+                        </span>
+                        {event.location && (
+                          <span className="event-card__location">
+                            <span className="material-symbols-outlined" style={{ fontSize: '1rem', verticalAlign: 'middle' }}>location_on</span>
+                            {event.location}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="event-card__title">{event.title}</h3>
+                      {event.shortDescription && (
+                        <p className="event-card__desc">{event.shortDescription}</p>
+                      )}
+                      <div className="event-card__footer">
+                        <span className="event-card__full-date">
+                          {formatDateRange(event.startDate, event.endDate)}{(event as any).time ? `, godz. ${(event as any).time}` : ''}
+                        </span>
+                        {event.registrationLink && !isCancelled && (
+                          <Button asChild size="sm">
+                            <Link href={event.registrationLink as any}>Zapisz się</Link>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <section className="grafik-cta">

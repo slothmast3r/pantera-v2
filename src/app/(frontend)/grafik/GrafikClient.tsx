@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/components/ui/utils'
 
@@ -45,12 +46,15 @@ export type DisplayEntry = {
   notes: string | null
 }
 
+type WeekEvent = { title: string; time?: string | null; registrationLink?: string | null; cancelled: boolean }
+
 type Props = {
   entries: DisplayEntry[]
   presentTypes: string[]
+  eventsByDay?: Partial<Record<DayValue, WeekEvent[]>>
 }
 
-export default function GrafikClient({ entries, presentTypes }: Props) {
+export default function GrafikClient({ entries, presentTypes, eventsByDay = {} }: Props) {
   const [selectedDays, setSelectedDays] = useState<Set<DayValue>>(new Set())
   const [activeType, setActiveType] = useState<string>('all')
 
@@ -168,7 +172,7 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
                     <span className="grafik-day__full">{day.label}</span>
                   </div>
                   <div className="grafik-day__cards">
-                    {dayEntries.length === 0 ? (
+                    {dayEntries.length === 0 && (eventsByDay[day.value] ?? []).length === 0 ? (
                       <p className="grafik-day__empty">–</p>
                     ) : (
                       dayEntries.map((entry, i) => (
@@ -205,6 +209,16 @@ export default function GrafikClient({ entries, presentTypes }: Props) {
                         </a>
                       ))
                     )}
+                    {(eventsByDay[day.value] ?? []).map((ev, i) => (
+                      <div key={`ev-${i}`} className={`grafik-event-card${ev.cancelled ? ' grafik-event-card--cancelled' : ''}`}>
+                        <span className="grafik-event-card__label">Wydarzenie</span>
+                        <p className="grafik-event-card__title">{ev.title}</p>
+                        {ev.time && <p className="grafik-event-card__time">{ev.time}</p>}
+                        {ev.registrationLink && !ev.cancelled && (
+                          <Link href={ev.registrationLink} className="grafik-event-card__link">Zapisz się →</Link>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )

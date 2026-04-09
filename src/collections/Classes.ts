@@ -126,7 +126,16 @@ export const Classes: CollectionConfig = {
       fields: [
         { name: 'title', label: 'Tytuł', type: 'text', required: true },
         { name: 'description', label: 'Opis', type: 'textarea' },
-        { name: 'icon', label: 'Ikona', type: 'text' },
+        {
+          name: 'icon',
+          label: 'Ikona',
+          type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/admin/IconPickerField',
+            },
+          },
+        },
       ],
     },
 
@@ -138,7 +147,16 @@ export const Classes: CollectionConfig = {
       fields: [
         { name: 'title', label: 'Tytuł', type: 'text', required: true },
         { name: 'description', label: 'Opis', type: 'textarea' },
-        { name: 'icon', label: 'Ikona', type: 'text' },
+        {
+          name: 'icon',
+          label: 'Ikona',
+          type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/admin/IconPickerField',
+            },
+          },
+        },
       ],
     },
 
@@ -209,6 +227,18 @@ export const Classes: CollectionConfig = {
       type: 'relationship',
       relationTo: 'testimonials',
       hasMany: true,
+    },
+
+    // --- Powiązane zajęcia ---
+    {
+      name: 'relatedClasses',
+      label: 'Powiązane zajęcia (Może Cię zainteresować)',
+      type: 'relationship',
+      relationTo: 'classes',
+      hasMany: true,
+      admin: {
+        description: 'Wybierz inne zajęcia, które chcesz polecić na tej podstronie.',
+      },
     },
 
     // --- CTA ---

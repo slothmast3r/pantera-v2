@@ -25,7 +25,16 @@ export const OfferCardsBlock: Block = {
       type: 'array',
       minRows: 1,
       fields: [
-        { name: 'icon', label: 'Ikona (emoji)', type: 'text' },
+        {
+          name: 'icon',
+          label: 'Ikona',
+          type: 'text',
+          admin: {
+            components: {
+              Field: '@/components/admin/IconPickerField',
+            },
+          },
+        },
         { name: 'title', label: 'Tytuł', type: 'text', required: true },
         { name: 'description', label: 'Opis', type: 'textarea' },
       ],

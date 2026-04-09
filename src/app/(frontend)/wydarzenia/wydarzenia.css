@@ -1,0 +1,212 @@
+.wydarzenia-header {
+  background: linear-gradient(135deg, var(--color-navy-dark) 0%, var(--color-navy-mid) 60%, var(--color-navy) 100%);
+  padding: 100px 20px 80px;
+  text-align: center;
+  color: #fff;
+}
+
+.wydarzenia-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.wydarzenia-header p {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.7);
+}
+
+.wydarzenia-main {
+  padding: 80px 20px;
+  background: var(--color-bg-section);
+  min-height: 40vh;
+}
+
+/* ===== GRID ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ===== CARD ===== */
+.event-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.event-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.event-card__date {
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px;
+  min-width: 80px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.event-card__day {
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.event-card__month {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.event-card__body {
+  padding: 20px 24px;
+  flex: 1;
+}
+
+.event-card__meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.event-card__status {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.event-card__location {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.event-card__title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.event-card__desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.event-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.event-card__full-date {
+  font-size: 0.82rem;
+  color: var(--color-text-faint);
+}
+
+.btn--sm {
+  padding: 8px 20px;
+  font-size: 0.85rem;
+}
+
+/* ===== PAST ===== */
+.wydarzen-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  padding: 40px 0;
+}
+
+.wydarzenia-past {
+  margin-top: 80px;
+}
+
+.wydarzenia-past__heading {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 24px;
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.event-card--past .event-card__date {
+  background: #ccc;
+}
+
+.event-card--past .event-card__title {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+}
+
+.event-card--this-week {
+  border: 2px solid var(--color-primary);
+}
+
+.event-card__badge--week {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.event-card--cancelled {
+  opacity: 0.75;
+}
+
+.event-card--cancelled .event-card__date {
+  background: #aaa;
+}
+
+.event-card--cancelled .event-card__title {
+  text-decoration: line-through;
+  color: var(--color-text-secondary);
+}
+
+/* ===== EVENTS LIST BLOCK (used in BlockRenderer) ===== */
+.events-list {
+  padding: 80px 20px;
+  background: var(--color-bg-section);
+}
+
+.events-list__heading {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-weight: 900;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 640px) {
+  .event-card { flex-direction: column; }
+  .event-card__date { flex-direction: row; gap: 8px; padding: 14px 20px; justify-content: flex-start; }
+  .event-card__day { font-size: 1.4rem; }
+}

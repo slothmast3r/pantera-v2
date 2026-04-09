@@ -7,6 +7,7 @@ import { seedClasses } from './classes'
 import { seedOffers } from './offers'
 import { seedGlobals } from './globals'
 import { seedSchedule } from './schedule'
+import { seedEvents } from './events'
 
 export async function seed() {
   const payload = await getPayload({ config })
@@ -19,6 +20,7 @@ export async function seed() {
   await deleteAll(payload, 'pages')
   await deleteAll(payload, 'instructors')
   await deleteAll(payload, 'testimonials')
+  await deleteAll(payload, 'events')
 
   const instructors = await seedInstructors(payload)
   await seedTestimonials(payload)
@@ -26,6 +28,7 @@ export async function seed() {
   const offerImages = await seedOffers(payload)
   await seedGlobals(payload, offerImages)
   await seedSchedule(payload)
+  await seedEvents(payload)
 
   console.log('\nSeed complete!')
   process.exit(0)

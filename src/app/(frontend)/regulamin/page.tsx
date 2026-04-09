@@ -52,7 +52,7 @@ export default async function RegulaminPage() {
             <section className="reg-section">
               <h2><span className="reg-section__num">§1</span> Postanowienia ogólne</h2>
               <ol>
-                <li>Klub Pantera Family &amp; Sport Club, zwany dalej „Klubem", prowadzi zajęcia sportowe i rekreacyjne w zakresie sztuk walki, samoobrony oraz innych form aktywności fizycznej.</li>
+                <li>Klub Pantera Family &amp; Sport Club, zwany dalej &bdquo;Klubem&rdquo;, prowadzi zajęcia sportowe i rekreacyjne w zakresie sztuk walki, samoobrony oraz innych form aktywności fizycznej.</li>
                 <li>Uczestnikiem zajęć może być każda osoba, która ukończyła 4. rok życia. Osoby niepełnoletnie mogą uczestniczyć w zajęciach wyłącznie za pisemną zgodą rodzica lub opiekuna prawnego.</li>
                 <li>Przystąpienie do zajęć jest równoznaczne z akceptacją niniejszego regulaminu.</li>
                 <li>Klub zastrzega sobie prawo do zmiany regulaminu. O zmianach uczestnicy informowani są z co najmniej 14-dniowym wyprzedzeniem.</li>

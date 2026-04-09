@@ -40,9 +40,9 @@ function getPhotoUrl(photo: Instructor['photo']): string | null {
 }
 
 const staticInstructors = [
-  { id: -1, name: 'Michał Jawarski', specialization: 'KRAV MAGA / SAMOOBRONA', bio: 'Doświadczony instruktor z wieloletnim stażem w sztukach walki i samoobronie.', photo: null },
-  { id: -2, name: 'Tomasz Łubikowski', specialization: 'KARATE / POWER TRAINING', bio: 'Mistrz karate i trener personalny z pasją do nauczania.', photo: null },
-  { id: -3, name: 'Janusz Dąbrowski', specialization: 'TAI CHI / MASTER', bio: 'Mistrz Tai Chi z wieloletnim doświadczeniem w pracy z każdym wiekiem.', photo: null },
+  { id: -1, name: 'Michał Jawarski', specialization: 'KRAV MAGA / SAMOOBRONA', excerpt: null, bio: 'Doświadczony instruktor z wieloletnim stażem w sztukach walki i samoobronie.', photo: null },
+  { id: -2, name: 'Tomasz Łubikowski', specialization: 'KARATE / POWER TRAINING', excerpt: null, bio: 'Mistrz karate i trener personalny z pasją do nauczania.', photo: null },
+  { id: -3, name: 'Janusz Dąbrowski', specialization: 'TAI CHI / MASTER', excerpt: null, bio: 'Mistrz Tai Chi z wieloletnim doświadczeniem w pracy z każdym wiekiem.', photo: null },
 ]
 
 export default async function AboutPage() {
@@ -216,11 +216,11 @@ export default async function AboutPage() {
             </div>
             <div>
               <div className="label">DZIAŁALNOŚĆ SPOŁECZNA</div>
-              <h2>Fundacja „Zawsze w Formie"</h2>
+              <h2>Fundacja &bdquo;Zawsze w Formie&rdquo;</h2>
               <p>
-                Pantera prowadzi działalność charytatywną poprzez Fundację „Zawsze w Formie". Organizujemy
+                Pantera prowadzi działalność charytatywną poprzez Fundację &bdquo;Zawsze w Formie&rdquo;. Organizujemy
                 bezpłatne zajęcia dla dzieci z rodzin w trudnej sytuacji materialnej, warsztaty samoobrony
-                dla kobiet oraz programy aktywizacji seniorów. Sport jest dla wszystkich – bez względu na
+                dla kobiet oraz programy aktywizacji seniorów. Sport jest dla wszystkich &ndash; bez względu na
                 portfel czy wiek.
               </p>
             </div>
@@ -278,7 +278,7 @@ export default async function AboutPage() {
                   <div className="team-card__body">
                     <h3>{instructor.name}</h3>
                     <span className="team-card__spec">{instructor.specialization}</span>
-                    <p className="team-card__bio">{instructor.bio}</p>
+                    <p className="team-card__bio">{instructor.excerpt || instructor.bio}</p>
                     {slug && <span className="team-card__more">Zobacz profil →</span>}
                   </div>
                 </>

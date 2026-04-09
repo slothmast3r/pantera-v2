@@ -16,6 +16,7 @@ import config from '@payload-config'
 import type { Offer, Media, Navigation, Footer as FooterType } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
+import CategoryIcon from './CategoryIcon'
 import './oferta.css'
 
 const categoryLabels: Record<string, string> = {
@@ -24,14 +25,6 @@ const categoryLabels: Record<string, string> = {
   workshop: 'Warsztaty',
   birthday: 'Urodziny',
   other: 'Inne',
-}
-
-const categoryIcons: Record<string, string> = {
-  company: '🏢',
-  schools: '🏫',
-  workshop: '🥋',
-  birthday: '🎂',
-  other: '⭐',
 }
 
 const staticOffers: Partial<Offer>[] = [
@@ -119,7 +112,6 @@ export default async function OfertaPage() {
           <div className="oferta-grid">
             {items.map((offer) => {
               const coverUrl = getCoverUrl(offer.coverImage)
-              const icon = categoryIcons[offer.category ?? ''] ?? '⭐'
               const badge = categoryLabels[offer.category ?? ''] ?? 'Oferta'
               return (
                 <a key={offer.id} href={`/oferta/${offer.slug}`} className="oferta-card">
@@ -133,7 +125,7 @@ export default async function OfertaPage() {
                         <img src="/logo-icon.svg" alt="" />
                       </div>
                     )}
-                    <span className="oferta-card__icon">{icon}</span>
+                    <span className="oferta-card__icon"><CategoryIcon icon={(offer as any).icon} category={offer.category ?? 'other'} size={52} /></span>
                     <span className="oferta-card__badge">{badge}</span>
                   </div>
                   <div className="oferta-card__body">

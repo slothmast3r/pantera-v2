@@ -37,6 +37,7 @@ import config from '@payload-config'
 import type { Class, Media, Instructor, Navigation, Footer as FooterType } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
+import { offerIconMap, type OfferIconKey } from '@/components/icons/offerIcons'
 import '../zajecia.css'
 
 const intensityLabels: Record<string, string> = {
@@ -46,7 +47,7 @@ const intensityLabels: Record<string, string> = {
   high: 'Duża',
 }
 
-const highlightIcons = ['🛡️', '📋', '💪', '🎯', '⚡', '🤝']
+const highlightIcons: OfferIconKey[] = ['shield', 'check', 'dumbbell', 'target', 'lightning', 'handshake']
 
 function getCoverUrl(img: Class['coverImage'] | Class['heading']['backgroundImage']): string | null {
   if (!img || typeof img === 'number') return null
@@ -74,9 +75,9 @@ const staticKravMaga: Partial<Class> = {
     content: null,
   },
   highlights: [
-    { title: 'Realna samoobrona', description: 'Obrona przed uderzeniami, kopnięciami i chwytami.', icon: '🛡️', id: '1' },
-    { title: 'Procedury bezpieczeństwa', description: 'Jak unikać zagrożeń i radzić sobie w stresie.', icon: '📋', id: '2' },
-    { title: 'Lepsza forma', description: 'Poprawisz siłę, dynamikę i wydolność organizmu.', icon: '💪', id: '3' },
+    { title: 'Realna samoobrona', description: 'Obrona przed uderzeniami, kopnięciami i chwytami.', icon: 'shield', id: '1' },
+    { title: 'Procedury bezpieczeństwa', description: 'Jak unikać zagrożeń i radzić sobie w stresie.', icon: 'check', id: '2' },
+    { title: 'Lepsza forma', description: 'Poprawisz siłę, dynamikę i wydolność organizmu.', icon: 'dumbbell', id: '3' },
   ],
   targetAudience: {
     forWhoTitle: 'Dla kogo?',
@@ -219,13 +220,20 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
               Konkretne umiejętności, które wyniesiesz z treningów.
             </p>
             <div className="class-highlights__grid">
-              {cls.highlights.map((h, i) => (
-                <div key={h.id ?? i} className="highlight-card">
-                  <span className="highlight-card__icon">{h.icon ?? highlightIcons[i % highlightIcons.length]}</span>
-                  <h3>{h.title}</h3>
-                  {h.description && <p>{h.description}</p>}
-                </div>
-              ))}
+              {cls.highlights.map((h, i) => {
+                const IconKey = (h.icon as OfferIconKey) || highlightIcons[i % highlightIcons.length]
+                const iconData = offerIconMap[IconKey] || offerIconMap.star
+
+                return (
+                  <div key={h.id ?? i} className="highlight-card">
+                    <span className="highlight-card__icon">
+                      {iconData.svg}
+                    </span>
+                    <h3>{h.title}</h3>
+                    {h.description && <p>{h.description}</p>}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </section>
@@ -264,13 +272,16 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
             <p className="class-logistics__subtitle">Wszystko, co musisz wiedzieć przed pierwszym treningiem.</p>
             <div className="class-logistics__grid">
               {instructor && (
-                <div className="logistics-card">
+                <Link href={`/instruktor/${instructor.slug}`} className="logistics-card logistics-card--clickable" style={{ textDecoration: 'none' }}>
                   <span className="logistics-card__label">Prowadzący</span>
-                  <div className="logistics-card__value">{instructor.name}</div>
+                  <div className="logistics-card__value" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {instructor.name}
+                    <span style={{ fontSize: '0.8rem', color: 'var(--color-primary)' }}>➔</span>
+                  </div>
                   {instructor.specialization && (
                     <div className="logistics-card__sub">{instructor.specialization}</div>
                   )}
-                </div>
+                </Link>
               )}
               {cls.logistics?.intensity && (
                 <div className="logistics-card">
@@ -286,6 +297,59 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
                   <div className="logistics-card__value">{cls.logistics.whatToBring}</div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* RELATED CLASSES */}
+      {cls.relatedClasses && (cls.relatedClasses as Class[]).length > 0 && (
+        <section className="class-related" style={{ padding: '80px 20px', background: '#fcfcfc', borderTop: '1px solid #eee' }}>
+          <div className="container">
+            <div className="label">OFERTA</div>
+            <h2>Może Cię zainteresować</h2>
+            <p style={{ color: '#666', marginBottom: '40px' }}>Inne zajęcia, które mogą uzupełnić Twój trening lub zainteresować Twoich bliskich.</p>
+            <div className="zajecia-grid">
+              {(cls.relatedClasses as Class[]).map((rel) => {
+                const coverUrl = getCoverUrl(rel.coverImage)
+                const typeIcons: Record<string, OfferIconKey> = {
+                  'krav-maga': 'shield',
+                  karate: 'martial',
+                  'tai-chi': 'lotus',
+                  individual: 'users',
+                  asg: 'target',
+                  'power-training': 'dumbbell',
+                  other: 'star',
+                }
+                const iconKey = typeIcons[rel.type ?? ''] ?? 'star'
+                const iconData = offerIconMap[iconKey] || offerIconMap.star
+
+                return (
+                  <Link key={rel.id} href={`/zajecia/${rel.slug}`} className="zajecia-card" style={{ textDecoration: 'none' }}>
+                    {coverUrl ? (
+                      <img src={coverUrl} alt={rel.title} className="zajecia-card__image" />
+                    ) : (
+                      <div className="zajecia-card__image--placeholder">
+                        <div style={{ width: '50px', height: '50px', color: 'rgba(255,255,255,0.4)' }}>
+                          {iconData.svg}
+                        </div>
+                      </div>
+                    )}
+                    <div className="zajecia-card__body">
+                      <div className="zajecia-card__badges">
+                        {rel.type && (
+                          <span className="zajecia-card__badge zajecia-card__badge--type">
+                            {rel.type.toUpperCase().replace(/-/g, ' ')}
+                          </span>
+                        )}
+                      </div>
+                      <h3>{rel.title}</h3>
+                      <p className="zajecia-card__subtitle">{rel.heading?.subtitle || rel.heading?.title}</p>
+                      <span className="zajecia-card__link">Sprawdź ofertę →</span>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>

@@ -10,6 +10,8 @@ import { ForWhoBlock } from '../blocks/ForWho'
 import { ContactCardBlock } from '../blocks/ContactCard'
 
 import { GalleryBlock } from '../blocks/Gallery'
+import { RelatedOffersBlock } from '../blocks/RelatedOffers'
+import { EventsListBlock } from '../blocks/EventsList'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
@@ -63,6 +65,17 @@ export const Offers: CollectionConfig = {
         { label: 'Urodziny', value: 'birthday' },
         { label: 'Inne', value: 'other' },
       ],
+    },
+    {
+      name: 'icon',
+      label: 'Ikona',
+      type: 'text',
+      admin: {
+        description: 'Ikona wyświetlana na karcie oferty.',
+        components: {
+          Field: '@/components/admin/IconPickerField',
+        },
+      },
     },
     {
       name: 'coverImage',
@@ -119,6 +132,8 @@ export const Offers: CollectionConfig = {
         CTABlock,
         FAQBlock,
         GalleryBlock,
+        RelatedOffersBlock,
+        EventsListBlock,
       ],
     },
 

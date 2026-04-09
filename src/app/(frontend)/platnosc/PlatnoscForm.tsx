@@ -206,7 +206,7 @@ export default function PlatnoscForm() {
       </Button>
 
       <p className="platnosc-disclaimer">
-        Klikając „Zapłać" zostaniesz przekierowany do bezpiecznej bramki płatniczej tpay.com. Twoje
+        Klikając &bdquo;Zapłać&rdquo; zostaniesz przekierowany do bezpiecznej bramki płatniczej tpay.com. Twoje
         dane są chronione protokołem SSL.
       </p>
     </form>

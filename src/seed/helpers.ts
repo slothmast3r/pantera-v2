@@ -30,8 +30,8 @@ export async function deleteAll(
   collection: string,
 ) {
   const res = await payload.find({ collection: collection as any, limit: 200, depth: 0 })
-  await Promise.all(
-    res.docs.map((doc: any) => payload.delete({ collection: collection as any, id: doc.id })),
-  )
+  for (const doc of res.docs) {
+    await payload.delete({ collection: collection as any, id: doc.id })
+  }
   console.log(`  Deleted ${res.docs.length} records from '${collection}'`)
 }

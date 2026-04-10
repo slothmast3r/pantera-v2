@@ -40,6 +40,17 @@ import Footer from '@/components/home/Footer'
 import { offerIconMap, type OfferIconKey } from '@/components/icons/offerIcons'
 import '../zajecia.css'
 
+const DAY_ORDER = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
+const DAY_LABELS: Record<string, string> = {
+  monday: 'Poniedziałek',
+  tuesday: 'Wtorek',
+  wednesday: 'Środa',
+  thursday: 'Czwartek',
+  friday: 'Piątek',
+  saturday: 'Sobota',
+  sunday: 'Niedziela',
+}
+
 const intensityLabels: Record<string, string> = {
   low: 'Mała',
   medium: 'Średnia',
@@ -102,9 +113,11 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
   let nav: Navigation | null = null
   let footer: FooterType | null = null
 
+  let scheduleEntries: { day: string; startTime: string; endTime: string; ageRange?: string | null; notes?: string | null }[] = []
+
   try {
     const payload = await getPayload({ config })
-    const [classRes, navRes, footerRes] = await Promise.all([
+    const [classRes, navRes, footerRes, scheduleRes] = await Promise.all([
       payload.find({
         collection: 'classes',
         where: { slug: { equals: slug } },
@@ -113,11 +126,24 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
       }),
       payload.findGlobal({ slug: 'navigation' }),
       payload.findGlobal({ slug: 'footer' }),
+      payload.findGlobal({ slug: 'schedule', depth: 1 }),
     ])
     nav = navRes
     footer = footerRes
     if (classRes.docs[0]) {
       cls = classRes.docs[0]
+      scheduleEntries = (scheduleRes.entries ?? [])
+        .filter((e) => {
+          const rel = e.class
+          return typeof rel === 'object' && rel !== null && (rel as Class).id === cls!.id
+        })
+        .map((e) => ({
+          day: e.day,
+          startTime: e.startTime,
+          endTime: e.endTime,
+          ageRange: e.ageRange ?? null,
+          notes: e.notes ?? null,
+        }))
     }
   } catch {
     // DB unavailable — use static fallback if slug matches
@@ -348,6 +374,44 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
                       <span className="zajecia-card__link">Sprawdź ofertę →</span>
                     </div>
                   </Link>
+                )
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* SCHEDULE */}
+      {scheduleEntries.length > 0 && (
+        <section className="class-schedule">
+          <div className="container">
+            <div className="class-schedule__header">
+              <div>
+                <div className="label">GRAFIK</div>
+                <h2>Kiedy odbywają się zajęcia?</h2>
+              </div>
+              <Link href="/grafik" className="class-schedule__full-link">
+                Pełny grafik →
+              </Link>
+            </div>
+            <div className="class-schedule__days">
+              {DAY_ORDER.filter((d) => scheduleEntries.some((e) => e.day === d)).map((day) => {
+                const entries = scheduleEntries.filter((e) => e.day === day)
+                return (
+                  <div key={day} className="class-schedule__day-card">
+                    <div className="class-schedule__day-header">{DAY_LABELS[day]}</div>
+                    <div className="class-schedule__slots">
+                      {entries.map((e, i) => (
+                        <div key={i} className="class-schedule__slot">
+                          <span className="class-schedule__time">{e.startTime}–{e.endTime}</span>
+                          <div className="class-schedule__meta">
+                            {e.ageRange && <span className="class-schedule__age">{e.ageRange}</span>}
+                            {e.notes && <span className="class-schedule__notes">{e.notes}</span>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )
               })}
             </div>

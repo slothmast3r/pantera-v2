@@ -412,22 +412,124 @@
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
+  .about-philosophy__grid {
+    @apply grid-cols-2;
+  }
+
+  .about-team__grid {
+    @apply grid-cols-2;
+  }
+
   .about-mission__photo {
     @apply h-auto min-h-0;
   }
+
   .about-mission__photo img {
     @apply h-auto;
   }
-}
 
-@media (max-width: 900px) {
   .gallery-grid--cols-3,
   .gallery-grid--cols-4 {
     @apply grid-cols-2;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
+  .about-header {
+    @apply pt-20 pb-14;
+  }
+
+  .about-who {
+    @apply py-14;
+  }
+
+  .about-who__grid {
+    @apply grid-cols-1 gap-10;
+  }
+
+  .about-who__photo {
+    @apply min-h-64 order-first;
+    aspect-ratio: 4/3;
+    height: auto;
+  }
+
+  .about-who__stats {
+    @apply grid-cols-2 gap-4;
+  }
+
+  .about-who__stat {
+    @apply px-4 py-5;
+  }
+
+  .about-who__stat-number {
+    @apply text-[1.9rem];
+  }
+
+  .about-philosophy {
+    @apply py-14;
+  }
+
+  .about-philosophy__grid {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .about-mission {
+    @apply py-14;
+  }
+
+  .about-mission__inner {
+    @apply grid-cols-1 gap-10;
+  }
+
+  .about-mission__photo {
+    aspect-ratio: 4/3;
+    min-height: unset;
+  }
+
+  .about-mission__claw {
+    width: 260px;
+    height: 260px;
+    right: -40px;
+    bottom: -40px;
+    opacity: 0.25;
+  }
+
+  .about-foundation {
+    @apply py-14;
+  }
+
+  .about-foundation__card {
+    @apply grid-cols-1 px-7 py-10 gap-7 text-center;
+  }
+
+  .about-foundation__badge {
+    @apply mx-auto;
+  }
+
+  .about-cta {
+    @apply py-16;
+  }
+
+  .about-cta__inner {
+    @apply grid-cols-1 gap-10;
+  }
+
+  .about-cta__action {
+    @apply text-left;
+  }
+
+  .about-cta__buttons {
+    @apply justify-start;
+  }
+
+  .about-team {
+    @apply py-14;
+  }
+
+  .about-team__grid {
+    @apply grid-cols-1;
+  }
+
   .gallery-grid--cols-2,
   .gallery-grid--cols-3,
   .gallery-grid--cols-4 {

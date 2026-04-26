@@ -11,21 +11,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const res = await payload.find({ collection: 'instructors', where: { slug: { equals: slug } }, limit: 1 })
     const doc = res.docs[0]
     if (doc?.seo?.metaTitle || doc?.seo?.metaDescription) {
+      const ogImages = doc.seo.ogImage ? [{ url: (doc.seo.ogImage as any).url || '' }] : undefined
       return {
         title: doc.seo.metaTitle ?? undefined,
         description: doc.seo.metaDescription ?? undefined,
-        openGraph: doc.seo.ogImage ? {
-          images: [
-            {
-              url: (doc.seo.ogImage as any).url || '',
-            },
-          ],
-        } : undefined,
+        alternates: { canonical: `/instruktor/${slug}` },
+        openGraph: { images: ogImages },
+        twitter: { card: 'summary_large_image', images: ogImages?.map((i) => i.url) },
       }
     }
   } catch {}
   return {
     title: 'Instruktor – Pantera Family & Sport Club',
+    alternates: { canonical: `/instruktor/${slug}` },
   }
 }
 
@@ -36,6 +34,7 @@ import config from '@payload-config'
 import type { Instructor, Class, Media } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
+import JsonLd from '@/components/seo/JsonLd'
 import './instructor.css'
 
 const CLASS_COLORS: Record<string, string> = {
@@ -104,8 +103,23 @@ export default async function InstructorPage({ params }: { params: Promise<{ slu
 
   const photoUrl = getPhotoUrl(instructor.photo)
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pantera.waw.pl'
+
   return (
     <>
+      <JsonLd data={{
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: instructor.name,
+        jobTitle: instructor.specialization ?? 'Instruktor',
+        url: `${siteUrl}/instruktor/${slug}`,
+        image: photoUrl ?? undefined,
+        worksFor: {
+          '@type': 'Organization',
+          name: 'Pantera Family & Sport Club',
+          url: siteUrl,
+        },
+      }} />
       <Navbar data={navData} />
 
       {/* Breadcrumb */}

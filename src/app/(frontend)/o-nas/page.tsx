@@ -10,15 +10,24 @@ export async function generateMetadata(): Promise<Metadata> {
     const res = await payload.find({ collection: 'pages', where: { slug: { equals: 'o-nas' } }, limit: 1 })
     const page = res.docs[0]
     if (page?.seo?.metaTitle || page?.seo?.metaDescription) {
+      const ogImages = page.seo.ogImage ? [{ url: (page.seo.ogImage as any).url || '' }] : undefined
       return {
         title: page.seo.metaTitle ?? undefined,
         description: page.seo.metaDescription ?? undefined,
+        alternates: { canonical: '/o-nas' },
+        openGraph: { images: ogImages },
+        twitter: { card: 'summary_large_image', images: ogImages?.map((i) => i.url) },
       }
     }
   } catch {}
   return {
     title: 'O nas – Pantera Family & Sport Club | Klub sportowy Mokotów',
     description: 'Poznaj historię i filozofię Pantery. Rodzinny klub sportowy na Mokotowie od 2011 roku. Certyfikowani instruktorzy, małe grupy, bezpieczna atmosfera.',
+    alternates: { canonical: '/o-nas' },
+    openGraph: {
+      title: 'O nas – Pantera Family & Sport Club',
+      description: 'Poznaj historię i filozofię Pantery. Rodzinny klub sportowy na Mokotowie od 2011 roku.',
+    },
   }
 }
 
@@ -86,7 +95,7 @@ export default async function AboutPage() {
       {/* HEADER */}
       <section className="about-header">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <NextImage src="/about/cover.jpg" className="about-header__photo" alt="" width={1920} height={1080} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} priority />
+        <NextImage src="/about/cover.jpg" className="about-header__photo" alt="Pantera Family & Sport Club – sala treningowa" width={1920} height={1080} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} priority />
         <div className="container">
           <div className="label label--white">O PANTERZE</div>
           <h1>

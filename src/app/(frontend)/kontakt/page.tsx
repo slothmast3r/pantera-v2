@@ -1,8 +1,15 @@
 export const revalidate = 300
 
-export const metadata = {
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
   title: 'Kontakt – Pantera Family & Sport Club Warszawa',
   description: 'Skontaktuj się z Panterą. Adres: ul. Powsińska 25, Mokotów, Warszawa. Tel: 508 689 718. Pierwsze zajęcia bezpłatne – umów się już dziś!',
+  alternates: { canonical: '/kontakt' },
+  openGraph: {
+    title: 'Kontakt – Pantera Family & Sport Club',
+    description: 'Skontaktuj się z Panterą. Adres: ul. Powsińska 25, Mokotów, Warszawa. Pierwsze zajęcia bezpłatne!',
+  },
 }
 
 import React from 'react'
@@ -14,6 +21,7 @@ import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import KontaktForm from './KontaktForm'
 import FaqItem from './FaqItem'
+import JsonLd from '@/components/seo/JsonLd'
 import './kontakt.css'
 
 const staticFaq = [
@@ -87,8 +95,37 @@ export default async function KontaktPage() {
     // DB unavailable — fall back to static data
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pantera.waw.pl'
+
   return (
     <>
+      <JsonLd data={[
+        {
+          '@context': 'https://schema.org',
+          '@type': 'LocalBusiness',
+          name: 'Pantera Family & Sport Club',
+          url: siteUrl,
+          telephone: `+48${(contactInfo.phone ?? '508689718').replace(/\s/g, '')}`,
+          email: contactInfo.email ?? 'kontakt@pantera.waw.pl',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: contactInfo.address ?? 'ul. Powsińska 25',
+            addressLocality: 'Warszawa',
+            addressRegion: 'Mazowieckie',
+            postalCode: '02-903',
+            addressCountry: 'PL',
+          },
+        },
+        {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqItems.map((item) => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: { '@type': 'Answer', text: item.answer },
+          })),
+        },
+      ]} />
       <Navbar data={nav} />
 
       {/* HERO */}

@@ -11,21 +11,19 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const res = await payload.find({ collection: 'offers', where: { slug: { equals: slug } }, limit: 1 })
     const doc = res.docs[0]
     if (doc?.seo?.metaTitle || doc?.seo?.metaDescription) {
+      const ogImages = doc.seo.ogImage ? [{ url: (doc.seo.ogImage as any).url || '' }] : undefined
       return {
         title: doc.seo.metaTitle ?? undefined,
         description: doc.seo.metaDescription ?? undefined,
-        openGraph: doc.seo.ogImage ? {
-          images: [
-            {
-              url: (doc.seo.ogImage as any).url || '',
-            },
-          ],
-        } : undefined,
+        alternates: { canonical: `/oferta/${slug}` },
+        openGraph: { images: ogImages },
+        twitter: { card: 'summary_large_image', images: ogImages?.map((i) => i.url) },
       }
     }
   } catch {}
   return {
     title: 'Oferta – Pantera Family & Sport Club',
+    alternates: { canonical: `/oferta/${slug}` },
   }
 }
 

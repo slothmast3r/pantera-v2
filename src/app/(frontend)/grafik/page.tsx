@@ -20,8 +20,10 @@ import '@/app/(frontend)/wydarzenia/wydarzenia.css'
 export const metadata: Metadata = {
   title: 'Grafik zajęć – Pantera Family & Sport Club Warszawa',
   description: 'Sprawdź aktualny grafik zajęć Krav Maga, Karate, Tai Chi i Power Training w Panterze na Mokotowie. Znajdź termin dla siebie!',
-  alternates: {
-    canonical: '/grafik',
+  alternates: { canonical: '/grafik' },
+  openGraph: {
+    title: 'Grafik zajęć – Pantera Family & Sport Club',
+    description: 'Aktualny grafik zajęć Krav Maga, Karate, Tai Chi i Power Training w Panterze na Mokotowie.',
   },
 }
 

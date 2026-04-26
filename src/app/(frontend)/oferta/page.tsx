@@ -5,8 +5,10 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Oferta specjalna – Warsztaty dla firm, szkół, urodziny | Pantera',
   description: 'Organizujemy warsztaty samoobrony, eventy firmowe, urodziny na sportowo i zajęcia dla szkół w Warszawie. Poznaj naszą ofertę specjalną!',
-  alternates: {
-    canonical: '/oferta',
+  alternates: { canonical: '/oferta' },
+  openGraph: {
+    title: 'Oferta specjalna – Pantera Family & Sport Club',
+    description: 'Warsztaty samoobrony, eventy firmowe, urodziny na sportowo i zajęcia dla szkół w Warszawie.',
   },
 }
 

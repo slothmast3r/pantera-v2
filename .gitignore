@@ -5,10 +5,9 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
-/.claude
+/.pnpm-store
 /.idea/*
 !/.idea/runConfigurations
-
 # testing
 /coverage
 
@@ -18,7 +17,6 @@
 
 # production
 /build
-
 # misc
 .DS_Store
 *.pem

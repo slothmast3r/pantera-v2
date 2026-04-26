@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';let s='';for\\(let i=0;i<48;i++\\)s+=c[Math.floor\\(Math.random\\(\\)*c.length\\)];console.log\\(s\\)\")",
+      "Bash(docker compose *)",
+      "Bash(pnpm seed *)",
+      "Bash(pnpm build *)"
+    ]
+  }
+}

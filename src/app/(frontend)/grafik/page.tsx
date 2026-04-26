@@ -12,25 +12,11 @@ export const metadata: Metadata = {
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { STATUS_LABELS, STATUS_COLORS, DAY_VALUES, TYPE_COLORS } from '@/constants/events'
+import type { DayValue } from '@/constants/events'
+import { computeStatus, formatDateRange } from '@/lib/eventUtils'
 import './grafik.css'
 import '@/app/(frontend)/wydarzenia/wydarzenia.css'
-
-const statusLabels: Record<string, string> = {
-  upcoming: 'Nadchodzące',
-  ongoing: 'W trakcie',
-  past: 'Zakończone',
-  cancelled: 'Anulowane',
-}
-
-const statusColors: Record<string, string> = {
-  upcoming: '#16a34a',
-  ongoing: '#F57C28',
-  past: '#888',
-  cancelled: '#e63946',
-}
-
-const DAY_VALUES = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
-type DayValueLocal = typeof DAY_VALUES[number]
 
 function getWeekBounds() {
   const now = new Date()
@@ -52,11 +38,11 @@ function isThisWeek(startStr: string, endStr?: string | null): boolean {
 
 type WeekEvent = { title: string; time?: string | null; registrationLink?: string | null; cancelled: boolean }
 
-function buildEventsByDay(events: Event[]): Record<DayValueLocal, WeekEvent[]> {
+function buildEventsByDay(events: Event[]): Record<DayValue, WeekEvent[]> {
   const result = DAY_VALUES.reduce((acc, d) => {
     acc[d] = []
     return acc
-  }, {} as Record<DayValueLocal, WeekEvent[]>)
+  }, {} as Record<DayValue, WeekEvent[]>)
   const { weekStart, weekEnd } = getWeekBounds()
   for (const event of events) {
     const start = new Date(event.startDate)
@@ -81,27 +67,7 @@ function buildEventsByDay(events: Event[]): Record<DayValueLocal, WeekEvent[]> {
   return result
 }
 
-function formatDateRange(startStr: string, endStr?: string | null) {
-  const start = new Date(startStr)
-  const end = endStr ? new Date(endStr) : null
-  const sameDay = end && start.toDateString() === end.toDateString()
-  if (!end || sameDay) {
-    return start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-  }
-  const startFmt = start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' })
-  const endFmt = end.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-  return `${startFmt} – ${endFmt}`
-}
 
-function computeStatus(event: Event): 'upcoming' | 'ongoing' | 'past' | 'cancelled' {
-  if ((event as any).cancelled) return 'cancelled'
-  const now = Date.now()
-  const start = new Date(event.startDate).getTime()
-  const end = event.endDate ? new Date(event.endDate).getTime() : null
-  if (now < start) return 'upcoming'
-  if (end !== null && now <= end) return 'ongoing'
-  return 'past'
-}
 import Navbar from '@/components/home/Navbar'
 import Footer from '@/components/home/Footer'
 import { getPayload } from 'payload'
@@ -109,17 +75,6 @@ import config from '@payload-config'
 import type { Class, Event } from '@/payload-types'
 import GrafikClient, { type DisplayEntry } from './GrafikClient'
 
-type DayValue = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday'
-
-const TYPE_COLORS: Record<string, string> = {
-  'krav-maga': '#c0392b',
-  karate: '#1a237e',
-  'tai-chi': '#2e7d32',
-  individual: '#6a1b9a',
-  asg: '#37474f',
-  'power-training': '#e65100',
-  other: '#455a64',
-}
 
 const STATIC_FALLBACK: DisplayEntry[] = [
   // Poniedziałek
@@ -434,8 +389,8 @@ export default async function GrafikPage() {
                         {thisWeek && (
                           <span className="event-card__badge--week">W tym tygodniu</span>
                         )}
-                        <span className="event-card__status" style={{ color: statusColors[status] }}>
-                          {statusLabels[status]}
+                        <span className="event-card__status" style={{ color: STATUS_COLORS[status] }}>
+                          {STATUS_LABELS[status]}
                         </span>
                         {event.location && (
                           <span className="event-card__location">

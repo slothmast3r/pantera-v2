@@ -2,7 +2,7 @@ version: '3'
 
 services:
   payload:
-    image: node:18-alpine
+    image: node:22-alpine
     ports:
       - '3000:3000'
     volumes:
@@ -11,26 +11,16 @@ services:
     working_dir: /home/node/app/
     command: sh -c "corepack enable && corepack prepare pnpm@latest --activate && pnpm install && pnpm dev"
     depends_on:
-      - mongo
-      # - postgres
+      postgres:
+        condition: service_healthy
     env_file:
       - .env
-
-  # Ensure your DATABASE_URL uses 'mongo' as the hostname ie. mongodb://mongo/my-db-name
-  mongo:
-    image: mongo:latest
-    ports:
-      - '27017:27017'
-    command:
-      - --storageEngine=wiredTiger
-    volumes:
-      - data:/data/db
-    logging:
-      driver: none
+    environment:
+      DATABASE_URL: postgresql://postgres:pantera123@postgres:5432/pantera-v2
 
   postgres:
     restart: always
-    image: postgres:latest
+    image: postgres:16-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pantera123
@@ -38,9 +28,13 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
-      - "5434:5432"
+      - '5434:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  data:
   pgdata:
   node_modules:

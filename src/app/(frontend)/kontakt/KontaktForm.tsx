@@ -3,6 +3,8 @@ import { useActionState, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { Button } from '@/components/ui/Button'
+import { FormField } from '@/components/ui/FormField'
+import { parseZodErrors } from '@/lib/formUtils'
 
 const SUBJECTS = [
   'Zapisy na zajęcia',
@@ -34,12 +36,7 @@ async function sendMessage(_prev: FormState, formData: FormData): Promise<FormSt
   })
 
   if (!parsed.success) {
-    const fieldErrors: FieldErrors = {}
-    for (const issue of parsed.error.issues) {
-      const field = issue.path[0] as keyof FieldErrors
-      if (!fieldErrors[field]) fieldErrors[field] = issue.message
-    }
-    return { status: 'error', fieldErrors }
+    return { status: 'error', fieldErrors: parseZodErrors<z.infer<typeof contactSchema>>(parsed.error) }
   }
 
   try {
@@ -87,7 +84,7 @@ export default function KontaktForm() {
         ) : (
           <form action={formAction} noValidate>
             <div className="kontakt-row">
-              <Field label="Imię i nazwisko" required error={e.name}>
+              <FormField namespace="kontakt" label="Imię i nazwisko" required error={e.name}>
                 <input
                   key={`name-${shakeKey}`}
                   name="name"
@@ -96,8 +93,8 @@ export default function KontaktForm() {
                   placeholder="Jan Kowalski"
                   required
                 />
-              </Field>
-              <Field label="E-mail" required error={e.email}>
+              </FormField>
+              <FormField namespace="kontakt" label="E-mail" required error={e.email}>
                 <input
                   key={`email-${shakeKey}`}
                   name="email"
@@ -106,11 +103,11 @@ export default function KontaktForm() {
                   placeholder="jan@example.com"
                   required
                 />
-              </Field>
+              </FormField>
             </div>
 
             <div className="kontakt-row">
-              <Field label="Telefon" error={e.phone}>
+              <FormField namespace="kontakt" label="Telefon" error={e.phone}>
                 <input
                   key={`phone-${shakeKey}`}
                   name="phone"
@@ -118,8 +115,8 @@ export default function KontaktForm() {
                   className={`kontakt-input ${e.phone ? 'kontakt-input--error' : ''}`}
                   placeholder="+48 500 000 000"
                 />
-              </Field>
-              <Field label="Temat" error={e.subject}>
+              </FormField>
+              <FormField namespace="kontakt" label="Temat" error={e.subject}>
                 <select
                   key={`subject-${shakeKey}`}
                   name="subject"
@@ -130,10 +127,10 @@ export default function KontaktForm() {
                     <option key={s}>{s}</option>
                   ))}
                 </select>
-              </Field>
+              </FormField>
             </div>
 
-            <Field label="Wiadomość" required error={e.message}>
+            <FormField namespace="kontakt" label="Wiadomość" required error={e.message}>
               <textarea
                 key={`message-${shakeKey}`}
                 name="message"
@@ -142,7 +139,7 @@ export default function KontaktForm() {
                 rows={5}
                 required
               />
-            </Field>
+            </FormField>
 
             <Button
               type="submit"
@@ -174,24 +171,3 @@ export default function KontaktForm() {
   )
 }
 
-function Field({
-  label,
-  required,
-  error,
-  children,
-}: {
-  label: string
-  required?: boolean
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="kontakt-field">
-      <label className="kontakt-label">
-        {label}{required && <span className="kontakt-label__required">*</span>}
-      </label>
-      {children}
-      {error && <p className="kontakt-field__error">{error}</p>}
-    </div>
-  )
-}

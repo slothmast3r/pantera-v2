@@ -4,38 +4,8 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { cn } from '@/components/ui/utils'
-
-const DAYS = [
-  { value: 'monday', short: 'Pon', label: 'Poniedziałek' },
-  { value: 'tuesday', short: 'Wt', label: 'Wtorek' },
-  { value: 'wednesday', short: 'Śr', label: 'Środa' },
-  { value: 'thursday', short: 'Czw', label: 'Czwartek' },
-  { value: 'friday', short: 'Pt', label: 'Piątek' },
-  { value: 'saturday', short: 'Sob', label: 'Sobota' },
-  { value: 'sunday', short: 'Nd', label: 'Niedziela' },
-] as const
-
-type DayValue = (typeof DAYS)[number]['value']
-
-const TYPE_COLORS: Record<string, string> = {
-  'krav-maga': '#c0392b',
-  karate: '#1a237e',
-  'tai-chi': '#2e7d32',
-  individual: '#6a1b9a',
-  asg: '#37474f',
-  'power-training': '#e65100',
-  other: '#455a64',
-}
-
-const TYPE_LABELS: Record<string, string> = {
-  'krav-maga': 'Krav Maga',
-  karate: 'Karate',
-  'tai-chi': 'Tai Chi',
-  individual: 'Treningi Ind.',
-  asg: 'ASG',
-  'power-training': 'Power Training',
-  other: 'Inne',
-}
+import { DAYS, TYPE_COLORS, TYPE_LABELS } from '@/constants/events'
+import type { DayValue } from '@/constants/events'
 
 export type DisplayEntry = {
   cls: { title: string; slug: string | null | undefined; type: string | null | undefined }

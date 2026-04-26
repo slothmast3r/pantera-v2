@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import { z } from 'zod'
 import { Button } from '@/components/ui/Button'
+import { FormField } from '@/components/ui/FormField'
+import { parseZodErrors } from '@/lib/formUtils'
 
 const QUICK_AMOUNTS = [50, 100, 150, 200, 300]
 
@@ -52,12 +54,7 @@ export default function PlatnoscForm() {
     })
 
     if (!parsed.success) {
-      const errors: FieldErrors = {}
-      for (const issue of parsed.error.issues) {
-        const field = issue.path[0] as keyof FieldErrors
-        if (!errors[field]) errors[field] = issue.message
-      }
-      setFieldErrors(errors)
+      setFieldErrors(parseZodErrors<z.infer<typeof paymentSchema>>(parsed.error))
       return
     }
 
@@ -104,7 +101,7 @@ export default function PlatnoscForm() {
         ))}
       </div>
 
-      <PayField label="Własna kwota" htmlFor="amount" error={fieldErrors.amount}>
+      <FormField namespace="platnosc" label="Własna kwota" htmlFor="amount" error={fieldErrors.amount}>
         <div className="platnosc-amount-wrap">
           <input
             id="amount"
@@ -118,11 +115,11 @@ export default function PlatnoscForm() {
           />
           <span className="platnosc-amount-currency">PLN</span>
         </div>
-      </PayField>
+      </FormField>
 
       <p className="platnosc-section-title">Za co płacisz?</p>
 
-      <PayField label="Cel płatności" htmlFor="purpose" error={fieldErrors.purpose}>
+      <FormField namespace="platnosc" label="Cel płatności" htmlFor="purpose" error={fieldErrors.purpose}>
         <select
           id="purpose"
           className="platnosc-input platnosc-input-select"
@@ -136,10 +133,10 @@ export default function PlatnoscForm() {
             </option>
           ))}
         </select>
-      </PayField>
+      </FormField>
 
       {purpose === 'Inne' && (
-        <PayField label="Opisz cel płatności" htmlFor="customPurpose">
+        <FormField namespace="platnosc" label="Opisz cel płatności" htmlFor="customPurpose">
           <input
             id="customPurpose"
             type="text"
@@ -149,12 +146,12 @@ export default function PlatnoscForm() {
             onChange={(e) => setCustomPurpose(e.target.value)}
             maxLength={120}
           />
-        </PayField>
+        </FormField>
       )}
 
       <p className="platnosc-section-title">Twoje dane</p>
 
-      <PayField label="Imię i nazwisko" htmlFor="name">
+      <FormField namespace="platnosc" label="Imię i nazwisko" htmlFor="name">
         <input
           id="name"
           type="text"
@@ -164,9 +161,10 @@ export default function PlatnoscForm() {
           onChange={(e) => setName(e.target.value)}
           maxLength={80}
         />
-      </PayField>
+      </FormField>
 
-      <PayField
+      <FormField
+        namespace="platnosc"
         label="E-mail"
         htmlFor="email"
         required
@@ -182,7 +180,7 @@ export default function PlatnoscForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </PayField>
+      </FormField>
 
       {serverError && (
         <p className="platnosc-field__error platnosc-field__error--server">{serverError}</p>
@@ -213,30 +211,3 @@ export default function PlatnoscForm() {
   )
 }
 
-function PayField({
-  label,
-  htmlFor,
-  required,
-  hint,
-  error,
-  children,
-}: {
-  label: string
-  htmlFor: string
-  required?: boolean
-  hint?: string
-  error?: string
-  children: React.ReactNode
-}) {
-  return (
-    <div className="platnosc-field">
-      <label htmlFor={htmlFor} className="platnosc-label">
-        {label}
-        {required && <span className="platnosc-label__required">*</span>}
-      </label>
-      {children}
-      {error && <p className="platnosc-field__error">{error}</p>}
-      {hint && <p className="platnosc-field__hint">{hint}</p>}
-    </div>
-  )
-}

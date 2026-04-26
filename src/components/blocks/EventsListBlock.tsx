@@ -4,43 +4,9 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import type { Event } from '@/payload-types'
 import { Button } from '@/components/ui/Button'
+import { STATUS_LABELS, STATUS_COLORS } from '@/constants/events'
+import { computeStatus, formatDateRange } from '@/lib/eventUtils'
 import '@/app/(frontend)/wydarzenia/wydarzenia.css'
-
-const statusLabels: Record<string, string> = {
-  upcoming: 'Nadchodzące',
-  ongoing: 'W trakcie',
-  past: 'Zakończone',
-  cancelled: 'Anulowane',
-}
-
-const statusColors: Record<string, string> = {
-  upcoming: '#16a34a',
-  ongoing: '#F57C28',
-  past: '#888',
-  cancelled: '#e63946',
-}
-
-function computeStatus(event: Event): 'upcoming' | 'ongoing' | 'past' | 'cancelled' {
-  if ((event as any).cancelled) return 'cancelled'
-  const now = Date.now()
-  const start = new Date(event.startDate).getTime()
-  const end = event.endDate ? new Date(event.endDate).getTime() : null
-  if (now < start) return 'upcoming'
-  if (end !== null && now <= end) return 'ongoing'
-  return 'past'
-}
-
-function formatDateRange(startStr: string, endStr?: string | null) {
-  const start = new Date(startStr)
-  const end = endStr ? new Date(endStr) : null
-  const sameDay = end && start.toDateString() === end.toDateString()
-  if (!end || sameDay) {
-    return start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-  }
-  const startFmt = start.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long' })
-  const endFmt = end.toLocaleDateString('pl-PL', { day: 'numeric', month: 'long', year: 'numeric' })
-  return `${startFmt} – ${endFmt}`
-}
 
 interface Props {
   heading?: string | null
@@ -117,9 +83,9 @@ export default async function EventsListBlock({ heading, variant = 'upcoming', l
                   <div className="event-card__meta">
                     <span
                       className="event-card__status"
-                      style={{ color: statusColors[status] }}
+                      style={{ color: STATUS_COLORS[status] }}
                     >
-                      {statusLabels[status]}
+                      {STATUS_LABELS[status]}
                     </span>
                     {event.location && (
                       <span className="event-card__location">

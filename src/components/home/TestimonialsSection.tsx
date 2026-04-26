@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Icon from '@/components/ui/Icon'
 import type { Testimonial } from '@/payload-types'
+import { SectionHeader } from '@/components/ui/SectionHeader'
 
 const staticTestimonials = [
   {
@@ -30,8 +31,7 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
   return (
     <section className="testimonials">
       <div className="section-container">
-        <div className="section-label">OPINIE</div>
-        <h2 className="section-title">Co mówią o nas Klubowicze?</h2>
+        <SectionHeader label="OPINIE" title="Co mówią o nas Klubowicze?" />
         <div className="testimonials__grid">
           {items.map((t) => (
             <div key={t.id} className="testimonials__card">

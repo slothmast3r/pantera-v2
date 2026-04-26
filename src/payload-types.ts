@@ -105,8 +105,7 @@ export interface Config {
     navigation: Navigation;
     footer: Footer;
     schedule: Schedule;
-    'homepage-services': HomepageService;
-    'homepage-pricing': HomepagePricing;
+    homepage: Homepage;
     'contact-info': ContactInfo;
     'analytics-settings': AnalyticsSetting;
     'about-gallery': AboutGallery;
@@ -115,8 +114,7 @@ export interface Config {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     schedule: ScheduleSelect<false> | ScheduleSelect<true>;
-    'homepage-services': HomepageServicesSelect<false> | HomepageServicesSelect<true>;
-    'homepage-pricing': HomepagePricingSelect<false> | HomepagePricingSelect<true>;
+    homepage: HomepageSelect<false> | HomepageSelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
     'analytics-settings': AnalyticsSettingsSelect<false> | AnalyticsSettingsSelect<true>;
     'about-gallery': AboutGallerySelect<false> | AboutGallerySelect<true>;
@@ -1763,60 +1761,90 @@ export interface Schedule {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage-services".
+ * via the `definition` "homepage".
  */
-export interface HomepageService {
+export interface Homepage {
   id: number;
-  sectionLabel?: string | null;
-  sectionTitle?: string | null;
-  columns?: ('2' | '3' | '4') | null;
-  cards?:
-    | {
-        tag: string;
-        title: string;
-        description: string;
-        ctaText?: string | null;
-        ctaUrl: string;
-        /**
-         * Np. #2a5298, #8b0000, #1a6b3c
-         */
-        color?: string | null;
-        image?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage-pricing".
- */
-export interface HomepagePricing {
-  id: number;
-  sectionLabel?: string | null;
-  sectionTitle?: string | null;
-  note?: string | null;
-  plans?:
-    | {
-        name: string;
-        price: string;
-        /**
-         * Zostaw puste jeśli nie dotyczy
-         */
-        period?: string | null;
-        features?:
-          | {
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        ctaText?: string | null;
-        ctaUrl?: string | null;
-        featured?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
+  benefits?: {
+    items?:
+      | {
+          icon: string;
+          title: string;
+          description: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  classes?: {
+    items?:
+      | {
+          title: string;
+          description: string;
+          /**
+           * Np. /zajecia?filter=children
+           */
+          href: string;
+          /**
+           * Używany gdy zdjęcie nie jest dostępne
+           */
+          color?: string | null;
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta?: {
+    heading?: string | null;
+    subheading?: string | null;
+    buttonLabel?: string | null;
+    buttonHref?: string | null;
+    backgroundImage?: (number | null) | Media;
+  };
+  services?: {
+    sectionLabel?: string | null;
+    sectionTitle?: string | null;
+    columns?: ('2' | '3' | '4') | null;
+    cards?:
+      | {
+          tag: string;
+          title: string;
+          description: string;
+          ctaText?: string | null;
+          ctaUrl: string;
+          /**
+           * Np. #2a5298, #8b0000, #1a6b3c
+           */
+          color?: string | null;
+          image?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  pricing?: {
+    sectionLabel?: string | null;
+    sectionTitle?: string | null;
+    note?: string | null;
+    plans?:
+      | {
+          name: string;
+          price: string;
+          /**
+           * Zostaw puste jeśli nie dotyczy
+           */
+          period?: string | null;
+          features?:
+            | {
+                text: string;
+                id?: string | null;
+              }[]
+            | null;
+          ctaText?: string | null;
+          ctaUrl?: string | null;
+          featured?: boolean | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1971,52 +1999,86 @@ export interface ScheduleSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage-services_select".
+ * via the `definition` "homepage_select".
  */
-export interface HomepageServicesSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  sectionTitle?: T;
-  columns?: T;
-  cards?:
+export interface HomepageSelect<T extends boolean = true> {
+  benefits?:
     | T
     | {
-        tag?: T;
-        title?: T;
-        description?: T;
-        ctaText?: T;
-        ctaUrl?: T;
-        color?: T;
-        image?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "homepage-pricing_select".
- */
-export interface HomepagePricingSelect<T extends boolean = true> {
-  sectionLabel?: T;
-  sectionTitle?: T;
-  note?: T;
-  plans?:
-    | T
-    | {
-        name?: T;
-        price?: T;
-        period?: T;
-        features?:
+        items?:
           | T
           | {
-              text?: T;
+              icon?: T;
+              title?: T;
+              description?: T;
               id?: T;
             };
-        ctaText?: T;
-        ctaUrl?: T;
-        featured?: T;
-        id?: T;
+      };
+  classes?:
+    | T
+    | {
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              href?: T;
+              color?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        heading?: T;
+        subheading?: T;
+        buttonLabel?: T;
+        buttonHref?: T;
+        backgroundImage?: T;
+      };
+  services?:
+    | T
+    | {
+        sectionLabel?: T;
+        sectionTitle?: T;
+        columns?: T;
+        cards?:
+          | T
+          | {
+              tag?: T;
+              title?: T;
+              description?: T;
+              ctaText?: T;
+              ctaUrl?: T;
+              color?: T;
+              image?: T;
+              id?: T;
+            };
+      };
+  pricing?:
+    | T
+    | {
+        sectionLabel?: T;
+        sectionTitle?: T;
+        note?: T;
+        plans?:
+          | T
+          | {
+              name?: T;
+              price?: T;
+              period?: T;
+              features?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              ctaText?: T;
+              ctaUrl?: T;
+              featured?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

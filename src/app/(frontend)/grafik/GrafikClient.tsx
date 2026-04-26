@@ -6,17 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { cn } from '@/components/ui/utils'
 import { DAYS, TYPE_COLORS, TYPE_LABELS } from '@/constants/events'
 import type { DayValue } from '@/constants/events'
-
-export type DisplayEntry = {
-  cls: { title: string; slug: string | null | undefined; type: string | null | undefined }
-  day: DayValue
-  startTime: string
-  endTime: string
-  ageRange: string | null
-  notes: string | null
-}
-
-type WeekEvent = { title: string; time?: string | null; registrationLink?: string | null; cancelled: boolean }
+import type { DisplayEntry, WeekEvent } from '@/lib/scheduleUtils'
 
 type Props = {
   entries: DisplayEntry[]
@@ -162,14 +152,7 @@ export default function GrafikClient({ entries, presentTypes, eventsByDay = {} }
                           <h3 className="grafik-card__title">{entry.cls.title}</h3>
                           {entry.ageRange && (
                             <span className="grafik-card__age">
-                              <span
-                                className="material-symbols-outlined"
-                                style={{
-                                  fontSize: '13px',
-                                  verticalAlign: 'middle',
-                                  marginRight: '3px',
-                                }}
-                              >
+                              <span className="material-symbols-outlined icon-xs">
                                 child_care
                               </span>
                               {entry.ageRange}

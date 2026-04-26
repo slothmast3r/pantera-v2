@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import React from 'react'
 import './variables.css'
 import './styles.css'
@@ -12,9 +13,18 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 })
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pantera.waw.pl'),
   description: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi w Warszawie.',
   title: 'Pantera Family & Sport Club',
+  openGraph: {
+    siteName: 'Pantera Family & Sport Club',
+    locale: 'pl_PL',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 }
 
 const iconFonts = [

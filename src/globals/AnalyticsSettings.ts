@@ -1,8 +1,13 @@
 import type { GlobalConfig } from 'payload'
+import { requireLogin } from '../access/isAdmin'
 
 export const AnalyticsSettings: GlobalConfig = {
   slug: 'analytics-settings',
   label: 'Google Analytics',
+  access: {
+    read: requireLogin,
+    update: requireLogin,
+  },
   admin: {
     group: 'Ustawienia',
     description:

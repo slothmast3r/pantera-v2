@@ -5,19 +5,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/Button'
 import { FormField } from '@/components/ui/FormField'
 import { parseZodErrors } from '@/lib/formUtils'
-
-const QUICK_AMOUNTS = [50, 100, 150, 200, 300]
-
-const PURPOSES = [
-  'Karnet miesięczny – Krav Maga',
-  'Karnet miesięczny – Karate',
-  'Karnet miesięczny – Tai Chi',
-  'Karnet miesięczny – Power Training',
-  'Karnet miesięczny – ASG',
-  'Zajęcia próbne',
-  'Obóz / wyjazd sportowy',
-  'Inne',
-]
+import { PAYMENT_QUICK_AMOUNTS, PAYMENT_PURPOSES } from '@/constants/formOptions'
 
 const paymentSchema = z.object({
   amount: z.number({ message: 'Podaj kwotę.' }).min(1, 'Minimalna kwota to 1 zł.'),
@@ -88,7 +76,7 @@ export default function PlatnoscForm() {
       <p className="platnosc-section-title">Kwota</p>
 
       <div className="platnosc-quick-amounts">
-        {QUICK_AMOUNTS.map((q) => (
+        {PAYMENT_QUICK_AMOUNTS.map((q) => (
           <Button
             key={q}
             type="button"
@@ -127,7 +115,7 @@ export default function PlatnoscForm() {
           onChange={(e) => setPurpose(e.target.value)}
         >
           <option value="">— wybierz —</option>
-          {PURPOSES.map((p) => (
+          {PAYMENT_PURPOSES.map((p) => (
             <option key={p} value={p}>
               {p}
             </option>

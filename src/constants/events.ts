@@ -26,6 +26,10 @@ export type DayValue = (typeof DAYS)[number]['value']
 
 export const DAY_VALUES: DayValue[] = DAYS.map((d) => d.value)
 
+export const DAY_LABELS: Record<string, string> = Object.fromEntries(
+  DAYS.map((d) => [d.value, d.label]),
+)
+
 export const TYPE_COLORS: Record<string, string> = {
   'krav-maga': '#c0392b',
   karate: '#1a237e',

@@ -4,7 +4,12 @@
       "Bash(node -e \"const c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';let s='';for\\(let i=0;i<48;i++\\)s+=c[Math.floor\\(Math.random\\(\\)*c.length\\)];console.log\\(s\\)\")",
       "Bash(docker compose *)",
       "Bash(pnpm seed *)",
-      "Bash(pnpm build *)"
+      "Bash(pnpm build *)",
+      "Bash(npx tsc *)",
+      "Bash(npx payload *)",
+      "Bash(psql \"postgresql://postgres:pantera123@localhost:5434/pantera-v2\" -c \"DROP TABLE IF EXISTS homepage_pricing_plans, homepage_services_cards, homepage_pricing, homepage_services, homepage_benefits_items, homepage_benefits, homepage_classes_items, homepage_classes, homepage_cta, partners_items, partners CASCADE;\")",
+      "PowerShell(psql \"postgresql://postgres:pantera123@localhost:5434/pantera-v2\" -c \"DROP TABLE IF EXISTS homepage_pricing_plans, homepage_services_cards, homepage_pricing, homepage_services, homepage_benefits_items, homepage_benefits, homepage_classes_items, homepage_classes, homepage_cta, partners_items, partners CASCADE;\" 2>&1)",
+      "Bash(node -e ' *)"
     ]
   }
 }

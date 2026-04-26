@@ -1,6 +1,12 @@
 import React from 'react'
 import Icon from '@/components/ui/Icon'
-import type { HomepagePricing } from '@/payload-types'
+import type { Homepage } from '@/payload-types'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+
+type PricingData = Homepage['pricing']
+
+const FEATURED_ACCENT = '#F57C28'
+const SECONDARY_ACCENT = '#2a5298'
 
 const staticPlans = [
   {
@@ -47,7 +53,7 @@ const staticPlans = [
   },
 ]
 
-export default function PricingSection({ data }: { data?: HomepagePricing | null }) {
+export default function PricingSection({ data }: { data?: PricingData | null }) {
   const label = data?.sectionLabel ?? 'CENNIK'
   const title = data?.sectionTitle ?? 'Cennik dopasowany do twoich potrzeb'
   const note = data?.note ?? '* Ceny mogą ulec zmianie. Skontaktuj się z nami po szczegóły.'
@@ -56,32 +62,42 @@ export default function PricingSection({ data }: { data?: HomepagePricing | null
   return (
     <section className="pricing">
       <div className="section-container">
-        <div className="section-label section-label--white">{label}</div>
-        <h2 className="section-title section-title--white">{title}</h2>
+        <SectionHeader label={label} title={title} />
         <div className="pricing__grid">
-          {plans.map((plan, i) => (
-            <div
-              key={i}
-              className={`pricing__card ${plan.featured ? 'pricing__card--featured' : ''}`}
-            >
-              <h3 className="pricing__name">{plan.name}</h3>
-              <div className="pricing__price">
-                <span className="pricing__amount">{plan.price}</span>
-                {plan.period && <span className="pricing__period">{plan.period}</span>}
-              </div>
-              <ul className="pricing__features">
-                {plan.features?.map((f, j) => (
-                  <li key={j}><Icon name="check" className="pricing__check-icon" /> {typeof f === 'string' ? f : f.text}</li>
-                ))}
-              </ul>
-              <a
-                href={plan.ctaUrl ?? '/kontakt'}
-                className={`btn ${plan.featured ? 'btn--dark' : 'btn--orange'}`}
+          {plans.map((plan, i) => {
+            const accent = plan.featured ? FEATURED_ACCENT : SECONDARY_ACCENT
+            return (
+              <div
+                key={i}
+                className={`pricing__card ${plan.featured ? 'pricing__card--featured' : 'pricing__card--secondary'}`}
+                style={{ '--accent': accent } as React.CSSProperties}
               >
-                {plan.ctaText ?? 'Zapisz się'}
-              </a>
-            </div>
-          ))}
+                {plan.featured && (
+                  <span className="pricing__badge">Polecany</span>
+                )}
+                <div className="pricing__accent-bar" />
+                <h3 className="pricing__name">{plan.name}</h3>
+                <div className="pricing__price">
+                  <span className="pricing__amount">{plan.price}</span>
+                  {plan.period && <span className="pricing__period">{plan.period}</span>}
+                </div>
+                <ul className="pricing__features">
+                  {plan.features?.map((f, j) => (
+                    <li key={j}>
+                      <Icon name="check" className="pricing__check-icon" />
+                      {typeof f === 'string' ? f : f.text}
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={plan.ctaUrl ?? '/kontakt'}
+                  className="pricing__cta"
+                >
+                  {plan.ctaText ?? 'Zapisz się'}
+                </a>
+              </div>
+            )
+          })}
         </div>
         {note && <p className="pricing__note">{note}</p>}
       </div>

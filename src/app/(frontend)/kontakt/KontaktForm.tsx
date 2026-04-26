@@ -5,15 +5,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/Button'
 import { FormField } from '@/components/ui/FormField'
 import { parseZodErrors } from '@/lib/formUtils'
-
-const SUBJECTS = [
-  'Zapisy na zajęcia',
-  'Zajęcia próbne',
-  'Oferta dla firm',
-  'Warsztaty i eventy',
-  'Pytanie o cennik',
-  'Inne',
-]
+import { CONTACT_SUBJECTS } from '@/constants/formOptions'
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Imię i nazwisko musi mieć co najmniej 2 znaki.'),
@@ -121,9 +113,9 @@ export default function KontaktForm() {
                   key={`subject-${shakeKey}`}
                   name="subject"
                   className={`kontakt-input cursor-pointer ${e.subject ? 'kontakt-input--error' : ''}`}
-                  defaultValue={SUBJECTS[0]}
+                  defaultValue={CONTACT_SUBJECTS[0]}
                 >
-                  {SUBJECTS.map((s) => (
+                  {CONTACT_SUBJECTS.map((s) => (
                     <option key={s}>{s}</option>
                   ))}
                 </select>

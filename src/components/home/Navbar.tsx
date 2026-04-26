@@ -6,45 +6,7 @@ import type { Navigation } from '@/payload-types'
 import Icon from '@/components/ui/Icon'
 import { Button } from '@/components/ui/Button'
 import { motion, AnimatePresence } from 'framer-motion'
-
-const staticLinks = [
-  {
-    label: 'O nas',
-    href: '/o-nas',
-    subLinks: [
-      { label: 'O nas', href: '/o-nas' },
-      { label: 'Instruktorzy', href: '/o-nas#instruktorzy' },
-      { label: 'Regulamin', href: '/regulamin' },
-    ],
-  },
-  {
-    label: 'Zajęcia',
-    href: '/zajecia',
-    subLinks: [
-      { label: 'Krav Maga', href: '/zajecia/krav-maga' },
-      { label: 'Karate', href: '/zajecia/karate' },
-      { label: 'Power Training', href: '/zajecia/power-training' },
-      { label: 'Tai Chi', href: '/zajecia/tai-chi' },
-      { label: 'Indywidualne', href: '/zajecia/indywidualne' },
-      { label: 'Strzelectwo ASG', href: '/zajecia/asg' },
-      { label: 'Krav Maga Kids', href: '/zajecia/krav-maga-dzieci' },
-      { label: 'Karate Dzieci', href: '/zajecia/karate-dzieci' },
-    ],
-  },
-  {
-    label: 'Oferta',
-    href: '/oferta',
-    subLinks: [
-      { label: 'Dla Firm', href: '/oferta/dla-firm' },
-      { label: 'Dla Szkół', href: '/oferta/dla-szkol' },
-      { label: 'Warsztaty Rodzinne', href: '/oferta/warsztaty-rodzinne' },
-      { label: 'Urodziny na Sportowo', href: '/oferta/urodziny' },
-    ],
-  },
-  { label: 'Grafik', href: '/grafik', subLinks: null as null | { label: string; href: string }[] },
-  { label: 'Płatność', href: '/platnosc', subLinks: null as null | { label: string; href: string }[] },
-  { label: 'Kontakt', href: '/kontakt', subLinks: null as null | { label: string; href: string }[] },
-]
+import { STATIC_NAV_LINKS } from '@/constants/navigation'
 
 function isChildrenLink(href: string, label: string) {
   const h = href.toLowerCase()
@@ -87,7 +49,7 @@ export default function Navbar({ data }: { data?: Navigation | null }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
   const pathname = usePathname()
-  const links = data?.links ?? staticLinks
+  const links = data?.links ?? STATIC_NAV_LINKS
   const cta = data?.ctaButton ?? { text: 'Zapisz się na zajęcia', href: '/kontakt' }
 
   function toggleDropdown(href: string) {

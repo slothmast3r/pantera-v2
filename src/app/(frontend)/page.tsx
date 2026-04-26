@@ -32,8 +32,7 @@ import type {
   Navigation,
   Footer as FooterType,
   Page,
-  HomepageService,
-  HomepagePricing,
+  Homepage,
 } from '@/payload-types'
 import Navbar from '@/components/home/Navbar'
 import HeroSection from '@/components/home/HeroSection'
@@ -57,18 +56,23 @@ export default async function HomePage() {
   let nav: Navigation | null = null
   let footer: FooterType | null = null
   let heroBlock: HeroBlock | null = null
-  let homepageServices: HomepageService | null = null
-  let homepagePricing: HomepagePricing | null = null
+  let homepage: Homepage | null = null
 
   try {
     const payload = await getPayload({ config })
-    const [instructorsRes, testimonialsRes, navRes, footerRes, homePageRes, servicesRes, pricingRes] =
+    const [instructorsRes, testimonialsRes, navRes, footerRes, homePageRes, homepageRes] =
       await Promise.all([
-        payload.find({ collection: 'instructors', limit: 10, sort: 'order' }),
+        payload.find({
+          collection: 'instructors',
+          limit: 10,
+          sort: 'order',
+          select: { name: true, specialization: true, photo: true, slug: true, excerpt: true, bio: true },
+        }),
         payload.find({
           collection: 'testimonials',
           where: { isFeatured: { equals: true } },
           limit: 6,
+          select: { author: true, content: true, rating: true },
         }),
         payload.findGlobal({ slug: 'navigation' }),
         payload.findGlobal({ slug: 'footer' }),
@@ -78,15 +82,13 @@ export default async function HomePage() {
           limit: 1,
           depth: 1,
         }),
-        payload.findGlobal({ slug: 'homepage-services' }),
-        payload.findGlobal({ slug: 'homepage-pricing' }),
+        payload.findGlobal({ slug: 'homepage', depth: 1 }),
       ])
     instructors = instructorsRes.docs
     testimonials = testimonialsRes.docs
     nav = navRes
     footer = footerRes
-    homepageServices = servicesRes
-    homepagePricing = pricingRes
+    homepage = homepageRes
     const homePage = homePageRes.docs[0]
     heroBlock = (homePage?.layout?.find((b) => b.blockType === 'hero') as HeroBlock) ?? null
   } catch {
@@ -97,13 +99,13 @@ export default async function HomePage() {
     <>
       <Navbar data={nav} />
       <HeroSection data={heroBlock} />
-      <ClassesSection />
-      <BenefitsSection />
+      <ClassesSection data={homepage?.classes} />
+      <BenefitsSection data={homepage?.benefits} />
       <TestimonialsSection testimonials={testimonials} />
       <InstructorsSection instructors={instructors} />
-      <PricingSection data={homepagePricing} />
-      <ServicesSection data={homepageServices} />
-      <CTASection />
+      <PricingSection data={homepage?.pricing} />
+      <ServicesSection data={homepage?.services} />
+      <CTASection data={homepage?.cta} />
       <Footer data={footer} />
     </>
   )

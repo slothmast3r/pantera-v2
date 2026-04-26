@@ -18,8 +18,7 @@ import { Offers } from './collections/Offers'
 import { Navigation } from './globals/Navigation'
 import { Footer } from './globals/Footer'
 import { Schedule } from './globals/Schedule'
-import { HomepageServices } from './globals/HomepageServices'
-import { HomepagePricing } from './globals/HomepagePricing'
+import { Homepage } from './globals/Homepage'
 import { ContactInfo } from './globals/ContactInfo'
 import { AnalyticsSettings } from './globals/AnalyticsSettings'
 import { AboutGallery } from './globals/AboutGallery'
@@ -60,8 +59,7 @@ export default buildConfig({
     Navigation,
     Footer,
     Schedule,
-    HomepageServices,
-    HomepagePricing,
+    Homepage,
     ContactInfo,
     AnalyticsSettings,
     AboutGallery,

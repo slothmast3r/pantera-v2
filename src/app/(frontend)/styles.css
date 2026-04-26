@@ -28,6 +28,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Material Symbols size utilities */
+.icon-xs { font-size: 13px; margin-right: 3px; }
+.icon-sm { font-size: 1rem; }
+.icon-md { font-size: 1.2rem; }
+
 html {
   @apply text-base scroll-smooth;
   -webkit-font-smoothing: antialiased;

@@ -11,6 +11,7 @@ export async function seedGlobals(
   offerImages?: OfferImages,
 ) {
   const { imgFirmy = null, imgUrodziny = null, imgSamoobrona = null } = offerImages ?? {}
+
   // ===== NAVIGATION =====
   console.log('Seeding navigation global...')
   await payload.updateGlobal({
@@ -120,101 +121,153 @@ export async function seedGlobals(
   })
   console.log('Updated contact-info global')
 
-  // ===== HOMEPAGE PRICING =====
-  console.log('Seeding homepage-pricing global...')
+  // ===== HOMEPAGE =====
+  console.log('Seeding homepage global...')
   await payload.updateGlobal({
-    slug: 'homepage-pricing',
+    slug: 'homepage',
     data: {
-      sectionLabel: 'CENNIK',
-      sectionTitle: 'Wybierz plan dla siebie',
-      note: '* 10% zniżki dla rodziny.',
-      plans: [
-        {
-          name: 'Treningi Indywidualne',
-          price: 'Zapytaj o cenę',
-          features: [
-            {
-              text: '100% uwagi trenera: Osiągaj wyniki szybciej dzięki pracy „jeden na jeden”.  ',
-            },
-          ],
-          ctaText: 'Skontaktuj się',
-          ctaUrl: '/kontakt',
-          featured: false,
-        },
-        {
-          name: 'Pakiet „Solidny Fundament”',
-          price: '250 zł',
-          period: '/ mies. *',
-          features: [
-            {
-              text: 'Wybór jednej dyscypliny: Krav Maga lub Karate.  ',
-            },
-          ],
-          ctaText: 'Zapisz się',
-          ctaUrl: '/kontakt',
-          featured: true,
-        },
-        {
-          name: 'Pakiet „Wszechstronny Rozwój”',
-          price: '300 zł ',
-          period: '/ mo. *',
-          features: [
-            {
-              text: 'Łączymy techniki: ucz się skutecznej samoobrony Krav Maga oraz tradycyjnej dyscypliny Karate jednocześnie.  ',
-            },
-          ],
-          ctaText: 'Zapisz się',
-          ctaUrl: '/kontakt',
-          featured: false,
-        },
-      ],
+      benefits: {
+        items: [
+          {
+            icon: '/icons/shield.svg',
+            title: 'Bezpieczeństwo',
+            description:
+              'Bezpieczeństwo w całej naszej szkole i metody nauczania są najwyższym priorytetem.',
+          },
+          {
+            icon: '/icons/family.svg',
+            title: 'Kameralność',
+            description: 'Małe grupy, bliskie relacje, przyjazna i motywująca atmosfera.',
+          },
+          {
+            icon: '/icons/diploma.svg',
+            title: 'Profesjonalne kadry',
+            description:
+              'Nasi instruktorzy posiadają wieloletnie doświadczenie i certyfikacje.',
+          },
+          {
+            icon: '/icons/heart-infinity.svg',
+            title: 'Rodzinna społeczność',
+            description:
+              'Dołącz do Pantery i stań się częścią bezpiecznej rodzinnej społeczności.',
+          },
+        ],
+      },
+      classes: {
+        items: [
+          {
+            title: 'Dla Dzieci',
+            description:
+              'Budujemy pewność siebie i formy ruchowe u dzieci w bezpiecznym, rodzinnym środowisku.',
+            href: '/zajecia?filter=children',
+            color: '#2a5298',
+          },
+          {
+            title: 'Dla Dorosłych',
+            description:
+              'Krav Maga, Karate i sztuki walki dla dorosłych. Naucz się jak się bronić i ćwicz efektywnie.',
+            href: '/zajecia?filter=adults',
+            color: '#8b0000',
+          },
+          {
+            title: 'Tai Chi',
+            description:
+              'Tai Chi i zajęcia skupiające się na harmonii ciała i umysłu, dobre dla każdego wieku.',
+            href: '/zajecia/tai-chi',
+            color: '#1a6b3c',
+          },
+        ],
+      },
+      cta: {
+        heading: 'Gotowy na pierwszy krok?',
+        subheading:
+          'Dołącz do setek zadowolonych klubowiczów. Pierwsze zajęcia są na nas!',
+        buttonLabel: 'Umów się na pierwsze zajęcia',
+        buttonHref: '/kontakt',
+      },
+      services: {
+        sectionLabel: 'USŁUGI DODATKOWE',
+        sectionTitle: 'Pantera to także:',
+        columns: '3',
+        cards: [
+          {
+            tag: 'DLA FIRM',
+            title: 'Zajęcia dla firm',
+            description:
+              'Buduj zespół poprzez sport i naukę samoobrony. Programy dopasowane do potrzeb Twojej firmy.',
+            ctaText: 'Sprawdź ofertę',
+            ctaUrl: '/oferta/dla-firm',
+            color: '#1e3a8a',
+            ...(imgFirmy ? { image: imgFirmy } : {}),
+          },
+          {
+            tag: 'KOBIETY',
+            title: 'Samoobrona dla kobiet',
+            description:
+              'Specjalistyczne kursy zwiększające poczucie bezpieczeństwa i pewność siebie w każdej sytuacji.',
+            ctaText: 'Sprawdź ofertę',
+            ctaUrl: '/oferta/samoobrona-dla-kobiet',
+            color: '#8b0000',
+            ...(imgSamoobrona ? { image: imgSamoobrona } : {}),
+          },
+          {
+            tag: 'DZIECI',
+            title: 'Urodziny na sportowo',
+            description:
+              'Niezapomniane przyjęcia urodzinowe dla dzieci pełne ruchu, zabawy i wyzwań sportowych.',
+            ctaText: 'Sprawdź ofertę',
+            ctaUrl: '/oferta/urodziny',
+            color: '#d97706',
+            ...(imgUrodziny ? { image: imgUrodziny } : {}),
+          },
+        ],
+      },
+      pricing: {
+        sectionLabel: 'CENNIK',
+        sectionTitle: 'Wybierz plan dla siebie',
+        note: '* 10% zniżki dla rodziny.',
+        plans: [
+          {
+            name: 'Treningi Indywidualne',
+            price: 'Zapytaj o cenę',
+            features: [
+              {
+                text: '100% uwagi trenera – osiągaj wyniki szybciej dzięki pracy jeden na jeden.',
+              },
+            ],
+            ctaText: 'Skontaktuj się',
+            ctaUrl: '/kontakt',
+            featured: false,
+          },
+          {
+            name: 'Pakiet „Solidny Fundament”',
+            price: '250 zł',
+            period: '/ mies. *',
+            features: [
+              { text: 'Wybór jednej dyscypliny: Krav Maga lub Karate.' },
+            ],
+            ctaText: 'Zapisz się',
+            ctaUrl: '/kontakt',
+            featured: true,
+          },
+          {
+            name: 'Pakiet „Wszechstronny Rozwój”',
+            price: '300 zł',
+            period: '/ mies. *',
+            features: [
+              {
+                text: 'Łączymy techniki: ucz się skutecznej samoobrony Krav Maga oraz tradycyjnej dyscypliny Karate jednocześnie.',
+              },
+            ],
+            ctaText: 'Zapisz się',
+            ctaUrl: '/kontakt',
+            featured: false,
+          },
+        ],
+      },
     },
   })
-  console.log('Updated homepage-pricing global')
-
-  // ===== HOMEPAGE SERVICES =====
-  console.log('Seeding homepage-services global...')
-  await payload.updateGlobal({
-    slug: 'homepage-services',
-    data: {
-      sectionLabel: 'USŁUGI DODATKOWE',
-      sectionTitle: 'Pantera to także:',
-      columns: '3',
-      cards: [
-        {
-          tag: 'DLA FIRM',
-          title: 'Zajęcia dla firm',
-          description:
-            'Buduj zespół poprzez sport i naukę samoobrony. Programy dopasowane do potrzeb Twojej firmy.',
-          ctaText: 'Sprawdź ofertę',
-          ctaUrl: '/oferta/dla-firm',
-          color: '#1e3a8a',
-          ...(imgFirmy ? { image: imgFirmy } : {}),
-        },
-        {
-          tag: 'KOBIETY',
-          title: 'Samoobrona dla kobiet',
-          description:
-            'Specjalistyczne kursy zwiększające poczucie bezpieczeństwa i pewność siebie w każdej sytuacji.',
-          ctaText: 'Sprawdź ofertę',
-          ctaUrl: '/oferta/samoobrona-dla-kobiet',
-          color: '#8b0000',
-          ...(imgSamoobrona ? { image: imgSamoobrona } : {}),
-        },
-        {
-          tag: 'DZIECI',
-          title: 'Urodziny na sportowo',
-          description:
-            'Niezapomniane przyjęcia urodzinowe dla dzieci pełne ruchu, zabawy i wyzwań sportowych.',
-          ctaText: 'Sprawdź ofertę',
-          ctaUrl: '/oferta/urodziny',
-          color: '#d97706',
-          ...(imgUrodziny ? { image: imgUrodziny } : {}),
-        },
-      ],
-    },
-  })
-  console.log('Updated homepage-services global')
+  console.log('Updated homepage global')
 
   // ===== ABOUT GALLERY =====
   console.log('Seeding about-gallery global...')

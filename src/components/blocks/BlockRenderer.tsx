@@ -92,13 +92,13 @@ function ContactCardBlockRenderer({ block }: { block: Extract<LayoutBlock, { blo
           <h3>{block.heading ?? 'Kontakt w sprawie oferty'}</h3>
           {block.email && (
             <div className="offer-contact-card__line">
-              <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>mail</span>
+              <span className="material-symbols-outlined icon-md">mail</span>
               <a href={`mailto:${block.email}`}>{block.email}</a>
             </div>
           )}
           {block.phone && (
             <div className="offer-contact-card__line">
-              <span className="material-symbols-outlined" style={{ fontSize: '1.2rem' }}>phone</span>
+              <span className="material-symbols-outlined icon-md">phone</span>
               <a href={`tel:${block.phone.replace(/\s/g, '')}`}>{block.phone}</a>
             </div>
           )}

@@ -17,7 +17,7 @@ function slugify(text: string): string {
  */
 export function autoSlug(sourceField: string): CollectionBeforeChangeHook {
   return ({ data, operation }) => {
-    if (data && !data.slug && data[sourceField] && operation === 'create') {
+    if (data && !data.slug && data[sourceField] && (operation === 'create' || operation === 'update')) {
       data.slug = slugify(data[sourceField])
     }
     return data

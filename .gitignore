@@ -10,7 +10,7 @@
 !/.idea/runConfigurations
 # testing
 /coverage
-
+/.claude/settings.local.json
 # next.js
 /.next/
 /out/
@@ -48,3 +48,4 @@ node_modules/
 /playwright/.cache/
 
 GEMINI.md
+.claude/settings.local.json

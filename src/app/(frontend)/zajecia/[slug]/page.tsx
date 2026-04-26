@@ -1,13 +1,23 @@
 export const revalidate = 300
 
 import type { Metadata } from 'next'
-import { getPayload as getPayloadInstance } from 'payload'
-import payloadConfig from '@payload-config'
+import React from 'react'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { getPayload } from 'payload'
+import config from '@payload-config'
+import type { Class, Media, Instructor, Navigation, Footer as FooterType } from '@/payload-types'
+import Navbar from '@/components/home/Navbar'
+import Footer from '@/components/home/Footer'
+import { offerIconMap, type OfferIconKey } from '@/components/icons/offerIcons'
+import { DAY_VALUES, DAY_LABELS } from '@/constants/events'
+import { INTENSITY_LABELS, HIGHLIGHT_ICONS, TYPE_ICONS } from '@/constants/classes'
+import '../zajecia.css'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   try {
-    const payload = await getPayloadInstance({ config: payloadConfig })
+    const payload = await getPayload({ config })
     const res = await payload.find({ collection: 'classes', where: { slug: { equals: slug } }, limit: 1 })
     const doc = res.docs[0]
     if (doc?.seo?.metaTitle || doc?.seo?.metaDescription) {
@@ -28,37 +38,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: 'Zajęcia – Pantera Family & Sport Club',
   }
 }
-
-import React from 'react'
-import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { getPayload } from 'payload'
-import config from '@payload-config'
-import type { Class, Media, Instructor, Navigation, Footer as FooterType } from '@/payload-types'
-import Navbar from '@/components/home/Navbar'
-import Footer from '@/components/home/Footer'
-import { offerIconMap, type OfferIconKey } from '@/components/icons/offerIcons'
-import '../zajecia.css'
-
-const DAY_ORDER = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as const
-const DAY_LABELS: Record<string, string> = {
-  monday: 'Poniedziałek',
-  tuesday: 'Wtorek',
-  wednesday: 'Środa',
-  thursday: 'Czwartek',
-  friday: 'Piątek',
-  saturday: 'Sobota',
-  sunday: 'Niedziela',
-}
-
-const intensityLabels: Record<string, string> = {
-  low: 'Mała',
-  medium: 'Średnia',
-  'medium-high': 'Średnia / Duża',
-  high: 'Duża',
-}
-
-const highlightIcons: OfferIconKey[] = ['shield', 'check', 'dumbbell', 'target', 'lightning', 'handshake']
 
 function getCoverUrl(img: Class['coverImage'] | Class['heading']['backgroundImage']): string | null {
   if (!img || typeof img === 'number') return null
@@ -122,7 +101,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
         collection: 'classes',
         where: { slug: { equals: slug } },
         limit: 1,
-        depth: 2,
+        depth: 1,
       }),
       payload.findGlobal({ slug: 'navigation' }),
       payload.findGlobal({ slug: 'footer' }),
@@ -247,7 +226,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
             </p>
             <div className="class-highlights__grid">
               {cls.highlights.map((h, i) => {
-                const IconKey = (h.icon as OfferIconKey) || highlightIcons[i % highlightIcons.length]
+                const IconKey = (h.icon as OfferIconKey) || HIGHLIGHT_ICONS[i % HIGHLIGHT_ICONS.length]
                 const iconData = offerIconMap[IconKey] || offerIconMap.star
 
                 return (
@@ -313,7 +292,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
                 <div className="logistics-card">
                   <span className="logistics-card__label">Intensywność</span>
                   <div className="logistics-card__value">
-                    {intensityLabels[cls.logistics.intensity] ?? cls.logistics.intensity}
+                    {INTENSITY_LABELS[cls.logistics.intensity] ?? cls.logistics.intensity}
                   </div>
                 </div>
               )}
@@ -338,16 +317,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
             <div className="zajecia-grid">
               {(cls.relatedClasses as Class[]).map((rel) => {
                 const coverUrl = getCoverUrl(rel.coverImage)
-                const typeIcons: Record<string, OfferIconKey> = {
-                  'krav-maga': 'shield',
-                  karate: 'martial',
-                  'tai-chi': 'lotus',
-                  individual: 'users',
-                  asg: 'target',
-                  'power-training': 'dumbbell',
-                  other: 'star',
-                }
-                const iconKey = typeIcons[rel.type ?? ''] ?? 'star'
+                const iconKey: OfferIconKey = TYPE_ICONS[rel.type ?? ''] ?? 'star'
                 const iconData = offerIconMap[iconKey] || offerIconMap.star
 
                 return (
@@ -395,7 +365,7 @@ export default async function ClassPage({ params }: { params: Promise<{ slug: st
               </Link>
             </div>
             <div className="class-schedule__days">
-              {DAY_ORDER.filter((d) => scheduleEntries.some((e) => e.day === d)).map((day) => {
+              {DAY_VALUES.filter((d) => scheduleEntries.some((e) => e.day === d)).map((day) => {
                 const entries = scheduleEntries.filter((e) => e.day === day)
                 return (
                   <div key={day} className="class-schedule__day-card">

@@ -1,30 +1,21 @@
 import React from 'react'
 import Link from 'next/link'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import type { Homepage } from '@/payload-types'
 
-const benefits = [
-  {
-    icon: '/icons/shield.svg',
-    title: 'Bezpieczeństwo',
-    desc: 'Bezpieczeństwo w całej naszej szkole i metody nauczania są najwyższym priorytetem.',
-  },
-  {
-    icon: '/icons/family.svg',
-    title: 'Kameralność',
-    desc: 'Małe grupy, bliskie relacje, przyjazna i motywująca atmosfera.',
-  },
-  {
-    icon: '/icons/diploma.svg',
-    title: 'Profesjonalne kadry',
-    desc: 'Nasi instruktorzy posiadają wieloletnie doświadczenie i certyfikacje.',
-  },
-  {
-    icon: '/icons/heart-infinity.svg',
-    title: 'Rodzinna społeczność',
-    desc: 'Dołącz do Pantery i stań się częścią bezpiecznej rodzinnej społeczności.',
-  },
+type BenefitsData = Homepage['benefits']
+type BenefitItem = NonNullable<NonNullable<BenefitsData>['items']>[number]
+
+const staticBenefits: BenefitItem[] = [
+  { icon: '/icons/shield.svg', title: 'Bezpieczeństwo', description: 'Bezpieczeństwo w całej naszej szkole i metody nauczania są najwyższym priorytetem.' },
+  { icon: '/icons/family.svg', title: 'Kameralność', description: 'Małe grupy, bliskie relacje, przyjazna i motywująca atmosfera.' },
+  { icon: '/icons/diploma.svg', title: 'Profesjonalne kadry', description: 'Nasi instruktorzy posiadają wieloletnie doświadczenie i certyfikacje.' },
+  { icon: '/icons/heart-infinity.svg', title: 'Rodzinna społeczność', description: 'Dołącz do Pantery i stań się częścią bezpiecznej rodzinnej społeczności.' },
 ]
 
-export default function BenefitsSection() {
+export default function BenefitsSection({ data }: { data?: BenefitsData | null }) {
+  const benefits = data?.items?.length ? data.items : staticBenefits
+
   return (
     <section className="benefits">
       <div className="benefits__container">
@@ -32,8 +23,7 @@ export default function BenefitsSection() {
           <div className="benefits__image-placeholder" />
         </div>
         <div className="benefits__content">
-          <div className="section-label">DLACZEGO PANTERA?</div>
-          <h2 className="section-title section-title--left">Więcej niż tylko trening</h2>
+          <SectionHeader label="DLACZEGO PANTERA?" title="Więcej niż tylko trening" titleClassName="section-title--left" />
           <ul className="benefits__list">
             {benefits.map((b) => (
               <li key={b.title} className="benefits__item">
@@ -43,7 +33,7 @@ export default function BenefitsSection() {
                 </span>
                 <div>
                   <strong>{b.title}</strong>
-                  <p>{b.desc}</p>
+                  <p>{b.description}</p>
                 </div>
               </li>
             ))}

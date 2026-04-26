@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import type { Instructor, Media } from '@/payload-types'
 import { getImageUrl } from '@/lib/media'
+import { SectionHeader } from '@/components/ui/SectionHeader'
 
 const staticInstructors = [
   {
@@ -40,11 +41,11 @@ export default function InstructorsSection({ instructors }: { instructors?: Inst
   return (
     <section className="instructors">
       <div className="section-container">
-        <div className="section-label">INSTRUKTORZY</div>
-        <h2 className="section-title">Twoi Mentorzy w sztuce walki</h2>
-        <p className="section-subtitle">
-          Poznaj naszych instruktorów – ekspertów w swoich dziedzinach, z pasją do przekazywania wiedzy.
-        </p>
+        <SectionHeader
+          label="INSTRUKTORZY"
+          title="Twoi Mentorzy w sztuce walki"
+          subtitle="Poznaj naszych instruktorów – ekspertów w swoich dziedzinach, z pasją do przekazywania wiedzy."
+        />
         <div className="instructors__grid">
           {items.map((i) => {
             const photoUrl = getImageUrl(i.photo, 'card')

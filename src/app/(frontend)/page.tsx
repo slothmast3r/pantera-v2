@@ -87,8 +87,8 @@ export default async function HomePage() {
         }),
         payload.findGlobal({ slug: 'homepage', depth: 1 }),
       ])
-    instructors = instructorsRes.docs
-    testimonials = testimonialsRes.docs
+    instructors = instructorsRes.docs as Instructor[]
+    testimonials = testimonialsRes.docs as Testimonial[]
     nav = navRes
     footer = footerRes
     homepage = homepageRes

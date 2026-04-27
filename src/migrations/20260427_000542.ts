@@ -2,8 +2,12 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   CREATE TYPE "public"."enum_offers_blocks_events_list_variant" AS ENUM('upcoming', 'past', 'all');
-  CREATE TYPE "public"."enum__offers_v_blocks_events_list_variant" AS ENUM('upcoming', 'past', 'all');
+   DO $$ BEGIN
+    CREATE TYPE "public"."enum_offers_blocks_events_list_variant" AS ENUM('upcoming', 'past', 'all');
+  EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+  DO $$ BEGIN
+    CREATE TYPE "public"."enum__offers_v_blocks_events_list_variant" AS ENUM('upcoming', 'past', 'all');
+  EXCEPTION WHEN duplicate_object THEN NULL; END $$;
   CREATE TABLE "offers_blocks_related_offers" (
   	"_order" integer NOT NULL,
   	"_parent_id" integer NOT NULL,

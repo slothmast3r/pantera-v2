@@ -87,13 +87,12 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"created_at" timestamp(3) with time zone
   );
   
-  ALTER TABLE "homepage_services" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "homepage_pricing" DISABLE ROW LEVEL SECURITY;
-  DROP TABLE "homepage_services" CASCADE;
-  DROP TABLE "homepage_pricing" CASCADE;
-  ALTER TABLE "homepage_services_cards" DROP CONSTRAINT "homepage_services_cards_parent_id_fk";
-  
-  ALTER TABLE "homepage_pricing_plans" DROP CONSTRAINT "homepage_pricing_plans_parent_id_fk";
+  DO $$ BEGIN ALTER TABLE "homepage_services" DISABLE ROW LEVEL SECURITY; EXCEPTION WHEN undefined_table THEN NULL; END $$;
+  DO $$ BEGIN ALTER TABLE "homepage_pricing" DISABLE ROW LEVEL SECURITY; EXCEPTION WHEN undefined_table THEN NULL; END $$;
+  DROP TABLE IF EXISTS "homepage_services" CASCADE;
+  DROP TABLE IF EXISTS "homepage_pricing" CASCADE;
+  DO $$ BEGIN ALTER TABLE "homepage_services_cards" DROP CONSTRAINT "homepage_services_cards_parent_id_fk"; EXCEPTION WHEN undefined_object THEN NULL; END $$;
+  DO $$ BEGIN ALTER TABLE "homepage_pricing_plans" DROP CONSTRAINT "homepage_pricing_plans_parent_id_fk"; EXCEPTION WHEN undefined_object THEN NULL; END $$;
   
   ALTER TABLE "classes_rels" ADD COLUMN "classes_id" integer;
   ALTER TABLE "_classes_v_rels" ADD COLUMN "classes_id" integer;
@@ -146,8 +145,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "offers_rels_events_id_idx" ON "offers_rels" USING btree ("events_id");
   CREATE INDEX "_offers_v_rels_offers_id_idx" ON "_offers_v_rels" USING btree ("offers_id");
   CREATE INDEX "_offers_v_rels_events_id_idx" ON "_offers_v_rels" USING btree ("events_id");
-  ALTER TABLE "events" DROP COLUMN "status";
-  DROP TYPE "public"."enum_events_status";`)
+  DO $$ BEGIN ALTER TABLE "events" DROP COLUMN "status"; EXCEPTION WHEN undefined_column THEN NULL; END $$;
+  DROP TYPE IF EXISTS "public"."enum_events_status";`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {

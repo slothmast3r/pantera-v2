@@ -15,7 +15,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://pantera.waw.pl'),
-  description: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi w Warszawie.',
+  description: 'Pantera Family & Sport Club – Krav Maga, samoobrona, Karate, Tai Chi w Warszawie.',
   title: 'Pantera Family & Sport Club',
   openGraph: {
     siteName: 'Pantera Family & Sport Club',

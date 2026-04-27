@@ -70,7 +70,7 @@ export async function seedGlobals(
   await payload.updateGlobal({
     slug: 'footer',
     data: {
-      description: 'Rodzinny klub sportowy na Mokotowie. Krav Maga, Karate, Tai Chi.',
+      description: 'Rodzinny klub sportowy na Mokotowie. Krav Maga, samoobrona, Karate, Tai Chi.',
       columns: [
         {
           heading: 'Zajęcia',
@@ -289,9 +289,9 @@ export async function seedGlobals(
       title: 'Strona główna',
       slug: 'home',
       seo: {
-        metaTitle: 'Pantera Family & Sport Club – Krav Maga, Karate, Tai Chi Warszawa',
+        metaTitle: 'Pantera | Krav Maga, samoobrona, Karate, Tai Chi Warszawa',
         metaDescription:
-          'Rodzinny klub sportowy na Mokotowie. Krav Maga, Karate, Tai Chi i Power Training dla dzieci i dorosłych. Pierwsze zajęcia gratis!',
+          'Rodzinny klub sportowy na Mokotowie. Krav Maga, samoobrona, Karate, Tai Chi i Power Training dla dzieci i dorosłych. Pierwsze zajęcia gratis!',
       },
       layout: [
         {

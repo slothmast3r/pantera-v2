@@ -24,9 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
     }
   } catch {}
   return {
-    title: 'Pantera Family & Sport Club | Klub sportowy Mokotów',
+    title: 'Pantera | Krav Maga i samoobrona Warszawa Mokotów',
     description:
-      'Krav Maga, Karate, Tai Chi i Power Training w Warszawie na Mokotowie. Rodzinna atmosfera, certyfikowani instruktorzy, grupy dla dzieci i dorosłych.',
+      'Krav Maga, samoobrona, Karate, Tai Chi i Power Training w Warszawie na Mokotowie. Rodzinna atmosfera, certyfikowani instruktorzy, grupy dla dzieci i dorosłych.',
     alternates: { canonical: '/' },
   }
 }

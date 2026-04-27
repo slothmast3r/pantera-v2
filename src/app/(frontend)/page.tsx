@@ -6,7 +6,11 @@ import payloadConfig from '@payload-config'
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const payload = await getPayloadInstance({ config: payloadConfig })
-    const res = await payload.find({ collection: 'pages', where: { slug: { equals: 'home' } }, limit: 1 })
+    const res = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'home' } },
+      limit: 1,
+    })
     const page = res.docs[0]
     if (page?.seo?.metaTitle || page?.seo?.metaDescription) {
       const ogImages = page.seo.ogImage ? [{ url: (page.seo.ogImage as any).url || '' }] : undefined
@@ -21,7 +25,8 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch {}
   return {
     title: 'Pantera Family & Sport Club | Klub sportowy Mokotów',
-    description: 'Krav Maga, Karate, Tai Chi i Power Training w Warszawie na Mokotowie. Rodzinna atmosfera, certyfikowani instruktorzy, grupy dla dzieci i dorosłych.',
+    description:
+      'Krav Maga, Karate, Tai Chi i Power Training w Warszawie na Mokotowie. Rodzinna atmosfera, certyfikowani instruktorzy, grupy dla dzieci i dorosłych.',
     alternates: { canonical: '/' },
   }
 }
@@ -69,7 +74,14 @@ export default async function HomePage() {
           collection: 'instructors',
           limit: 10,
           sort: 'order',
-          select: { name: true, specialization: true, photo: true, slug: true, excerpt: true, bio: true },
+          select: {
+            name: true,
+            specialization: true,
+            photo: true,
+            slug: true,
+            excerpt: true,
+            bio: true,
+          },
         }),
         payload.find({
           collection: 'testimonials',
@@ -102,51 +114,63 @@ export default async function HomePage() {
 
   return (
     <>
-      <JsonLd data={[
-        {
-          '@context': 'https://schema.org',
-          '@type': 'Organization',
-          name: 'Pantera Family & Sport Club',
-          url: siteUrl,
-          logo: `${siteUrl}/logo.png`,
-          telephone: '+48508689718',
-          email: 'kontakt@pantera.waw.pl',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'ul. Powsińska 25',
-            addressLocality: 'Warszawa',
-            postalCode: '02-903',
-            addressCountry: 'PL',
+      <JsonLd
+        data={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Pantera Family & Sport Club',
+            url: siteUrl,
+            logo: `${siteUrl}/logo.png`,
+            telephone: '+48508689718',
+            email: 'kontakt@pantera.waw.pl',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'ul. Powsińska 25',
+              addressLocality: 'Warszawa',
+              postalCode: '02-903',
+              addressCountry: 'PL',
+            },
+            sameAs: ['https://www.facebook.com/panterafamilysportclub'],
           },
-          sameAs: ['https://www.facebook.com/panterafamilysportclub'],
-        },
-        {
-          '@context': 'https://schema.org',
-          '@type': 'LocalBusiness',
-          name: 'Pantera Family & Sport Club',
-          url: siteUrl,
-          telephone: '+48508689718',
-          email: 'kontakt@pantera.waw.pl',
-          address: {
-            '@type': 'PostalAddress',
-            streetAddress: 'ul. Powsińska 25',
-            addressLocality: 'Warszawa',
-            addressRegion: 'Mazowieckie',
-            postalCode: '02-903',
-            addressCountry: 'PL',
+          {
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            name: 'Pantera Family & Sport Club',
+            url: siteUrl,
+            telephone: '+48508689718',
+            email: 'kontakt@pantera.waw.pl',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'ul. Powsińska 25',
+              addressLocality: 'Warszawa',
+              addressRegion: 'Mazowieckie',
+              postalCode: '02-903',
+              addressCountry: 'PL',
+            },
+            openingHoursSpecification: [
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                opens: '15:00',
+                closes: '21:00',
+              },
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Saturday'],
+                opens: '09:00',
+                closes: '14:00',
+              },
+            ],
           },
-          openingHoursSpecification: [
-            { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '15:00', closes: '21:00' },
-            { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '14:00' },
-          ],
-        },
-      ]} />
+        ]}
+      />
       <Navbar data={nav} />
       <HeroSection data={heroBlock} />
       <ClassesSection data={homepage?.classes} />
       <BenefitsSection data={homepage?.benefits} />
-      <TestimonialsSection testimonials={testimonials} />
       <InstructorsSection instructors={instructors} />
+      <TestimonialsSection testimonials={testimonials} />
       <PricingSection data={homepage?.pricing} />
       <ServicesSection data={homepage?.services} />
       <CTASection data={homepage?.cta} />

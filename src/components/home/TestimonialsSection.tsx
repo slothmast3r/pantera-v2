@@ -44,6 +44,15 @@ function TestimonialCard({ t }: { t: typeof staticTestimonials[number] }) {
   )
 }
 
+function shuffle<T>(arr: T[]): T[] {
+  const result = [...arr]
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
 function fillToMin<T>(arr: T[], min = 10): T[] {
   let result = [...arr]
   while (result.length < min) result = [...result, ...arr]
@@ -52,7 +61,8 @@ function fillToMin<T>(arr: T[], min = 10): T[] {
 
 export default function TestimonialsSection({ testimonials }: { testimonials?: Testimonial[] | null }) {
   const raw = (testimonials?.length ? testimonials : staticTestimonials) as typeof staticTestimonials
-  const items = fillToMin(raw)
+  const items = fillToMin(shuffle(raw))
+  const itemsRow2 = fillToMin(shuffle(raw))
 
   return (
     <section className="testimonials">
@@ -66,8 +76,8 @@ export default function TestimonialsSection({ testimonials }: { testimonials?: T
           {items.map((t, i) => <TestimonialCard key={`dup-${i}`} t={t} aria-hidden />)}
         </div>
         <div className="testimonials__marquee-inner testimonials__marquee-inner--reverse">
-          {[...items].reverse().map((t, i) => <TestimonialCard key={i} t={t} />)}
-          {[...items].reverse().map((t, i) => <TestimonialCard key={`dup-${i}`} t={t} aria-hidden />)}
+          {itemsRow2.map((t, i) => <TestimonialCard key={i} t={t} />)}
+          {itemsRow2.map((t, i) => <TestimonialCard key={`dup-${i}`} t={t} aria-hidden />)}
         </div>
       </div>
 

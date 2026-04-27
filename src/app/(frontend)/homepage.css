@@ -485,6 +485,43 @@ ul {
   color: #555;
 }
 
+.testimonials__marquee {
+  overflow: hidden;
+  margin-top: 48px;
+  /* fade edges */
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.testimonials__marquee:hover .testimonials__marquee-inner {
+  animation-play-state: paused;
+}
+
+.testimonials__marquee-inner {
+  display: flex;
+  width: max-content;
+  animation: testimonials-scroll 140s linear infinite;
+  animation-delay: -50s;
+}
+
+.testimonials__marquee-inner--reverse {
+  animation-direction: reverse;
+  animation-delay: -25s;
+  margin-top: 24px;
+}
+
+@keyframes testimonials-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.testimonials__marquee .testimonials__card {
+  width: 340px;
+  flex-shrink: 0;
+  /* margin-right instead of gap so both sets are exactly equal width → seamless -50% loop */
+  margin-right: 24px;
+}
+
 /* ===== INSTRUCTORS ===== */
 .instructors {
   @apply py-20 bg-bg-hover text-center;

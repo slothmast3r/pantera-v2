@@ -3,31 +3,22 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const payload = await getPayload({ config })
-
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://pantera.waw.pl'
 
-  // Fetch all dynamic pages
-  const [offersRes, classesRes, instructorsRes] = await Promise.all([
-    payload.find({
-      collection: 'offers',
-      limit: 1000,
-      select: { slug: true, updatedAt: true },
-      pagination: false,
-    }),
-    payload.find({
-      collection: 'classes',
-      limit: 1000,
-      select: { slug: true, updatedAt: true },
-      pagination: false,
-    }),
-    payload.find({
-      collection: 'instructors',
-      limit: 1000,
-      select: { slug: true, updatedAt: true },
-      pagination: false,
-    }),
-  ])
+  let offersRes = { docs: [] as any[] }
+  let classesRes = { docs: [] as any[] }
+  let instructorsRes = { docs: [] as any[] }
+
+  try {
+    const payload = await getPayload({ config })
+    ;[offersRes, classesRes, instructorsRes] = await Promise.all([
+      payload.find({ collection: 'offers', limit: 1000, select: { slug: true, updatedAt: true }, pagination: false }),
+      payload.find({ collection: 'classes', limit: 1000, select: { slug: true, updatedAt: true }, pagination: false }),
+      payload.find({ collection: 'instructors', limit: 1000, select: { slug: true, updatedAt: true }, pagination: false }),
+    ])
+  } catch {
+    // DB unavailable during build — return static routes only
+  }
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}`, lastModified: new Date(), changeFrequency: 'monthly', priority: 1.0 },
